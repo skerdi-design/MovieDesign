@@ -1,0 +1,20 @@
+{
+  "name": "moviesreview",
+  "version": "1.0.0",
+  "description": "Reviewing movies i've watched",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index"
+  },
+  "author": "Skerdi",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "nedb": "^1.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
