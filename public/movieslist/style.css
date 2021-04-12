@@ -23,7 +23,7 @@ body,html{
 .movie_catalog{
   width: 100%;
   height: 200vh;
-  transition: all 2.8s;
+  transition: transform ease-in-out 2.8s;
   transition-timing-function: ease-in-out;
   display: flex;
   flex-direction: column;
@@ -36,46 +36,95 @@ body,html{
 	position: relative;
 	font-size: 100%;
 }
-.movie_catalog .head .leaves{
-  /* border: 1px solid black; */
-  position: absolute;
-  top: -0.85em;
-  left: -0.75em;
-  width: 4.5em;
-  height: 4.5em;
-  transform: rotate(120deg);
-  z-index: 12;
-}
-.movie_catalog .head .leaves .leaves_svg{
-  /* border: 1px solid black; */
+/*== circles =========================================================================================================*/
+.movie_catalog .head .circles{
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 8em;
+  height: 8em;
+  z-index: 11;
+  transition: all 0.2s;
 }
-.movie_catalog .head .leaves .leaves_svg path{
-  fill: rgb(36, 10, 34);
-  fill: none;
-  stroke: rgb(36, 10, 34);
-  stroke-width: 6;
-  filter: drop-shadow(0px 0px 2px rgb(36, 10, 34));
+.movie_catalog .head .circles .circle-1{
+  border-radius: 50%;
+  width: 5.3em;
+  height: 5.3em;
+  position: absolute;
+  margin-left: -1.5em;
+  margin-top: -1.5em;
+  background: linear-gradient(135deg, rgba(36,10,34,1) 0%, rgba(126,0,49,1) 100%);
+  box-shadow: 0px 0px 6px rgba(126,0,49,1);
+  transform: scale(0.3);
+  transform-origin: left top;
 }
-.movie_catalog .head .leaves .leaves_svg:first-child path{
-  fill: rgb(153, 0, 58);
-  stroke: rgb(153, 0, 58);
-  stroke-width: 4;
-  filter: drop-shadow(0px 0px 2px rgb(153, 0, 58));
+.movie_catalog .head .circles .circle-1 .circle-pine{
+  width: 50%;
+  height: 50%;
+  transform: rotate(135deg);
+  filter: drop-shadow(0px 0px 2px rgba(35, 9, 22, 0.6));
 }
-.movie_catalog .head .leaves .leaves_svg:first-child{
-  transform: rotate(35deg) scale(0.9);
-  transform-origin: bottom center;
+.movie_catalog .head .circles .circle-1 .circle-pine path{
+  fill: rgba(35, 9, 22, 0.6);
 }
-
-
-/*== scroll down butt ==================================================================================*/
-
-
+.movie_catalog .head .circles .circle-2{
+  border-radius: 50%;
+  width: 3.7em;
+  height: 3.7em;
+  position: absolute;
+  margin-left: -1.4em;
+  margin-top: 2.2em;
+  background: linear-gradient(135deg, rgba(82,0,49,1) 0%, rgba(176,0,68,1) 100%);
+  box-shadow: 0px 0px 4px rgba(176,0,68,1);
+  transform: scale(0.3);
+  transform-origin: left top;
+}
+.movie_catalog .head .circles .circle-3{
+  border-radius: 50%;
+  width: 3.7em;
+  height: 3.7em;
+  position: absolute;
+  margin-left: 2.2em;
+  margin-top: -1.5em;
+  background: linear-gradient(135deg, rgba(239,67,57,1) 0%, rgba(255,127,74,1) 100%);
+  box-shadow: 0px 0px 4px rgba(239,67,57,1);
+  transform: scale(0.3);
+  transform-origin: left top;
+}
+.movie_catalog .head.ready .circles .circle-1,.movie_catalog .head.ready .circles .circle-2,.movie_catalog .head.ready .circles .circle-3{
+  animation-name: circle-pop;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  animation-delay: 2s;
+}
+.movie_catalog .head.ready .circles .circle-2{
+  animation-delay: 2.4s;
+}
+.movie_catalog .head.ready .circles .circle-3{
+  animation-delay: 2.5s;
+}
+@keyframes circle-pop {
+  0%{transform: scale(0.3);}
+  80%{transform: scale(1.08);}
+  100%{transform: scale(1);}
+}
+.movie_catalog .head.unready .circles .circle-1,.movie_catalog .head.unready .circles .circle-2,.movie_catalog .head.unready .circles .circle-3{
+  animation-name: un-circle-pop;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+@keyframes un-circle-pop {
+  0%{transform: scale(1);}
+  100%{transform: scale(0.3);}
+}
+@media only screen and (max-width: 600px) {
+	.movie_catalog .head .circles{
+    font-size: 75%;
+  }
+}
+/*== scroll down butt ===============================================================================================*/
 .movie_catalog .head .images .scroll_butt{
   position: absolute;
   width: 3em;
@@ -83,11 +132,61 @@ body,html{
   bottom: 5%;
   padding: 0.9em;
   cursor: pointer;
+  opacity: 0.1;
+  pointer-events: none;
+}
+.movie_catalog .head.ready .images .scroll_butt{
+  animation-name: grow;
+  animation-duration: 0.8s;
+  animation-delay: 1.25s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+@keyframes grow {
+  0%{opacity: 0.1;}
+  22%{opacity: 1;}
+  30%{opacity: 0.1;}
+  48%{opacity: 1;}
+  56%{opacity: 0.1;}
+  64%{opacity: 1;}
+  72%{opacity: 0.1;}
+  80%{opacity: 0.1;}
+  100%{opacity: 1;pointer-events: all;}
+}
+.movie_catalog .head.unready .images .scroll_butt{
+  animation-name: un-grow;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+@keyframes un-grow {
+  0%{opacity: 1;pointer-events: all;}
+  100%{opacity: 0.1;pointer-events: none;}
+}
+.movie_catalog .head .images .scroll_butt .start{
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 0.65em;
+  margin-bottom: 0.65em;
+  transition: all 0.2s ease-in-out;
+}
+.movie_catalog .head .images .scroll_butt:hover .start{
+  animation-name: scroll;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  text-shadow: 0px 0px 2px white;
+}
+.movie_catalog .head .images .scroll_butt .start{
+  animation-name: unscroll;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
 }
 .movie_catalog .head .images .scroll_butt .scroll_svg{
   width: 100%;
   height: 100%;
-  /* border: 1px solid red; */
   animation-name: unscroll;
   animation-duration: 0.2s;
   animation-timing-function: ease-in-out;
@@ -101,6 +200,7 @@ body,html{
 }
 .movie_catalog .head .images .scroll_butt:hover .scroll_svg path{
   fill: rgba(255, 255, 255,1);
+  filter: drop-shadow(0px 0px 2px white);
 }
 
 .movie_catalog .head .images .scroll_butt:hover .scroll_svg{
@@ -119,14 +219,13 @@ body,html{
   70%{transform: translateY(8%);}
   100%{transform: translateY(0%);}
 }
-
-
-
-
-
-
-
-
+@media only screen and (max-width: 600px) {
+  .movie_catalog .head .images .scroll_butt{
+    bottom: 5%;
+    font-size: 85%;
+  }
+}
+/*== images and logo =========================================================================================*/
 .movie_catalog .head .images{
   position: absolute;
   bottom: 0;
@@ -174,18 +273,17 @@ body,html{
   background-position: center;
 }
 .parallax_6{
-  background-image: url("/image/layer_13.png");
+  background-image: url("/image/layer_14.png");
   background-size:cover;
   background-position: center;
 }
 .movie_catalog .head .images .svg_container{
-	width: 40em;
+	width: 39em;
 	position: absolute;
 	display: flex;
-	/* transition: all 0.2s ease-in-out; */
   margin-left: -2.5em;
   align-items: center;
-  margin-bottom: -2em;
+  margin-bottom: -4em;
 }
 .movie_catalog .head .images .svg_container .logo_svg{
 	width: 100%;
@@ -197,13 +295,18 @@ body,html{
 }
 .movie_catalog .head .images .svg_container .logo_svg .svg_text{
 	fill: none;
-	stroke: white;
-	stroke-width: 4;
+	stroke: rgb(255, 206, 140);
+  stroke-linecap: round;
+	stroke-width: 5;
+  stroke-dasharray: 500 780;
+  stroke-dashoffset: 600;
 }
 .movie_catalog .head .images .svg_container .logo_svg .tower{
   fill: url('#grad2');
   stroke: url('#grad3');
   stroke-width: 4;
+  stroke-dasharray: 500 700;
+  stroke-dashoffset: 600;
 }
 .movie_catalog .head .images .svg_container .pine1{
   position: absolute;
@@ -216,12 +319,13 @@ body,html{
   transform: rotate(15deg) scale(0);
   transform-origin: bottom center;
   z-index: 2;
-
+}
+.movie_catalog .head .images .svg_container.ready .pine1{
   animation-name: pine_logo1;
   animation-fill-mode: forwards;
   animation-duration: 1.2s;
   animation-timing-function: ease-in-out;
-  animation-delay: 3.3s;
+  animation-delay: 4.3s;
 }
 .movie_catalog .head .images .svg_container .pine2{
   position: absolute;
@@ -233,12 +337,13 @@ body,html{
   margin-top: -0.7em;
   transform: rotate(60deg) scale(0);
   transform-origin: bottom center;
-
+}
+.movie_catalog .head .images .svg_container.ready .pine2{
   animation-name: pine_logo2;
   animation-fill-mode: forwards;
   animation-duration: 1.2s;
   animation-timing-function: ease-in-out;
-  animation-delay: 3.5s;
+  animation-delay: 4.5s;
 }
 
 @keyframes pine_logo1{
@@ -258,26 +363,22 @@ body,html{
   }
 }
 /*== animations ==============================================================================================*/
-.movie_catalog .head .images .svg_container .logo_svg .svg_text{
-	stroke-dasharray: 500 780;
-  stroke-dashoffset: 600;
+.movie_catalog .head .images .svg_container.ready .logo_svg .svg_text{
   animation-name: stroke;
-  animation-duration: 3.7s;
+  animation-duration: 3.5s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
 }
-.movie_catalog .head .images .svg_container .logo_svg .tower{
-	stroke-dasharray: 500 700;
-  stroke-dashoffset: 600;
+.movie_catalog .head .images .svg_container.ready .logo_svg .tower{
   animation-name: stroke_tower;
-  animation-duration: 3.7s;
+  animation-duration: 3.5s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
 }
-.movie_catalog .head .images .svg_container .logo_svg #grad2 stop{
+.movie_catalog .head .images .svg_container.ready .logo_svg #grad2 stop{
   stop-opacity:0;
   animation-name: opacity;
-  animation-duration: 3.7s;
+  animation-duration: 3.5s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
 }
@@ -318,8 +419,6 @@ body,html{
     stop-opacity:1;
   }
 }
-
-
 @media only screen and (max-width: 600px) {
 	.movie_catalog .head .images{
 		height: 42%;
@@ -332,23 +431,15 @@ body,html{
 		stroke-width: 5;
 	}
 }
-
-/*=== LINES ===================================================================================================*/
-
+/*=== LINES and logo ===================================================================================================*/
 .movie_catalog .head .top_line{
   position: absolute;
   z-index: 10;
   width: 100%;
   height: 2px;
   background: linear-gradient(270deg, rgba(36,10,34,1) 0%, rgba(153,0,58,1) 100%);
-  top: 2.5em;
-  transform: scale(0);
-  animation-name: pop;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
-  transform-origin: right;
-  animation-delay: 1s;
+  top: 2.5vw;
+  opacity: 0.05;
 }
 .movie_catalog .head .right_line{
   position: absolute;
@@ -356,31 +447,30 @@ body,html{
   width: 2px;
   height: 100%;
   background: linear-gradient(180deg, rgba(36,10,34,1) 0%, rgba(153,0,58,0.8) 100%);
-  right: 2.5em;
-  transform: scale(0);
+  right: 2.5vw;
+  opacity: 0.05;
+}
+.movie_catalog .head.ready .top_line,.movie_catalog .head.ready .right_line{
   animation-name: pop;
-  animation-duration: 1.5s;
+  animation-duration: 1.2s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
-  transform-origin: top;
-  animation-delay: 1s;
+  animation-delay: 0.5s;
 }
-
 @keyframes pop {
-  0%{transform: scale(0);}
-  100%{transform: scale(1);}
+  0%{opacity: 0.05;}
+  100%{opacity: 1;}
 }
-
-
 .movie_catalog .head .top_logo{
   width: 8em;
   height: 2.5em;
   position: absolute;
-  top: 1.4em;
-  right: 1.4em;
+  top: 2.5vw;
+  right: 2.5vw;
+  margin-top: -1.25em;
+  margin-right: -1em;
   background:rgba(254,220,200,1);
   z-index: 11;
-  /* border: 1px solid black; */
   border-radius: 30px;
   padding: 0px 5px 0px 5px ;
   box-shadow: 0px 0px 5px 5px rgba(254,220,200,1);
@@ -389,13 +479,6 @@ body,html{
   width: 100%;
   height: 100%;
   display: flex;
-  transform: scale(0);
-
-  animation-name: pop;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
-  animation-delay: 1.5s;
 }
 .movie_catalog .head .top_logo .container_logo .logo_svg{
   width: 100%;
@@ -413,23 +496,31 @@ body,html{
   fill: url('#grad4');
   stroke-width: 0;
 }
-
-
+/*== the text ===============================================================================================*/
 .movie_catalog .head .header{
-  /* border: 1px solid black; */
   position: absolute;
   width: 25em;
-  height: 15em;
-  top: 40%;
-  left: 10%;
+  height: 19em;
+  top: 45%;
+  left: 11%;
   transform: translate(0%,-50%);
   z-index: 10;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  opacity: 0.01;
 }
-.movie_catalog .head .hover_pine{
-  /* border: 1px solid black; */
+.movie_catalog .head.ready .header{
+  animation-name: opacity-header;
+  animation-duration: 0.4s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+@keyframes opacity-header {
+  0%{opacity: 0.01;}
+  100%{opacity: 1;}
+}
+/* .movie_catalog .head .hover_pine{
   width: 2.1em;
   height: 2.1em;
   position: absolute;
@@ -437,6 +528,7 @@ body,html{
   top: -1em;
   transform-origin: bottom center;
   transform: rotate(-30deg);
+  border: 1px solid black;
 }
 .movie_catalog .head .hover_pine:hover{
   animation-name: shake;
@@ -467,6 +559,22 @@ body,html{
 .movie_catalog .head .hover_pine .header_pine{
   width: 100%;
   height: 100%;
+  transform-origin: bottom center;
+  transform: scale(0);
+}
+.movie_catalog .head.ready .hover_pine .header_pine{
+  animation-name: pine-grow;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  animation-delay: 0.45s;
+}
+.movie_catalog .head.ready .hover_pine:first-child .header_pine{
+  animation-delay: 0.75s;
+}
+@keyframes pine-grow {
+  from{transform: scale(0);}
+  to{transform: scale(1);}
 }
 .movie_catalog .head .hover_pine .header_pine path{
   fill: rgba(126,0,49,1);
@@ -475,45 +583,105 @@ body,html{
 .movie_catalog .head .hover_pine:first-child .header_pine path{
   fill: rgb(57, 16, 48);
   filter: drop-shadow(0px 0px 2px rgb(57, 16, 48));
-}
+} */
 .movie_catalog .head .header .wraper{
-  /* border: 1px solid black; */
   width: 100%;
   height: 50%;
   display: flex;
   align-items: center;
 }
+.movie_catalog .head.ready .header .wraper:last-child{
+  animation-delay: 0.2s;
+}
 .movie_catalog .head .header .wraper h2{
-  color: rgba(36, 10, 34,1);
-  font-size: 1.4em;
+  color: rgba(36, 10, 34,0.2);
+  font-size: 2em;
   text-transform: uppercase;
-  text-shadow: 0px 0px 1px rgba(36,10,34,1);
+  text-shadow: 0px 0px 1px rgba(36,10,34,0.2);
   letter-spacing: 1px;
+  margin-bottom: 0.2em;
+}
+.movie_catalog .head .header .wraper h2 span{
+  color: rgba(153, 0, 58,0.1);
+  text-shadow: 0px 0px 1px rgba(153, 0, 58,0.1);
+  font-family: 'Allerta Stencil', sans-serif;
 }
 .movie_catalog .head .header .wraper p{
-  color: rgba(36, 10, 34,1);
+  color: rgba(36, 10, 34,0.2);
   font-size: 0.95em;
-  text-shadow: 0px 0px 1px rgba(36,10,34,1);
+  text-shadow: 0px 0px 1px rgba(36,10,34,0.2);
+}
+.movie_catalog .head .header .wraper p span{
+  color: rgba(153, 0, 58,0.1);
+  text-shadow: 0px 0px 1px rgba(153, 0, 58,0.1);
+  font-family: 'Allerta Stencil', sans-serif;
+}
+
+.movie_catalog .head.ready .header .wraper h2 span,.movie_catalog .head.ready .header .wraper p span{
+  animation-name: flickerfadein;
+  animation-duration: 0.8s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+  animation-delay: 1.18s;
+}
+@keyframes flickerfadein {
+  0%{color: rgba(153, 0, 58,0.1); text-shadow: 0px 0px 2px rgba(153, 0, 58,0.1);}
+  22%{color: rgba(153, 0, 58,1); text-shadow: 0px 0px 2px rgba(153, 0, 58,0.1);}
+  30%{color: rgba(153, 0, 58,0.1); text-shadow: 0px 0px 2px rgba(153, 0, 58,0.1);}
+  48%{color: rgba(153, 0, 58,1); text-shadow: 0px 0px 2px rgba(153, 0, 58,0.1);}
+  56%{color: rgba(153, 0, 58,0.1); text-shadow: 0px 0px 2px rgba(153, 0, 58,0.1);}
+  64%{color: rgba(153, 0, 58,1); text-shadow: 0px 0px 2px rgba(153, 0, 58,0.1);}
+  72%{color: rgba(153, 0, 58,0.1); text-shadow: 0px 0px 2px rgba(153, 0, 58,0.1);}
+  80%{color: rgba(153, 0, 58,0.1); text-shadow: 0px 0px 2px rgba(153, 0, 58,0.1);}
+  100%{color: rgba(153, 0, 58,1); text-shadow: 0px 0px 2px rgba(153, 0, 58,1);}
+}
+.movie_catalog .head.ready .header .wraper p,.movie_catalog .head.ready .header .wraper h2{
+  animation-name: flickerin;
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+  animation-delay: 1.79s;
+}
+@keyframes  flickerin{
+  0%{color: rgba(36, 10, 34,0.2); text-shadow: 0px 0px 1px rgba(36,10,34,0.2);}
+  100%{color: rgba(36, 10, 34,1); text-shadow: 0px 0px 1px rgba(36,10,34,1);}
 }
 
 
-
-
-
-
-
-.movie_catalog .head .mockup_container {
-  width: 22em;
-  height: 13em;
+/*== the mockup ===============================================================================================*/
+.movie_catalog .head .mockup_container{
+  width: 20em;
+  height: 12em;
   position: absolute;
   z-index: 10;
   top: 40%;
   right: 15%;
   transform: translate(0%,-50%);
-  /* border: 1px solid black; */
   perspective: 500px;
   font-family: 'Allerta Stencil', sans-serif;
   z-index: 2;
+  opacity: 0.02;
+}
+.movie_catalog .head.ready .mockup_container{
+  animation-name: turn-on-border;
+  animation-fill-mode: forwards;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0.2s;
+}
+@keyframes turn-on-border {
+  0%{opacity: 0.02;}
+  100%{opacity: 1;}
+}
+.movie_catalog .head.unready .mockup_container{
+  animation-name: un-turn-on-border;
+  animation-fill-mode: forwards;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-in-out;
+}
+@keyframes un-turn-on-border {
+  0%{opacity: 1;}
+  100%{opacity: 0.02;}
 }
 .movie_catalog .head .mockup_container .mockup{
   width: 100%;
@@ -529,6 +697,35 @@ body,html{
   width: 110%;
   height: 135%;
   position: absolute;
+  opacity: 0.1;
+}
+.movie_catalog .head.ready .mockup_container .mockup .img_wraper{
+  animation-name: turn-on;
+  animation-fill-mode: forwards;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 1.2s;
+}
+@keyframes turn-on {
+  0%{opacity: 0.1;}
+  22%{opacity: 1;}
+  30%{opacity: 0.1;}
+  48%{opacity: 1;}
+  56%{opacity: 0.1;}
+  64%{opacity: 1;}
+  72%{opacity: 0.1;}
+  80%{opacity: 0.1;}
+  100%{opacity: 1;}
+}
+.movie_catalog .head.unready .mockup_container .mockup .img_wraper{
+  animation-name: un-turn-on;
+  animation-fill-mode: forwards;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-in-out;
+}
+@keyframes un-turn-on {
+  0%{opacity: 1;}
+  100%{opacity: 0.1;}
 }
 .movie_catalog .head .mockup_container .mockup .img_wraper .img_background{
   width: 100%;
@@ -600,6 +797,18 @@ body,html{
   height: 100%;
   position: absolute;
   z-index: 4;
+  opacity: 0.3;
+}
+.movie_catalog .head.ready .mockup_container .mockup .content{
+  animation-name: turn-on-content;
+  animation-fill-mode: forwards;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 1.2s;
+}
+@keyframes turn-on-content {
+  0%{opacity: 0.3;}
+  100%{opacity: 1;}
 }
 .movie_catalog .head .mockup_container .mockup .content h2{
   color: rgb(57, 16, 48);
@@ -714,20 +923,7 @@ body,html{
 .movie_catalog .head .mockup_container .mockup .content .name:hover ~ .logout,.movie_catalog .head .mockup_container .mockup .content .logout:hover{
   clip-path: inset(0% 0% 0% 0%);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*== the links ==================================================================================================*/
 .movie_catalog .head .links{
   width: 2em;
   height: 8em;
@@ -744,11 +940,41 @@ body,html{
   height: 31%;
   position: relative;
   cursor: pointer;
+  opacity: 0.15;
+  pointer-events: none;
+}
+.movie_catalog .head.ready .links .links_ele{
+  animation-name: start;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  animation-delay: 1.2s;
+}
+@keyframes start {
+  0%{opacity: 0.1;}
+  22%{opacity: 1;}
+  30%{opacity: 0.1;}
+  48%{opacity: 1;}
+  56%{opacity: 0.1;}
+  64%{opacity: 1;}
+  72%{opacity: 0.1;}
+  80%{opacity: 0.1;}
+  100%{opacity: 1;pointer-events: all;}
+}
+.movie_catalog .head.unready .links .links_ele{
+  animation-name: un-start;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+@keyframes un-start {
+  0%{opacity: 1;pointer-events: all;}
+  100%{opacity: 0.1;pointer-events: none;}
 }
 .movie_catalog .head .links .links_ele .pink{
   width: 2px;
   height: 100%;
-  background: linear-gradient(90deg, rgba(153,0,58,0.95) 0%, rgba(126,0,49,1) 100%);
+  background:rgba(126,0,49,1);
   position: absolute;
   transition: all 0.1s ease-in-out;
 }
@@ -769,6 +995,12 @@ body,html{
   transform: translateX(5px);
   text-shadow: 0px 0px 2px rgb(255, 191, 131);
 }
+@media only screen and (max-width: 600px) {
+	.movie_catalog .head .links{
+    font-size: 75%;
+    left: 1em;
+  }
+}
 
 
 
@@ -788,30 +1020,89 @@ body,html{
 	font-size: 100%;
 	position: relative;
   background: rgba(36,10,34,1);
+  overflow-y: scroll;
 }
-.movie_catalog .body .scroll_up{
+.movie_catalog .body::-webkit-scrollbar {
+  display: none;
+}
+.movie_catalog .body .top_bar{
+  width: 100%;
+  height: 4em;
+  /* border: 1px solid white; */
+  position: sticky;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+}
+.movie_catalog .body .top_bar .scroll_up{
   border: 1px solid white;
   position: absolute;
   left: 50%;
-  top: 5%;
-  transform: translate(-50%,-50%);
+  top: 0%;
   width: 2em;
   height: 2em;
   cursor: pointer;
   z-index: 10;
+  transform: translateX(-50%);
 }
-.movie_catalog .body .right_line{
+.movie_catalog .body .top_bar .right_line{
   position: absolute;
   z-index: 10;
   width: 2px;
-  height: 100%;
+  height: 190vh;
   background: linear-gradient(180deg, rgba(153,0,58,0.8) 0%, rgba(153,0,58,1) 100%);
-  right: 2.5em;
-  /* transform: scale(0);
-  animation-name: pop;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
-  transform-origin: top;
-  animation-delay: 1s; */
+  right: 3%;
+  display: flex;
+}
+.movie_catalog .body .top_bar .container_logo,.movie_catalog .body .top_bar .container_search{
+  width: 47%;
+  height: 100%;
+  /* border: 1px solid white; */
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.movie_catalog .body .top_bar .container_logo .container_logosvg{
+  height: 90%;
+  width: 11em;
+  position: absolute;
+  margin-left: 5em;
+}
+.movie_catalog .body .top_bar .container_logo .container_logosvg .logo_svg{
+  width: 100%;
+  height: 100%;
+}
+.movie_catalog .body .top_bar .container_logo .container_logosvg .logo_svg:first-child{
+  margin-right: 0.8em;
+}
+.movie_catalog .body .top_bar .container_logo .container_logosvg .logo_svg path{
+  fill: rgb(255, 212, 187);
+  stroke-width: 6;
+  stroke: rgb(255, 212, 187);
+}
+.movie_catalog .body .top_bar .container_logo .container_logosvg .logo_svg .tower{
+  fill: url("#grad5");
+  stroke-width: 0;
+}
+
+.movie_catalog .body .top_bar .container_search .search_container{
+  /* border: 1px solid white; */
+  width: 19em;
+  height: 90%;
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+.movie_catalog .body .top_bar .container_search .search_container .search_butt{
+  width: 3em;
+  height: 3em;
+  border: 1px solid white;
+  color: white;
+}
+.movie_catalog .body .top_bar .container_search .search_container .search_bar{
+  width: 16em;
+  height: 3em;
+  /* border: 1px solid white; */
 }
