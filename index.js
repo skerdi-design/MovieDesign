@@ -95,6 +95,9 @@ app.get("/movieslist/css",(req,res)=>{
 app.get("/movieslist/js",(req,res)=>{
     res.sendFile("/movieslist/script.js",root);
 })
+app.get("/movieslist/smooth",(req,res)=>{
+    res.sendFile("/dist/smooth-scrollbar.js",root);
+})
 app.get("/image/:name",(req,res)=>{
     res.sendFile("/image/"+req.params.name,root);
 })
