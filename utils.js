@@ -7,6 +7,7 @@ db.loadDatabase((err)=>{
 })
 let document;
 //db.insert(document,(err,newdoc)=>{console.log(newdoc)})
+
 function findUser (username,email,password) {
     const user = {
         username:username,
@@ -28,7 +29,7 @@ function findUser (username,email,password) {
                     }
                 });
             }else{
-                res (null);//thsi is null
+                res (null);//this is null
             }
         });
     })
@@ -135,37 +136,131 @@ function updateFavorite (cookie,data) {
     })
     //db.persistence.compactDatafile();
 }
-function removeFavorite (cookie,data) {
-    
-    db.update({username:cookie},{$pull:{favourites:data}},{},()=>{
-        //console.log("removed from favorites!!!");
-    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function debugData() {
+    return new Promise ((res,rej)=>{
+        db.find({username:"devil",email:"devil@cry.com"},(err,docs)=>{
+            if(err){throw err};
+            if(docs.length  == 1){
+                res(docs[0]);
+            }else{
+                rej(docs);
+            };
+        });
+    });
+};
+
+function debugMovie(data){
     return new Promise((res,rej)=>{
-        db.find({username:cookie},(err,docs)=>{
-            //console.log(docs[0],"this is docs");
-            res(docs[0])
+        db.find({username:"devil"},(err,docs)=>{
+            if(err)throw err;
+            if(docs.length == 1){
+                let foundName = docs[0].movies.find(({name})=>{
+                    return name === data.name;
+                })
+                if(foundName){
+                    rej(true);
+                }else{
+                    // addToSet adds a something only if it is unique
+                    db.update({username:"devil"},{$addToSet:{movies:data}},(err,numreplaced)=>{
+                        if(err)throw(err);
+                        res(true);
+                    });
+                };
+            }else{
+                rej(false);
+            };
         })
         db.persistence.compactDatafile();
-    })
-    //db.persistence.compactDatafile();
+    });
 }
-function XYZ (cookie,document,old){
-    db.find({username:cookie},(err,A)=>{
-        //console.log(A[0],"this is fucking AAAA")
-    })
-    db.update({username:cookie},{$pull:{movielist:old}},{},()=>{
-        //console.log(old,"this is fucking OLD")
-        if(document.added == '<i class="far fa-star"></i>'){
-            //console.log("thsi will be replaced with fas!!!");
-            document.added = '<i class="fas fa-star"></i>';
-        }else{
-            //console.log("this will go to default!!!")
-            document.added = '<i class="far fa-star"></i>';
-        }
+
+function editMovie(data){
+    return new Promise((res,rej)=>{
+        db.find({username:"devil"},(err,docs)=>{
+            if(err)throw err;
+            if(docs.length == 1){
+                let foundName = docs[0].movies.find(({name})=>{
+                    return name === data.updatedData.name;
+                })
+                if(foundName){
+                    rej(true);
+                }else{
+                    let index = docs[0].movies.findIndex(({name})=>{
+                        return name == data.data.name;
+                    })
+                    docs[0].movies[index] = data.updatedData;
+                    db.update({username:"devil"},{ $set: {movies:docs[0].movies}},{},(err,numReplaced)=>{
+                        if(err)throw false;
+                        res(true);
+                    });                                                        
+                };
+            }else{
+                rej(false);
+            };
+        })
         db.persistence.compactDatafile();
     });
-    db.update({username:cookie},{$push:{movielist:document}},{},()=>{
+}
+
+function deleteMovie(data){
+    return new Promise((res,rej)=>{
+        db.update({username:"devil"},{ $pull: {movies:data}},{},(err,numreplaced)=>{
+            if(err)throw(false);
+            res(true);
+        });
         db.persistence.compactDatafile();
+    });
+}
+
+
+
+
+
+
+
+
+function debugUser (name,email,pass) {
+    return new Promise ((res,rej)=>{
+        db.find({username:name , email:email},(err,docs)=>{
+            if(docs.length == 0){
+                let newUser = {
+                    username:name,
+                    email:email,
+                    password:pass,
+                    movies:[],
+                    bookmark:[]
+                };
+                db.insert(newUser);
+                res(true);
+            }else{
+                res(false);
+            }
+        })
     })
 }
-module.exports = {findUser,authUser,allowUser,updateUser,updateFavorite,removeFavorite,XYZ};
+
+
+module.exports = {findUser,authUser,allowUser,updateUser,updateFavorite,debugUser,debugData,debugMovie,deleteMovie,editMovie};

@@ -3,7 +3,7 @@ const app = express();
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
 
-const {findUser,authUser,allowUser,updateUser,updateFavorite,removeFavorite,XYZ} = require("./utils.js");
+const {findUser,authUser,allowUser,updateUser,updateFavorite,debugUser,debugData,debugMovie,deleteMovie,editMovie} = require("./utils.js");
 
 
 let user;
@@ -91,45 +91,106 @@ app.get("/movieslist",(req,res)=>{
 })
 app.get("/movieslist/css",(req,res)=>{
     res.sendFile("/movieslist/style.css",root);
-})
+});
 app.get("/movieslist/js",(req,res)=>{
     res.sendFile("/movieslist/script.js",root);
-})
+});
 app.get("/movieslist/smooth",(req,res)=>{
     res.sendFile("/dist/smooth-scrollbar.js",root);
-})
+});
 app.get("/image/:name",(req,res)=>{
     res.sendFile("/image/"+req.params.name,root);
-})
+});
 
-app.get("/userinfo",(req,res)=>{
-    user = {
-        "username":"a",
-        "email":"a@a",
-        "movielist":[
-            {
-                title:"Dark, Season 1",
-                genre:"Sci-fi, Horror",
-                img:"https://www.tjtoday.org/wp-content/uploads/2018/02/c245fb206fecea20e4f18e26dc8fa74aae6f80b5.jpg",
-                rating:10,
-                type:"Series",
-                link:"https://real-123movies.best/tv-series/dark-season-1-sub-eng/CVSsgCoB/rEsW3Pef"
-            },
-        ],
-        "favourites":[
-            {
-                title:"Dark, Season 1",
-                genre:"Sci-fi, Horror",
-                img:"https://www.tjtoday.org/wp-content/uploads/2018/02/c245fb206fecea20e4f18e26dc8fa74aae6f80b5.jpg",
-                rating:10,
-                type:"Series",
-                link:"https://real-123movies.best/tv-series/dark-season-1-sub-eng/CVSsgCoB/rEsW3Pef"
-            }
-        ],
+
+
+
+
+let mockData = {
+    movielist:[{
+        a:'https://real-123movies.best/tv-series/dark-season-1-sub-eng/CVSsgCoB/rEsW3Pef',
+        b:'https://wallpapercave.com/wp/wp4056407.jpg',
+        c:'10',
+        d:"dark",
+        e:'Thriller,Sci-fi'
+    },
+    {
+        a:'https://www5.gowatchseries.bz/dark-season-2-episode-1',
+        b:'https://wallpapercave.com/wp/wp6123680.jpg',
+        c:'10',
+        d:"dark, s2",
+        e:'Thriller,Sci-fi'
+    },
+    {
+        a:'https://www5.gowatchseries.bz/the-queens-gambit-season-1-episode-1',
+        b:'https://i.pinimg.com/originals/5a/d3/f1/5ad3f1a8c6a04f5eda5d5f2fa1331626.jpg',
+        c:'10',
+        d:"queen's gambit",
+        e:'Period Drama'
+    },
+    {
+        a:'https://www5.gowatchseries.bz/enola-holmes-episode-0',
+        b:'https://wallpaperaccess.com/full/3963741.jpg',
+        c:'8',
+        d:"Enola Holmes",
+        e:'Adventure, Mystery'
+    },
+    {
+        a:'https://topeuropix.site/watch-online-movie/harry-potter-and-the-sorcerers-stone-online-free-hd-with-subtitles-europix?__cf_chl_jschl_tk__=5326482be86c205f8d964c2175c3fca7cb9bfbc0-1626372467-0-AX9tgs-c27Z_Tplih2Z73Pw5wuivEcpknh23XrTyeaKJTdiVhY8eAyy-0XrVcpY0JdwpfJG6ytEPWtcezg3dkhVPff7InlAMNJUv0vgpUhAajSGHEJW14Dx39qtoVk6bZ7jCxJN6C4lKCDFq921xrQHF0aOuVbAEelcc6J4kY7oZ9XjOBi4saM8f-PSfYVw4HA0MyzOVmQKff74Ms_3BNUeMikoofcRBH5pw_Jyxgt8tHmWNCWMxm17uXOUItY47CGyVoP-XghCI2hT_hl20U7kq6xl7xm6dYkL1WCUo4m1u1NAtN-hCBOLba8upi_ipHNSSvGEMHp71P2trDsCgp8dXZs-pIPYm__vbYwa_wVytAvroKaqUCsMVHznc-ZRlOz8OHcyMzEkFxO59KPt99Gym5LsA72CxbxDp-pI4rEFage9n9fuoybuVPI0D4JQvmzR-gPwh9RBJODQwzWoPlRF-976b3YA69SZec78vyCI-3S2EyAx1iu-yGhU_E3ufjoX3QL2TPPnUOCiCSCscRhU',
+        b:'https://vistapointe.net/images/harry-potter-and-the-philosophers-stone-4.jpg',
+        c:'8,5',
+        d:"harry potter and the philosophers stone",
+        e:'Fantasy, Adventure'
     }
-    // console.log(user);
-    res.json(userfound);
-})
+    ]
+}
+
+
+
+
+
+// app.get("/userinfo",(req,res)=>{
+//     user = {
+//         "username":"a",
+//         "email":"a@a",
+//         "movielist":[
+//             {
+//                 title:"Dark, Season 1",
+//                 genre:"Sci-fi, Horror",
+//                 img:"https://www.tjtoday.org/wp-content/uploads/2018/02/c245fb206fecea20e4f18e26dc8fa74aae6f80b5.jpg",
+//                 rating:10,
+//                 type:"Series",
+//                 link:"https://real-123movies.best/tv-series/dark-season-1-sub-eng/CVSsgCoB/rEsW3Pef"
+//             },
+//         ],
+//         "favourites":[
+//             {
+//                 title:"Dark, Season 1",
+//                 genre:"Sci-fi, Horror",
+//                 img:"https://www.tjtoday.org/wp-content/uploads/2018/02/c245fb206fecea20e4f18e26dc8fa74aae6f80b5.jpg",
+//                 rating:10,
+//                 type:"Series",
+//                 link:"https://real-123movies.best/tv-series/dark-season-1-sub-eng/CVSsgCoB/rEsW3Pef"
+//             }
+//         ],
+//     }
+//     // console.log(user);
+//     res.json(userfound);
+// })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -162,6 +223,10 @@ app.post("/login",(req,res)=>{
         } 
     })
 })
+
+
+
+
 app.post("/add",(req,res)=>{
     updateUser(userfound.username,req.body)
     .then(docs=>{
@@ -211,8 +276,165 @@ app.post("/remove-favorite",(req,res)=>{
         document = found;
         XYZ(userfound.username,found,document);
     });
-    res.send("ok")
+    res.send("ok");
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.get('/eleinfo',(req,res)=>{
+    debugData(/* here will be the cookie id that will be passed latter */)
+    .then((data)=>{
+        if(data){
+            let formatedData = {
+                movies:data.movies,
+                bookmarks:data.bookmark
+            };
+            res.send(formatedData);
+        };
+    })
+    .catch((reason)=>{
+        if(reason){
+            res.send({reason:reason});
+        }else{
+            res.send(false);
+        };
+    });
+});
+
+app.post("/mockUserAdd",(req,res)=>{
+    let data = {
+        name:req.body.name,
+        link:req.body.link,
+        img:req.body.img,
+        genre:req.body.genre,
+        rating:req.body.rating
+    }
+    debugMovie(data)
+    .then((info)=>{
+        if(info){
+            res.send(true);
+        }
+    })
+    .catch((reason)=>{
+        if(reason){
+            res.send(false);
+        }else{
+            res.send(null);
+        };
+    })
+})
+
+app.post("/mockUserDelete",(req,res)=>{
+    deleteMovie(req.body)
+    .then((data)=>{
+        if(data){
+            res.send(true);
+        }
+    })
+    .catch((reason)=>{
+        if(!reason){
+            res.send(false);
+        }
+    });
+});
+
+app.post("/mockUserEdit",(req,res)=>{
+    editMovie(req.body)
+    .then((data)=>{
+        if(data){
+            res.send(true);
+        }
+    })
+    .catch((reason)=>{
+        if(reason){
+            res.send(false);
+        }
+        res.send(null);
+    })
+})
+
+
+
+
+
+
+// app.get("/mockUserData",(req,res)=>{
+//     debugData()
+//     .then((data)=>{
+//         if(data){
+//             mockUser = data.movies;
+//             res.send(mockUser)
+//         }else{
+//             res.send(false)
+//         }
+//     })
+// })
+
+
+
+
+
+
+
+
+
+
+
+app.post("/mockUserInsert",(req,res)=>{
+    debugUser(req.body.username,req.body.email,req.body.password)
+    .then((data)=>{
+        if(data){
+            res.send(true);
+        }else{
+            res.send(false);
+        }
+    })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
