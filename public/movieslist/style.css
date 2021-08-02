@@ -18,30 +18,16 @@
   border: 2px solid darkred;
   position: absolute;
   z-index: 20;
-  top: 50%;
+  top: 0%;
   left: 45%;
-  transform: translate(-50%,-50%);
-  width: 2em;
-  height: 2em;
+  transform: translate(-50%,-0%);
+  width: 1.5em;
+  height: 1.5em;
   cursor: pointer;
+  opacity: 0;
 }
 .debug:hover{
   background: rgba(176,0,68,0.5);
-}
-
-.request-data{
-  border: 2px solid darkgreen;
-  position: absolute;
-  z-index: 20;
-  top: 50%;
-  left: 55%;
-  transform: translate(-50%,-50%);
-  width: 2em;
-  height: 2em;
-  cursor: pointer;
-}
-.request-data:hover{
-  background: rgba(114, 176, 0, 0.5);
 }
 
 
@@ -363,302 +349,623 @@ body,html{
 
 
 
-/*0.2 element form - section ===============================================================================================*/
-/*0.2 element form - section ===============================================================================================*/
-.element_form{
+/*0.2 ele form - section ===============================================================================================*/
+/*0.2 ele form - section ===============================================================================================*/
+.form_overlay{
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  z-index: 8;
+  background: rgba(0,0,0,0);
+  transition: all 0.2s ease-out;
+}
+.form_overlay.open{
+  pointer-events: all;
+  background: rgba(24, 5, 22, 0.5);
+}
+
+.ele_form{
+  z-index: 8;
+  width: 37em;
+  height: 22em;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  width: 36em;
-  height: 24em;
-  z-index: 10;
   pointer-events: none;
 }
-.element_form .form{
+.ele_form.open,.ele_form.edit{
+  pointer-events: all;
+}
+.ele_form .border_wraper{
   width: 100%;
   height: 100%;
-  background: rgba(38, 11, 36, 0.98);
-  border-radius: 8px;
+  position: absolute;
+}
+.ele_form .border_wraper .border{
+  position: absolute; background: rgba(59, 24, 54, 1); transition: all 0.3s ease-out 0.15s; 
+}
+.ele_form:hover .border_wraper .border{background: rgb(230, 0, 84);}
+
+.ele_form .border_wraper .border.horizontal{transform: scaleX(0);}
+.ele_form.open .border_wraper .border.horizontal,.ele_form.edit .border_wraper .border.horizontal{transform: scaleX(1);transition: all 0.3s ease-out;}
+.ele_form .border_wraper .border.vertical{transform: scaleY(0);}
+.ele_form.open .border_wraper .border.vertical,.ele_form.edit .border_wraper .border.vertical{transform: scaleY(1);transition: all 0.3s ease-out;}
+.ele_form .border_wraper .horizontal.left{transform-origin: left;}
+.ele_form .border_wraper .horizontal.right{transform-origin: right;}
+.ele_form .border_wraper .vertical.top{transform-origin: top;}
+.ele_form .border_wraper .vertical.bottom{transform-origin: bottom;}
+
+.ele_form .border_wraper .horizontal{width: 3.5em; height: 2px;}
+.ele_form .border_wraper .vertical{height: 2.3em; width: 2px;}
+.ele_form .border_wraper .right{right: 0;}
+.ele_form .border_wraper .top{top: 0;}
+.ele_form .border_wraper .left{left: 0;}
+.ele_form .border_wraper .bottom{bottom: 0;}
+
+/* word wraper ------------------------------------------------------------------------------------------------------------ */
+
+.ele_form .words_wraper{
+  width: 100%; height: 100%;
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+.ele_form.open .words_wraper,.ele_form.edit .words_wraper{
+  opacity: 1;
+}
+.ele_form .words_wraper .time_container{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 4.8em;
+  height: 2.4em;
+}
+.ele_form .words_wraper .time_container p{
+  color: rgb(100, 39, 95, 0.9);
+  font-size: 1.1em;
+  font-family: 'Allerta Stencil', sans-serif;
+  transition: all 0.3s ease-out
+}
+.ele_form:hover .words_wraper .time_container p{
+  color: rgb(255, 29, 112);
+  text-shadow: 0px 0px 6px rgba(255, 13, 102, 0.4);
+}
+.ele_form .words_wraper .date_container{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8.8em;
+  height: 2.4em;
+}
+.ele_form .words_wraper .date_container p{
+  color: rgb(100, 39, 95, 0.9);
+  font-size: 1.1em;
+  word-spacing: -3px;
+  font-family: 'Allerta Stencil', sans-serif;
+  transition: all 0.3s ease-out
+}
+.ele_form:hover .words_wraper .date_container p{
+  color: rgb(255, 29, 112);
+  text-shadow: 0px 0px 6px rgba(255, 13, 102, 0.4);
+}
+.ele_form .words_wraper .play_container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6.8em;
+  height: 3em;
+  flex-direction: column;
+  padding-top: 0.5em;
+}
+.ele_form .words_wraper .play_container .parent{
+  width: 75%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+}
+.ele_form .words_wraper .play_container .parent p{
+  color: rgb(100, 39, 95, 0.9);
+  font-size: 1em;
+  font-family: 'Allerta Stencil', sans-serif;
+  transition: all 0.3s ease-out;
+}
+.ele_form:hover .words_wraper .play_container .parent p{
+  color: rgb(255, 29, 112);
+  text-shadow: 0px 0px 6px rgba(255, 13, 102, 0.4);
+}
+.ele_form .words_wraper .play_container .parent .svg-icon{
+  padding: 0.2em; margin-left: 0.1em;
+  transition: all 0.3s ease-in-out;
+}
+.ele_form:hover .words_wraper .play_container .parent:nth-child(1) .svg-icon{margin-left: 0.25em;}
+.ele_form .words_wraper .play_container .parent .svg-icon path,.ele_form .words_wraper .play_container .parent .svg-icon circle{
+  fill: rgba(90, 34, 85, 0.9);
+  transition: all 0.3s ease-out;
+}
+.ele_form:hover .words_wraper .play_container .parent .svg-icon path{fill:rgb(255, 21, 107);}
+.ele_form:hover .words_wraper .play_container .parent .svg-icon circle{animation: on 0.8s ease-in-out infinite alternate;}
+@keyframes on {
+  0%{fill: rgba(90, 34, 85, 0.9);}
+  100%{fill: rgba(243, 20, 69, 1);}
+}
+
+/* remove wraper ------------------------------------------------------------------------------------------------------------*/
+
+.ele_form .remove_butt{
+  position: absolute;
+  right: 0.55em;
+  top: 0.55em;
+  width: 1.9em;
+  height: 1.9em;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+  pointer-events: none;
+  opacity: 0;
+}
+.ele_form.open .remove_butt,.ele_form.edit .remove_butt{
+  pointer-events: all;
+  opacity: 1;
+}
+.ele_form .remove_butt .svg-icon path{
+  fill: rgba(59, 24, 54, 1);
+  transition: all 0.3s ease-out;
+  pointer-events: none;
+}
+.ele_form:hover .remove_butt .svg-icon path{
+  fill: rgb(230, 0, 84);
+}
+
+
+
+
+
+/* form wraper -------------------------------------------------------------------------------------------------------------*/ 
+/* form wraper -------------------------------------------------------------------------------------------------------------*/
+
+.ele_form .form_wraper{
+  background: rgba(44, 15, 41,0.98);
+  width: 93%;
+  height: 90%;
+  border-radius: 0px;
+  position: absolute;
+  opacity: 0;
+  transition: all 0.25s ease-out 0.15s;
+  pointer-events: none;
+  position: relative;
+}
+.ele_form.open .form_wraper,.ele_form.edit .form_wraper{
+  opacity: 1;
+  pointer-events: all;
+}
+.ele_form .form_wraper .plus{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 2.5em;
+  height: 2.5em;
+}
+.ele_form .form_wraper .plus .svg-icon{transform: rotate(45deg);}
+.ele_form .form_wraper .plus .svg-icon path{
+  fill: rgba(59, 24, 54, 0.2);
+  transition: all 0.3s ease-out;
+}
+.ele_form:hover .form_wraper .plus .svg-icon path{fill: rgba(59, 24, 54, 1);}
+
+.ele_form .form_wraper .error_msg{
+  width: 50%;
+  height: 2em;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.ele_form .form_wraper .error_msg .error_wraper{
+  width: 80%;
+  height: 80%;
+  background: #3E183B;
+  border-radius: 0px 0px 4px 4px;
+  opacity: 0.3;
+}
+.ele_form .form_wraper .error_msg .error_wraper p{
+  color: #F84040;
+  font-size: 0.88em;
+}
+.ele_form .form_wraper .error_msg .error_wraper .svg-icon{
+  height: 100%;
+  padding: 0.15em;
+  margin-left: 0.7em;
+}
+.ele_form .form_wraper .error_msg .error_wraper .svg-icon path{
+  fill: #F84040;;
+}
+
+
+
+
+
+
+/* form ------------------------------------------------------------------------------------------------------------------*/
+/* form ------------------------------------------------------------------------------------------------------------------*/
+
+.ele_form .form_wraper .form{
+  width: 100%; height: 100%;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+
+/* inputs ---------------------------------------------------------------------------------------------------------------*/
+
+.ele_form .form_wraper .form .inputs{
+  width: 100%; height: 76%;
+  display: flex;
+  transition: all 0.15s;
+  opacity: 0;
+}
+.ele_form.open .form_wraper .form .inputs,.ele_form.edit .form_wraper .form .inputs{
+  opacity: 1;
+}
+.ele_form .form_wraper .form .inputs .data{
+  width: 68%; height: 100%;
+  position: relative;
+}
+.ele_form .form_wraper .form .inputs .data .triangle{
+  width: 2em; height: 2em;
+  position: absolute;
+  right: -0.3em;
+}
+.ele_form .form_wraper .form .inputs .data .triangle .svg-icon{
+  width: 68%;
+  height: 68%;
+}
+.ele_form .form_wraper .form .inputs .data .triangle .svg-icon path{
+  fill: rgba(90, 34, 85, 1);
+  transition: all 0.3s ease-out;
+}
+.ele_form .form_wraper .form .inputs .data:hover .triangle .svg-icon path{fill: rgb(255, 29, 112);}
+
+/*children ------------------------------------------------------------------------------------------------------------*/
+
+.ele_form .form_wraper .form .inputs .data .children_wraper{
+  width: 100%; height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 10px 50px rgba(0,0,0,0.3);
-  transform: scale(0.95);
+}
+.ele_form .form_wraper .form .inputs .data .children_wraper .children{
+  width: 100%; height: 20%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 0.5em;
+}
+.ele_form .form_wraper .form .inputs .data .children_wraper .children .border{
+  width: 2px;
+  height: 2px;
+  background: rgb(119, 52, 100);
+  transition: all 0.3s ease-out;
+  border-radius: 10px;
+}
+.ele_form .form_wraper .form .inputs .data .children_wraper .children:hover .border{
+  height: 90%;
+}
+.ele_form .form_wraper .form .inputs .data .children_wraper .children label{
+  color: #773464;
+  font-weight: 800;
+  margin-left: 0.25em;
+}
+.ele_form .form_wraper .form .inputs .data .children_wraper .children input{
+  border: none;
+  outline: none;
+  background: none;
+  width: 74%;
+  margin-left: 4.3em;
+  padding: 0.2em;
+  position: absolute;
+  color: rgb(238, 48, 105);
+  text-shadow: 0px 0px 6px rgb(238, 48, 105, 0.5);
+  font-weight: 800;
+  font-size: 0.95em;
+}
+.ele_form .form_wraper .form .inputs .data .children_wraper .children input::placeholder{
+  color: rgba(119, 52, 100, 0.5);
+  text-shadow: 0px 0px 6px rgb(238, 48, 105, 0);
+  transition: all 0.25s ease-out;
+}
+.ele_form:hover .form_wraper .form .inputs .data .children_wraper .children input::placeholder{
+  color: rgba(238, 48, 105, 0.5);
+}
+
+
+
+
+
+
+.ele_form .form_wraper .form .inputs .data .children_wraper .children p{
+  position: absolute;
+  right: 2.2em;
+  color: rgba(119, 52, 100, 0.5);
+  font-family: 'Allerta Stencil', sans-serif;
+  font-size: 1.1em;
+  transition: all 0.25s;
+}
+.ele_form:hover .form_wraper .form .inputs .data .children_wraper .children p{
+  color: rgba(238, 48, 105, 0.5);
+}
+.ele_form .form_wraper .form .inputs .data .children_wraper .children:hover p{
+  color: rgba(238, 48, 105, 1);
+}
+.ele_form .form_wraper .form .inputs .data .children_wraper .children input[type=range]{
+  width: 60%;
+  opacity: 1;
+  transition: all 0.15s ease-out;
+}
+.ele_form .form_wraper .form .inputs .data .children_wraper .children:hover input[type=range]{
+  opacity: 1;
+}
+input[type=range]{
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-ms-track {
+  width: 60%;
+  cursor: pointer;
+  background: transparent; 
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-webkit-slider-thumb {
+  height: 1.6em;
+  width: 5px;
+  background: rgba(119, 52, 100, 0.5);
+  cursor: pointer;
+  margin-top: -0.7em;
+  transition:all 0.15s ease-out;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 60%;
+  height: 4px;
+  cursor: pointer;
+  background: rgba(119, 52, 100, 0.5);
+  transition:all 0.25s ease-out;
+}
+.ele_form:hover .form_wraper .form .inputs .data .children_wraper .children input[type=range]::-webkit-slider-thumb {
+  background: rgba(238, 48, 105, 0.5);
+}
+.ele_form:hover .form_wraper .form .inputs .data .children_wraper .children input[type=range]::-webkit-slider-runnable-track {
+  background: rgba(238, 48, 105, 0.5);
+}
+.ele_form .form_wraper .form .inputs .data .children_wraper .children:hover input[type=range]::-webkit-slider-thumb {
+  background: rgba(238, 48, 105, 0.9);
+}
+.ele_form .form_wraper .form .inputs .data .children_wraper .children:hover input[type=range]::-webkit-slider-runnable-track {
+  background: rgba(238, 48, 105, 0.9);
+}
+
+/* img -----------------------------------------------------------------------------------------------------------*/
+
+.ele_form .form_wraper .form .inputs .img{
+  width: 32%; height: 100%;
+}
+.ele_form .form_wraper .form .inputs .img .img_background{
+  width: 95%;
+  height: 95%;
+  background: #351633;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.ele_form .form_wraper .form .inputs .img .img_background > p{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50%;
+  color: rgb(119, 52, 100);
+  font-weight: 800;
+  text-align: center;
+}
+.ele_form .form_wraper .form .inputs .img .img_background .img_wraper{
+  width: 92%;
+  height: 89%;
+  margin-top: 0.5em;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 2;
+}
+.ele_form .form_wraper .form .inputs .img .img_background .img_wraper img{width: 100%; opacity: 0.9;}
+.ele_form .form_wraper .form .inputs .img .img_background .name_parent{
+ width: 100%;
+ height: 2em;
+ position: absolute;
+ bottom: -1em;
+}
+.ele_form .form_wraper .form .inputs .img .img_background .name_parent p{
+  color: rgb(119, 52, 100);
+  width: 100%;
+  font-family: 'Allerta Stencil', sans-serif;
+  font-size: 1.1em;
+  text-align: center;
+  line-height: 0.8em;
+}
+
+
+/* -- buttons ------------------------------------------------------------------------------------------------------------*/
+
+.ele_form .form_wraper .form .buttons{
+  width: 65%; height: 12%;
+  justify-content: space-evenly;
+}
+.ele_form .form_wraper .form .buttons .loader{
+  position: absolute;
+  width: 2.5em;
+  height: 2.5em;
   opacity: 0;
   transition: all 0.2s ease-out;
 }
-.element_form .form.open{
+.ele_form .form_wraper .form .buttons .loader.load{
   opacity: 1;
-  transform: scale(1);
-  pointer-events: all;
 }
-.element_form .form.edit{
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: all;
-}
-.element_form .form .inputs_wraper{
-  width: 100%;
-  height: 74%;
-  display: flex;
-}
-
-/* head wraper with remove butt -------------------------------------------------------------------------------*/
-
-.element_form .form .head_wraper,.element_form .form .submit_wraper{
-  width: 100%;
-  height: 13%;
-  position: relative;
-  overflow: hidden;
-  border-radius: 0px 8px 0px 0px;
-}
-.element_form .form .head_wraper p{
-  color: rgb(105, 50, 103);
-  font-size: 1.8em;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-top: 0.5em;
-}
-.element_form .form .head_wraper .remove_butt{
-  background: rgb(49, 19, 47);
-  width: 5em;
-  height: 5em;
-  position: absolute;
-  right: -2em;
-  top: -2em;
+.ele_form .form_wraper .form .buttons .loader .loads{
+  width: 0.7em; height: 0.7em;
   border-radius: 50%;
-  cursor: pointer;
+  border: 2px solid rgb(119, 52, 100);
+  position: absolute;
+  transform: scale(0.4);
 }
-.element_form .form .head_wraper .remove_butt .svg-icon{
-  width: 35%;
-  height: 35%;
-  margin-top: 1.5em;
-  margin-right: 1.5em;
-  pointer-events: none;
-  transition: all 0.15s ease-in-out;
+.ele_form .form_wraper .form .buttons .loader .loads{
+  width: 0.7em; height: 0.7em;
+  border-radius: 50%;
+  border: 2px solid rgb(119, 52, 100);
+  position: absolute;
+  transform: scale(0.4);
+  opacity: 0;
 }
-.element_form .form .head_wraper .remove_butt:hover .svg-icon{filter: drop-shadow(0px 0px 3px rgb(248, 50, 24));}
-.element_form .form .head_wraper .remove_butt .svg-icon path{
-  fill: rgb(248, 50, 24);
-  transition: all 0.15s ease-in-out;
+.ele_form .form_wraper .form .buttons .loader.load .loads:nth-child(1){left: 0; animation-delay: 0s;}
+.ele_form .form_wraper .form .buttons .loader.load .loads:nth-child(2){animation-delay: 0.2s;}
+.ele_form .form_wraper .form .buttons .loader.load .loads:nth-child(3){right: 0;animation-delay: 0.4s;}
+.ele_form .form_wraper .form .buttons .loader.load .loads{
+  animation: loader 0.6s infinite alternate;
+  opacity: 1;
+}
+@keyframes loader {
+  0%{transform: scale(0.4);}
+  100%{transform: scale(1);}
 }
 
-/* inputs with labels and small triangle ------------------------------------------------------------------------*/
-
-.element_form .form .inputs_wraper {padding: 0px 0.5em;}
-.element_form .form .inputs_wraper .inputs{
-  width: 67%; 
-  height: 100%;
-  position: relative;
-}
-.element_form .form .inputs_wraper .inputs .triangle{
-  position: absolute;
-  width: 1.4em;
-  height: 1.4em;
-  right: 0em;
-  transition: all 0.25s ease-in-out;
-}
-.element_form .form .inputs_wraper .inputs .triangle path{
-  fill:rgb(49, 21, 47);
-  transition: all 0.25s ease-in-out;
-}
-.element_form .form .inputs_wraper .inputs:hover .triangle{filter: drop-shadow(0px 0px 3px rgba(255, 61, 119, 1));}
-.element_form .form .inputs_wraper .inputs:hover .triangle path{fill: rgba(255, 61, 119, 1);}
-
-.element_form .form .inputs_wraper .inputs .inputs_parent{
-  width: 90%;
-  height: 90%;
-  background: rgb(46, 18, 44);
-  margin-left: -7%;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-}
-.element_form .form .inputs_wraper .inputs .inputs_parent .children{
-  width: 100%;
-  height: 25%;
-  position: relative;
-}
-.element_form .form .inputs_wraper .inputs .inputs_parent .children .border{
-  width: 90%;
-  height: 2px;
-  position: absolute;
-  bottom: -2px;
-  background: linear-gradient(90deg, rgba(88,33,84,0) 0%, rgb(88, 36, 86) 50%, rgba(57,22,55,0) 100%);
-}
-.element_form .form .inputs_wraper .inputs .inputs_parent .children label{
-  position: absolute;
-  left: 0.3em;
-  font-size: 0.9em;
-  color: rgb(255, 61, 119);
-  text-shadow: 0px 0px 4px rgb(255, 61, 119);
-  font-weight: 600;
-}
-.element_form .form .inputs_wraper .inputs .inputs_parent .children input{
-  position: absolute;
-  left: 4.2em;
-  width: 76%;
-  font-weight: 600;
-  font-size: 0.9em;
-  color: rgba(255,255,255,0.9);
-  background: none;
-  border: none;
-  outline: none;
-}
-
-/* image parent and rating input ---------------------------------------------------------------------------------*/
-
-.element_form .form .inputs_wraper .image{width: 33%; height: 100%;}
-.element_form .form .inputs_wraper .image .img_parent{
-  border-radius: 6px;
-  width: 95%;
-  height: 90%;
-  background: rgb(46, 18, 44);
-  position: relative;
-}
-.element_form .form .inputs_wraper .image .img_parent .rating_parent{
-  position: absolute;
-  width: 100%;
-  height: 20%;
-  top: 4%;
-}
-.element_form .form .inputs_wraper .image .img_parent .rating_parent label{
-  position: absolute;
-  left: 1.8em;
-  font-weight: 600;
-  color: rgb(255, 83, 135);
-  text-shadow: 0px 0px 4px rgb(255 61 119),
-               0px 0px 6px rgb(46, 18, 44);
-}
-.element_form .form .inputs_wraper .image .img_parent .rating_parent input{
-  position: absolute;
-  left: 5.7em;
-  font-weight: 600;
-  color: white;
-  width: 35%;
-  border: none;
-  outline: none;
-  background: rgb(46, 18, 44);
-  padding: 0.2em;
-  border-radius: 4px;
-}
-
-.element_form .form .inputs_wraper .image .img_parent p{
-  color: rgba(255,255,255,0.6);
-  width: 40%;
-  font-family: 'Allerta Stencil', sans-serif;
-  text-align: center;
-  position: absolute;
-}
-.element_form .form .inputs_wraper .image .img_parent .name_preview{
-  color: rgb(105, 50, 103);
-  bottom: -0.1em;
-  font-size: 1.3em;
-  font-family: 'Allerta Stencil', sans-serif;
-  position: absolute;
-}
-.element_form .form .inputs_wraper .image .img_parent .img{
-  width: 90%;
-  height: 83%;
-  overflow: hidden;
-  border-radius: 5px;
-  position: absolute;
-  top: 4%;
-}
-.element_form .form .inputs_wraper .image .img_parent .img img{width: 100%; opacity: 0.3;}
-
-/* submit butt -------------------------------------------------------------------------------------------------*/
 
 
-.element_form .form .submit_wraper{
-  display: flex;
-  align-items: center;
+
+.ele_form .form_wraper .form .buttons .buttons_wraper{
+  width: 100%; height: 100%;
   justify-content: space-evenly;
+  opacity: 0;
+  transition: all 0.15s;
 }
-.element_form .form .submit_wraper .submit_butt{
-  display: none;
-}
-.element_form .form.open .submit_wraper .submit_butt{
-  width: 19%;
+.ele_form .form_wraper .form .buttons .buttons_wraper.load{opacity: 1;}
+.ele_form .form_wraper .form .buttons .submit_butt{
+  border: none;
+  width: 5em;
   height: 100%;
   background: none;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  opacity: 0;pointer-events: none;
+}
+.ele_form.open .form_wraper .form .buttons .submit_butt{
+  opacity: 1;pointer-events: all;
+}
+.ele_form .form_wraper .form .buttons .submit_butt:hover{filter: drop-shadow(0px 0px 3px rgba(255, 53, 127, 0.6));}
+.ele_form .form_wraper .form .buttons .submit_butt .svg-icon{
+  height: 75%;
+  margin-right: 0.1em;
+}
+.ele_form .form_wraper .form .buttons .submit_butt .svg-icon path{
+  fill: rgb(119, 52, 100);transition: all 0.15s;
+}
+.ele_form .form_wraper .form .buttons .submit_butt:hover .svg-icon path{
+  fill: rgb(255, 53, 127);
+}
+.ele_form .form_wraper .form .buttons .submit_butt p{
+  color: rgb(119, 52, 100);
+  font-weight: 800;
+  transition: all 0.15s;
+}
+.ele_form .form_wraper .form .buttons .submit_butt:hover p{
+  color: rgb(255, 53, 127);
+}
+
+
+
+
+
+/* edit butt ----------------------------------------------------------------------------------------------------------------*/
+/* edit butt ----------------------------------------------------------------------------------------------------------------*/
+.ele_form .form_wraper .form .buttons .edit_butt{
   border: none;
-  cursor: pointer;
-  transition: all 0.15s ease-in-out;
-  display: flex;
-  margin-bottom: 0.2em;
-}
-.element_form .form .submit_wraper .submit_butt .svg-icon{
-  height: 55%; width: 40%;
-}
-.element_form .form .submit_wraper .submit_butt p{
-  color: rgb(105, 50, 103);
-  font-size: 1.2em;
-  transition: all 0.15s ease-in-out;
-}
-.element_form .form .submit_wraper .submit_butt:hover p{color: rgb(255, 61, 119);}
-.element_form .form .submit_wraper .submit_butt .svg-icon path{
-  fill: rgb(105, 50, 103);
-  transition: all 0.15s ease-in-out;
-}
-.element_form .form .submit_wraper .submit_butt:hover{
-  color: rgb(255, 61, 119);
-  filter: drop-shadow(0px 0px 3px rgb(255, 61, 119));
-}
-.element_form .form .submit_wraper .submit_butt:hover .svg-icon path{fill: rgb(255, 61, 119);}
-
-/* edit butt -----------------------------------------------------------------------------------------*/
-
-.element_form .form .submit_wraper .edit_butt{display: none;}
-.element_form .form.edit .submit_wraper .edit_butt{
-  width: 19%;
+  width: 5em;
   height: 100%;
+  background: none;
   cursor: pointer;
-  transition: all 0.15s ease-in-out;
-  margin-bottom: 0.2em;
-  display: flex;
-}
-.element_form .form.edit .submit_wraper .edit_butt:hover{
-  color: rgb(255, 160, 35);
-  filter: drop-shadow(0px 0px 3px rgb(255, 160, 35));
-}
-.element_form .form .submit_wraper .edit_butt .svg-icon{
-  height: 55%; width: 40%;
-}
-.element_form .form .submit_wraper .edit_butt .svg-icon path{
-  fill: rgb(105, 50, 103);
-  transition: all 0.15s ease-in-out;
-}
-.element_form .form .submit_wraper .edit_butt:hover .svg-icon path{fill: rgb(255, 160, 35);}
-.element_form .form .submit_wraper .edit_butt p{
-  font-size: 1.2em;
-  color: rgb(105, 50, 103);
-  transition: all 0.15s ease-in-out;
-}
-.element_form .form .submit_wraper .edit_butt:hover p{color: rgb(255, 160, 35);}
+  transition: all 0.2s;
 
-/* delete butt -----------------------------------------------------------------------------------------*/
+  opacity: 0;pointer-events: none;
+}
+.ele_form.edit .form_wraper .form .buttons .edit_butt{
+  opacity: 1;pointer-events: all;
+}
+.ele_form .form_wraper .form .buttons .edit_butt:hover{filter: drop-shadow(0px 0px 3px rgba(250, 137, 31, 0.5));}
+.ele_form .form_wraper .form .buttons .edit_butt .svg-icon{
+  height: 75%;
+  margin-right: 0.1em;
+  margin-top: -0.1em;
+}
+.ele_form .form_wraper .form .buttons .edit_butt .svg-icon path{
+  fill: rgb(119, 52, 100);transition: all 0.15s;
+}
+.ele_form .form_wraper .form .buttons .edit_butt:hover .svg-icon path{
+  fill: rgb(250, 137, 31);
+}
+.ele_form .form_wraper .form .buttons .edit_butt p{
+  color: rgb(119, 52, 100);
+  font-weight: 800;
+  transition: all 0.15s;
+}
+.ele_form .form_wraper .form .buttons .edit_butt:hover p{
+  color: rgb(250, 137, 31);
+}
 
-.element_form .form .submit_wraper .delete_butt{display: none;}
-.element_form .form.edit .submit_wraper .delete_butt{
-  width: 19%;
+
+
+
+/* delete butt ----------------------------------------------------------------------------------------------------------------*/
+/* delete butt ----------------------------------------------------------------------------------------------------------------*/
+.ele_form .form_wraper .form .buttons .delete_butt{
+  border: none;
+  width: 5em;
   height: 100%;
+  background: none;
   cursor: pointer;
-  transition: all 0.15s ease-in-out;
-  margin-bottom: 0.2em;
-  display: flex;
-  margin-right: -2em;
+  transition: all 0.2s;
+
+  opacity: 0;pointer-events: none;
 }
-.element_form .form.edit .submit_wraper .delete_butt:hover{
-  color: rgb(215, 36, 38);
-  filter: drop-shadow(0px 0px 3px rgb(215, 36, 38));
+.ele_form.edit .form_wraper .form .buttons .delete_butt{
+  opacity: 1;pointer-events: all;
 }
-.element_form .form .submit_wraper .delete_butt p{
-  font-size: 1.2em;
-  color: rgb(90, 41, 88);
-  transition: all 0.15s ease-in-out;
+.ele_form .form_wraper .form .buttons .delete_butt:hover{filter: drop-shadow(0px 0px 3px rgba(243, 20, 69, 0.4));}
+.ele_form .form_wraper .form .buttons .delete_butt p{
+  color: rgb(119, 52, 100);
+  font-weight: 800;
+  transition: all 0.15s;
 }
-.element_form .form .submit_wraper .delete_butt:hover p{color: rgb(215, 36, 38);}
+.ele_form .form_wraper .form .buttons .delete_butt:hover p{
+  color: rgba(243, 20, 69, 1);
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1302,7 +1609,7 @@ body,html{
   right: 7em;
   transform-origin: right center;
   transform: scaleX(0.2);
-  transition: all 0.15s ease-in-out;
+  transition: all 0.2s ease-in-out;
   pointer-events: none;
 }
 .web_parent .body .movie_list .add_butt:hover::before{transform: scaleX(1);}
@@ -1315,7 +1622,7 @@ body,html{
   left: 7em;
   transform-origin: left center;
   transform: scaleX(0.2);
-  transition: all 0.15s ease-in-out;
+  transition: all 0.2s ease-in-out;
   pointer-events: none;
 }
 .web_parent .body .movie_list .add_butt:hover::after{transform: scaleX(1);}
@@ -1323,20 +1630,20 @@ body,html{
   width: 100%;
   height: 100%;
   position: absolute;
-  transition:all 0.15s ease-in-out;
+  transition:all 0.2s ease-in-out;
   cursor: pointer;
 }
-.web_parent .body .movie_list .add_butt .wraper:hover{filter: drop-shadow(0px 0px 4px rgb(34, 248, 255));}
+.web_parent .body .movie_list .add_butt .wraper:hover{filter: drop-shadow(0px 0px 4px rgba(34, 248, 255, 0.8));}
 .web_parent .body .movie_list .add_butt .wraper .svg-icon{
   width: 1.7em;
   margin-right: 0.3em;
   fill: rgb(77, 29, 75);
-  transition:all 0.1s ease-in-out;
+  transition:all 0.2s ease-in-out;
   pointer-events: none;
 }
 .web_parent .body .movie_list .add_butt .wraper p{
   color: rgb(77, 29, 75);
-  transition:all 0.1s ease-in-out;
+  transition:all 0.2s ease-in-out;
   pointer-events: none;
 }
 .web_parent .body .movie_list .add_butt .wraper:hover .svg-icon{fill: rgb(34, 248, 255);}
@@ -1439,7 +1746,7 @@ body,html{
 /*== ele - element =================================================================================================*/
 /*== ele - element =================================================================================================*/
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele{
-  border-radius: 18px;
+  border-radius: 12px;
   position: absolute;
   width: 82%;
   height: 87%;
@@ -1447,7 +1754,7 @@ body,html{
   display: flex;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.9s ease-in-out;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele{height: 92%;}
 
@@ -1459,12 +1766,12 @@ body,html{
   top: 3.5%;
   width: 91%;
   height: 85%;
-  transition: all 0.8s ease-in-out;
+  transition: all 0.9s ease-in-out;
   z-index: 11;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .image_wraper{height: 55%;}
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .image_parent{
-  border-radius: 8px;
+  border-radius: 10px;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -1493,6 +1800,9 @@ body,html{
 .web_parent .body .movie_list .movie_wraper .ele_wraper.fav .ele .image_wraper .bookmark_wraper{
   filter: drop-shadow(0px 0px 3px rgba(73, 255, 28, 0.4));
 }
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper[data-bookmark="true"]{
+  filter: drop-shadow(0px 0px 3px rgba(73, 255, 28, 0.4));
+}
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper .svg-icon{
   width: 60%;
   height: 60%;
@@ -1509,6 +1819,10 @@ body,html{
   fill: rgba(73, 255, 28, 1); filter: drop-shadow(0px 0px 2px rgba(73, 255, 28, 1));
 }
 
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper[data-bookmark="true"] .svg-icon path{
+  fill: rgba(73, 255, 28, 1); filter: drop-shadow(0px 0px 2px rgba(73, 255, 28, 1));
+}
+
 
 
 
@@ -1521,13 +1835,11 @@ body,html{
   position: absolute;
   bottom: 12%;
   flex-direction: column;
-  transition: all 0.8s ease-in-out;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section{
   width: 85%;
   height: 30%;
   position: relative;
-  transition: all 0.3s ease-in-out 0.2s;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section:nth-child(1){height: 28%;}
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section:nth-child(2){height: 28%;}

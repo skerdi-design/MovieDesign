@@ -11,7 +11,6 @@
 </head>
 <body>
   <div class="debug"></div>
-  <div class="request-data"></div>
 
   <div class="outside_left_nav">
     <!--1.1  lines ======================================================================================== -->
@@ -73,79 +72,144 @@
     </div>
   </div>
 
-
-  <div class="element_form">
-    <form action="" method="post" class="form">
-      <div class="head_wraper flex_middle">
-        <p>New Entry</p>
-        <div class="remove_butt flex_middle">
-          <svg class="svg-icon" viewBox="0 0 20 20">
-            <path d="M10.185,1.417c-4.741,0-8.583,3.842-8.583,8.583c0,4.74,3.842,8.582,8.583,8.582S18.768,14.74,18.768,10C18.768,5.259,14.926,1.417,10.185,1.417 M10.185,17.68c-4.235,0-7.679-3.445-7.679-7.68c0-4.235,3.444-7.679,7.679-7.679S17.864,5.765,17.864,10C17.864,14.234,14.42,17.68,10.185,17.68 M10.824,10l2.842-2.844c0.178-0.176,0.178-0.46,0-0.637c-0.177-0.178-0.461-0.178-0.637,0l-2.844,2.841L7.341,6.52c-0.176-0.178-0.46-0.178-0.637,0c-0.178,0.176-0.178,0.461,0,0.637L9.546,10l-2.841,2.844c-0.178,0.176-0.178,0.461,0,0.637c0.178,0.178,0.459,0.178,0.637,0l2.844-2.841l2.844,2.841c0.178,0.178,0.459,0.178,0.637,0c0.178-0.176,0.178-0.461,0-0.637L10.824,10z"></path>
-          </svg>
-        </div>
+  <div class="form_overlay">
+    <div class="ele_form flex_middle">
+      <div class="border_wraper">
+        <div class="border vertical top left"></div>
+        <div class="border vertical top right"></div>
+        <div class="border vertical bottom left"></div>
+        <div class="border vertical bottom right"></div>
+        <div class="border horizontal top left"></div>
+        <div class="border horizontal top right"></div>
+        <div class="border horizontal bottom left"></div>
+        <div class="border horizontal bottom right"></div>
       </div>
-      <div class="inputs_wraper flex_middle">
-        <div class="inputs flex_middle">
-          <div class="inputs_parent">
-            <div class="children flex_middle">
-              <div class="border"></div>
-              <label for="name">Name:</label>
-              <input type="text" name="Name" id="name" placeholder="Name" required autocomplete="off">
-            </div>
-            <div class="children flex_middle">
-              <div class="border"></div>
-              <label for="link">Link:</label>
-              <input type="text" name="Link" id="link" placeholder="Link" required autocomplete="off">
-            </div>
-            <div class="children flex_middle">
-              <div class="border"></div>
-              <label for="img">Image:</label>
-              <input type="text" name="Image" id="img" placeholder="Image" autocomplete="off">
-            </div>
-            <div class="children flex_middle">
-              <label for="genre">Genre:</label>
-              <input type="text" name="Genre" id="genre" placeholder="Genre" autocomplete="off">
-            </div>
+      <div class="form_wraper">
+        <div class="error_msg">
+          <div class="error_wraper flex_middle">
+            <p>Something went Wrong</p>
+            <svg class="svg-icon" viewBox="0 0 20 20">
+              <path d="M18.344,16.174l-7.98-12.856c-0.172-0.288-0.586-0.288-0.758,0L1.627,16.217c0.339-0.543-0.603,0.668,0.384,0.682h15.991C18.893,16.891,18.167,15.961,18.344,16.174 M2.789,16.008l7.196-11.6l7.224,11.6H2.789z M10.455,7.552v3.561c0,0.244-0.199,0.445-0.443,0.445s-0.443-0.201-0.443-0.445V7.552c0-0.245,0.199-0.445,0.443-0.445S10.455,7.307,10.455,7.552M10.012,12.439c-0.733,0-1.33,0.6-1.33,1.336s0.597,1.336,1.33,1.336c0.734,0,1.33-0.6,1.33-1.336S10.746,12.439,10.012,12.439M10.012,14.221c-0.244,0-0.443-0.199-0.443-0.445c0-0.244,0.199-0.445,0.443-0.445s0.443,0.201,0.443,0.445C10.455,14.021,10.256,14.221,10.012,14.221"></path>
+            </svg>
           </div>
-          <svg class="triangle" width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 8.60857C17.3333 9.37837 17.3333 11.3029 16 12.0727L3.25 19.4339C1.91667 20.2037 0.249999 19.2414 0.249999 17.7018L0.25 2.97941C0.25 1.43981 1.91667 0.477554 3.25 1.24735L16 8.60857Z" fill="rgb(46, 18, 44)"/>
+        </div>
+        <div class="plus flex_middle">
+          <svg class="svg-icon" viewBox="0 0 20 20">
+            <path fill="none" d="M15.898,4.045c-0.271-0.272-0.713-0.272-0.986,0l-4.71,4.711L5.493,4.045c-0.272-0.272-0.714-0.272-0.986,0s-0.272,0.714,0,0.986l4.709,4.711l-4.71,4.711c-0.272,0.271-0.272,0.713,0,0.986c0.136,0.136,0.314,0.203,0.492,0.203c0.179,0,0.357-0.067,0.493-0.203l4.711-4.711l4.71,4.711c0.137,0.136,0.314,0.203,0.494,0.203c0.178,0,0.355-0.067,0.492-0.203c0.273-0.273,0.273-0.715,0-0.986l-4.711-4.711l4.711-4.711C16.172,4.759,16.172,4.317,15.898,4.045z"></path>
           </svg>
         </div>
-        <div class="image flex_middle">
-          <div class="img_parent flex_middle">
-            <p>Image Preview</p>
-            <div class="name_preview">DARK</div>
+        <form action="" class="form flex_middle" method="POST">
+          <div class="inputs">
+            <div class="data flex_middle">
+              <div class="triangle flex_middle">
+                <svg width="17" height="19" class="svg-icon" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 7.76795C17.3333 8.53775 17.3333 10.4623 16 11.2321L3.25 18.5933C1.91667 19.3631 0.249999 18.4008 0.249999 16.8612L0.25 2.13878C0.25 0.599183 1.91667 -0.363068 3.25 0.406733L16 7.76795Z"/>
+                </svg>
+              </div>
+              <div class="children_wraper">
+                <div class="children">
+                  <div class="border"></div>
+                  <label for="name">Name:</label>
+                  <input type="text" placeholder="Name" id="name" name="Name" autocomplete="off" required>
+                </div>
+                <div class="children">
+                  <div class="border"></div>
+                  <label for="link">Link:</label>
+                  <input type="url" placeholder="https://www.example.com" id="link" name="Link" autocomplete="off" required>
+                </div>
+                <div class="children">
+                  <div class="border"></div>
+                  <label for="img">Image:</label>
+                  <input type="text" placeholder="https://www.example.png" id="img" name="Image" autocomplete="off">
+                </div>
+                <div class="children">
+                  <div class="border"></div>
+                  <label for="genre">Genre:</label>
+                  <input type="text" placeholder="Genre" id="genre" name="Genre" autocomplete="off">
+                </div>
+                <div class="children">
+                  <div class="border"></div>
+                  <label for="rating">Rating:</label>
+                  <input type="range" min="0" max="10" step="0.1" value="0" id="rating">
+                  <p class="range_value">0</p>
+                </div>
+              </div>
+            </div>
             <div class="img flex_middle">
-              <img src="https://wallpapercave.com/wp/wp4056407.jpg" alt="">
+              <div class="img_background">
+                <p>Image Preview</p>
+                <div class="img_wraper flex_middle">
+                  <img class="img_value" src="" alt="">
+                  <!-- https://wallpapercave.com/wp/wp4056407.jpg -->
+                </div>
+                <div class="name_parent flex_middle">
+                  <p class="name_value"></p>
+                </div>
+              </div>
             </div>
-            <div class="rating_parent flex_middle">
-              <label for="rating">Rating:</label>
-              <input id="rating" name="Rating" type="number" min="0" max="10" step="0.1" placeholder="0-10" required>
+          </div>
+          <div class="buttons flex_middle">
+
+            <div class="loader flex_middle">
+              <div class="loads 1"></div>
+              <div class="loads 2"></div>
+              <div class="loads 3"></div>
             </div>
+
+            <div class="buttons_wraper load flex_middle">
+              <div class="edit_butt flex_middle">
+                <svg class="svg-icon" viewBox="0 0 20 20">
+                  <path d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"></path>
+                </svg>
+                <p>Edit</p>
+              </div>
+  
+              <button type="submit" class="submit_butt flex_middle">
+                <svg class="svg-icon" viewBox="0 0 20 20">
+                  <path d="M14.613,10c0,0.23-0.188,0.419-0.419,0.419H10.42v3.774c0,0.23-0.189,0.42-0.42,0.42s-0.419-0.189-0.419-0.42v-3.774H5.806c-0.23,0-0.419-0.189-0.419-0.419s0.189-0.419,0.419-0.419h3.775V5.806c0-0.23,0.189-0.419,0.419-0.419s0.42,0.189,0.42,0.419v3.775h3.774C14.425,9.581,14.613,9.77,14.613,10 M17.969,10c0,4.401-3.567,7.969-7.969,7.969c-4.402,0-7.969-3.567-7.969-7.969c0-4.402,3.567-7.969,7.969-7.969C14.401,2.031,17.969,5.598,17.969,10 M17.13,10c0-3.932-3.198-7.13-7.13-7.13S2.87,6.068,2.87,10c0,3.933,3.198,7.13,7.13,7.13S17.13,13.933,17.13,10"></path>
+                </svg>
+                <p>Add</p>
+              </button>
+  
+  
+              <div class="delete_butt flex_middle">
+                <p>Delete</p>
+              </div>
+            </div>
+
+          </div>  
+        </form>
+      </div>
+      <div class="remove_butt flex_middle">
+        <svg class="svg-icon" viewBox="0 0 20 20">
+          <path fill="none" d="M15.898,4.045c-0.271-0.272-0.713-0.272-0.986,0l-4.71,4.711L5.493,4.045c-0.272-0.272-0.714-0.272-0.986,0s-0.272,0.714,0,0.986l4.709,4.711l-4.71,4.711c-0.272,0.271-0.272,0.713,0,0.986c0.136,0.136,0.314,0.203,0.492,0.203c0.179,0,0.357-0.067,0.493-0.203l4.711-4.711l4.71,4.711c0.137,0.136,0.314,0.203,0.494,0.203c0.178,0,0.355-0.067,0.492-0.203c0.273-0.273,0.273-0.715,0-0.986l-4.711-4.711l4.711-4.711C16.172,4.759,16.172,4.317,15.898,4.045z"></path>
+        </svg>
+      </div>
+      <div class="words_wraper">
+        <div class="time_container flex_middle">
+          <p>05:20</p>
+        </div>
+        <div class="date_container flex_middle">
+          <p>JUN. 06-2021</p>
+        </div>
+        <div class="play_container flex_middle">
+          <div class="parent">
+            <p>PLAY</p>
+            <svg width="17" height="19" class="svg-icon" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 7.76795C17.3333 8.53775 17.3333 10.4623 16 11.2321L3.25 18.5933C1.91667 19.3631 0.249999 18.4008 0.249999 16.8612L0.25 2.13878C0.25 0.599183 1.91667 -0.363068 3.25 0.406733L16 7.76795Z"/>
+            </svg>            
+          </div>
+          <div class="parent">
+            <p>REC</p>
+            <svg width="17" height="17"class="svg-icon" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8.5" cy="8.5" r="8.5"/>
+            </svg>            
           </div>
         </div>
       </div>
-      <div class="submit_wraper flex_middle">
-        <button type="submit" class="submit_butt flex_middle">
-          <svg class="svg-icon" viewBox="0 0 20 20">
-            <path d="M14.613,10c0,0.23-0.188,0.419-0.419,0.419H10.42v3.774c0,0.23-0.189,0.42-0.42,0.42s-0.419-0.189-0.419-0.42v-3.774H5.806c-0.23,0-0.419-0.189-0.419-0.419s0.189-0.419,0.419-0.419h3.775V5.806c0-0.23,0.189-0.419,0.419-0.419s0.42,0.189,0.42,0.419v3.775h3.774C14.425,9.581,14.613,9.77,14.613,10 M17.969,10c0,4.401-3.567,7.969-7.969,7.969c-4.402,0-7.969-3.567-7.969-7.969c0-4.402,3.567-7.969,7.969-7.969C14.401,2.031,17.969,5.598,17.969,10 M17.13,10c0-3.932-3.198-7.13-7.13-7.13S2.87,6.068,2.87,10c0,3.933,3.198,7.13,7.13,7.13S17.13,13.933,17.13,10"></path>
-          </svg>
-          <p>Add</p>
-        </button>
-        
-        <div class="edit_butt flex_middle">
-          <svg class="svg-icon" viewBox="0 0 20 20">
-            <path d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"></path>
-          </svg>
-          <p>Edit</p>
-        </div>
-        <div class="delete_butt flex_middle">
-          <p>Delete</p>
-        </div>
-      </div>
-    </form>
+    </div>
   </div>
-
+  
 
 
   <div class="web_parent">
@@ -340,58 +404,7 @@
         </div>
         <div class="movie_wraper">
 
-
-
-
-          <div class="ele_wraper flex_middle">
-            <div class="edit_wraper flex_middle">
-              <svg class="svg-icon" viewBox="0 0 20 20">
-                <path d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"></path>
-              </svg>
-            </div>
-            <div class="ele">
-              <div class="image_wraper flex_middle">
-                <div class="image_parent flex_middle">
-                  <img src="https://wallpapercave.com/wp/wp4056407.jpg" alt="Dark Wallpaper">
-                </div>
-                <div class="bookmark_wraper flex_middle">
-                  <svg class="svg-icon" viewBox="0 0 20 20">
-                    <path d="M14.467,1.771H5.533c-0.258,0-0.47,0.211-0.47,0.47v15.516c0,0.414,0.504,0.634,0.802,
-                    0.331L10,13.955l4.136,4.133c0.241,0.241,0.802,0.169,0.802-0.331V2.241C14.938,1.982,14.726,
-                    1.771,14.467,1.771 M13.997,16.621l-3.665-3.662c-0.186-0.186-0.479-0.186-0.664,0l-3.666,
-                    3.662V2.711h7.994V16.621z"/>
-                  </svg>
-                </div>
-              </div>
-              <div class="info_parent flex_middle">
-                <div class="section rating flex_middle">
-                  <p><span>Rating:</span> 10</p>
-                </div>
-                <div class="section genre flex_middle">
-                  <div class="top_line"></div>
-                  <div class="bottom_line"></div>
-                  <p><span>Genre:</span> Thriller, Sci-fi</p>
-                </div>
-                <div class="section play flex_middle">
-                  <a href="https://real-123movies.best/tv-series/dark-season-1-sub-eng/CVSsgCoB/rEsW3Pef" target="_blank" class="play_butt flex_middle" data-type="object" data-color="rgba(255, 82, 144, 0.2)">
-                    <p>WATCH</p>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="name_parent flex_middle">
-              <p class="name">
-                <span>D</span>
-                <span>A</span>
-                <span>R</span>
-                <span>K</span>
-              </p>
-            </div>
-          </div>
-
-
-
+          <!-- movies to add -->
 
         </div>
       </div>

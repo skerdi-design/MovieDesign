@@ -60,7 +60,7 @@ function handleScrolling () {
   webParent = document.querySelector(".web_parent");
   let Scrollbar = window.Scrollbar;
   let opt = {
-    damping: 0.09,
+    damping: 0.085,
     renderByPixels: false
   };
 
@@ -110,19 +110,6 @@ function handleScrolling () {
 
   });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -186,17 +173,63 @@ function leftNavMapping(x,ele){
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 options.forEach(x=>x.addEventListener("click",()=>{
   options.forEach(y=>{
     y.classList.remove("active");
   })
   x.classList.add("active");
-  if(x.classList[1] === "edit"){
+
+
+  if(x.dataset.mode === "home"){
+    displayAll();
+  }
+
+  if(x.dataset.mode === "bookmark"){
+  let list = bookmarkFilter();
+    for(let i = 0;i<list.length;i++){
+      list[i].eleWraper.style.display = "none";
+    }
+  }
+
+  if(x.dataset.mode === "edit"){
     movieList.classList.add("edit_mode");
   }else{
     movieList.classList.remove("edit_mode");
   }
 }));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -362,23 +395,14 @@ function prepMovies(array){
       link:array[i].link,
       img:array[i].img,
       genre:array[i].genre,
-      rating:array[i].rating
+      rating:array[i].rating,
+      bookmark:array[i].bookmark
     };
     movieObject.push(new Film(movie));
   };
 };
-function prepBookmarks(array){
-  for(let i = array.length-1; i >= 0; i--){
-    let movie = {
-      name:array[i].name,
-      link:array[i].link,
-      img:array[i].img,
-      genre:array[i].genre,
-      rating:array[i].rating
-    };
-    bookmarkObject.push(new Film(movie));
-  };
-};
+
+
 function namesTransitionDelay(){
   let names = document.querySelectorAll(".name");
   names.forEach(x=>{
@@ -402,10 +426,22 @@ function namesTransitionDelay(){
 
 
 
+function bookmarkFilter(){
+  let bookmarks = movieObject.filter((film)=>{
+    return film.bookmark === false
+  })
+  return bookmarks
+}
+function displayAll(){
+  for(let i = 0;i<movieObject.length;i++){
+    movieObject[i].eleWraper.style.display = "flex"
+  }
+}
+
+
 let movieWraper = document.querySelector(".movie_wraper");
 let USER;
 let movieObject = [];
-let bookmarkObject = [];
 
 //get request for the movies when the web loads pushes all the movies in the 2 arrays moviObject and bookmarkObject
 getFetch("/eleinfo")
@@ -419,7 +455,6 @@ getFetch("/eleinfo")
     movieObject[i].addeventlistener();
   }
   namesTransitionDelay();
-  prepBookmarks(USER.bookmarks);
 })
 .catch((err)=>{
   if(err){
@@ -431,25 +466,6 @@ getFetch("/eleinfo")
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class Film {
   constructor(data){
     this.link = data.link;
@@ -457,6 +473,7 @@ class Film {
     this.rating = data.rating;
     this.name = data.name;
     this.genre = data.genre;
+    this.bookmark = data.bookmark;
 
     this.Name = [];
     this.eleWraper;
@@ -491,7 +508,7 @@ class Film {
           <div class="image_parent flex_middle">
             <img src="${this.img}">
           </div>
-          <div class="bookmark_wraper flex_middle" data-bookmark="false">
+          <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
             <svg class="svg-icon" viewBox="0 0 20 20">
               <path d="M14.467,1.771H5.533c-0.258,0-0.47,0.211-0.47,0.47v15.516c0,0.414,0.504,0.634,0.802,
               0.331L10,13.955l4.136,4.133c0.241,0.241,0.802,0.169,0.802-0.331V2.241C14.938,1.982,14.726,
@@ -539,7 +556,7 @@ class Film {
           <div class="image_parent flex_middle">
             <img src="${this.img}">
           </div>
-          <div class="bookmark_wraper flex_middle" data-bookmark="false">
+          <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
             <svg class="svg-icon" viewBox="0 0 20 20">
               <path d="M14.467,1.771H5.533c-0.258,0-0.47,0.211-0.47,0.47v15.516c0,0.414,0.504,0.634,0.802,
               0.331L10,13.955l4.136,4.133c0.241,0.241,0.802,0.169,0.802-0.331V2.241C14.938,1.982,14.726,
@@ -587,17 +604,21 @@ class Film {
         form.edit(data,this);
         return;
       }
+
+
       if(e.target.dataset.bookmark === "false"){
         e.target.dataset.bookmark = "true";
+        this.bookmark = true;
         this.eleWraper.classList.add("fav");
-        console.log("dataset is " + e.target.dataset.bookmark);
       }else if (e.target.dataset.bookmark === "true"){
         e.target.dataset.bookmark = "false";
+        this.bookmark = false;
         this.eleWraper.classList.remove("fav");
-        console.log("dataset is " + e.target.dataset.bookmark);
       }else{
         this.eleWraper.classList.toggle("toggled");
       }
+
+      
     })
   }
   hidden(){
@@ -636,6 +657,8 @@ class Film {
 
 class Form {
   constructor(){
+    this.formOverlay = document.querySelector(".form_overlay");
+    this.wraper = document.querySelector(".ele_form");
     this.form = document.querySelector(".form");
 
     this.name = this.form.querySelector("#name");
@@ -643,40 +666,58 @@ class Form {
     this.img = this.form.querySelector("#img");
     this.genre = this.form.querySelector("#genre");
     this.rating = this.form.querySelector("#rating");
+    this.ratingValue = this.form.querySelector(".range_value");
+    this.nameValue = this.form.querySelector(".name_value");
+    this.imgValue = document.querySelector(".img_value");
 
     this.openButt = document.querySelector(".add_butt");
-    this.closeButt = this.form.querySelector(".remove_butt");
+    this.closeButt = document.querySelector(".remove_butt");
+
+
+    this.buttons = this.form.querySelector(".buttons_wraper");
+    this.loader = this.form.querySelector(".loader");
     this.submitButt = this.form.querySelector(".submit_butt");
     this.editButt = this.form.querySelector(".edit_butt");
     this.deleteButt = this.form.querySelector(".delete_butt");
 
-    this.element;
+    // this.element;
   }
+
+
+
+
   eventListener(){
     this.closeButt.addEventListener("click",()=>{
-      this.form.classList.remove("open");
-      this.form.classList.remove("edit");
+      this.wraper.classList.remove("open");
+      this.wraper.classList.remove("edit");
+      this.formOverlay.classList.remove("open");
       form.clear();
     })
     this.openButt.addEventListener("click",()=>{
-      this.form.classList.add("open");
+      this.wraper.classList.add("open");
+      this.formOverlay.classList.add("open");
     })
 
     this.editButt.addEventListener("click",()=>{
+      this.loader.classList.add("load");
+      this.buttons.classList.remove("load");
+
       let data = {
         data:{
           name:this.element.name,
           link:this.element.link,
           img:this.element.img,
           genre:this.element.genre,
-          rating:this.element.rating
+          rating:this.element.rating,
+          bookmark:this.element.bookmark
         },
         updatedData:{
           name:this.name.value,
           link:this.link.value,
           img:this.img.value,
           genre:this.genre.value,
-          rating:this.rating.value
+          rating:this.rating.value,
+          bookmark:this.element.bookmark
         }
       }
       postFetch("/mockUserEdit",data)
@@ -686,26 +727,34 @@ class Form {
           this.element.link = data.updatedData.link,
           this.element.img = data.updatedData.img,
           this.element.genre = data.updatedData.genre,
-          this.element.rating = data.updatedData.rating
+          this.element.rating = data.updatedData.rating,
+          this.element.bookmark = data.updatedData.bookmark
         }
         this.element.mapName();
         this.element.updateMovie();
         namesTransitionDelay();
       })
       .then(()=>{
-        this.form.classList.remove("open");
-        this.form.classList.remove("edit");
+        this.wraper.classList.remove("open");
+        this.wraper.classList.remove("edit");
+        this.formOverlay.classList.remove("open");
+        this.loader.classList.remove("load");
+        this.buttons.classList.add("load");
         form.clear();
       })
+      console.log("edit clicked");
     })
 
     this.deleteButt.addEventListener("click",()=>{
+      this.loader.classList.add("load");
+      this.buttons.classList.remove("load");
       let data = {
         name:this.element.name,
         link:this.element.link,
         img:this.element.img,
         genre:this.element.genre,
-        rating:this.element.rating
+        rating:this.element.rating,
+        bookmark:this.element.bookmark
       }
       postFetch("/mockUserDelete",data)
       .then((permition)=>{
@@ -720,24 +769,64 @@ class Form {
         }
       })
       .then(()=>{
-        this.form.classList.remove("open");
-        this.form.classList.remove("edit");
+        this.wraper.classList.remove("open");
+        this.wraper.classList.remove("edit");
+        this.formOverlay.classList.remove("open");
+        this.loader.classList.remove("load");
+        this.buttons.classList.add("load");
         form.clear();
       })
+      console.log("delete clicked");
     })
 
     this.form.addEventListener("submit",(e)=>{
+      this.loader.classList.add("load");
+      this.buttons.classList.remove("load");
       e.preventDefault();
       let data = {
         name:this.name.value,
         link:this.link.value,
         img:this.img.value,
         genre:this.genre.value,
-        rating:this.rating.value
+        rating:this.rating.value,
+        bookmark:false
       };
       this.submit(data);
+      console.log("submit clicked");
     })
+
+    function handleUpdate () {
+      form.ratingValue.innerHTML = this.value;
+    }
+    this.rating.addEventListener('change', handleUpdate);
+    this.rating.addEventListener('mousemove', handleUpdate);
+
+    this.name.addEventListener("input",()=>{
+      this.nameValue.innerHTML = this.name.value;
+    })
+    
+    this.formOverlay.addEventListener("click",(e)=>{
+      if(e.target === this.formOverlay){
+        this.wraper.classList.remove("open");
+        this.wraper.classList.remove("edit");
+        this.formOverlay.classList.remove("open");
+      }
+    })
+
+    this.img.addEventListener("change",()=>{
+      let url = this.img.value
+      function checkimg(url) {
+        form.imgValue.src = url;
+      }
+      checkimg(url)
+    })
+
   }
+
+
+
+
+
 
   submit(body){
     postFetch("/mockUserAdd",body)
@@ -756,8 +845,11 @@ class Form {
       movieObject[movieObject.length-1].addeventlistener();
       namesTransitionDelay();
 
-      this.form.classList.remove("open");
-      this.form.classList.remove("edit");
+      this.wraper.classList.remove("open");
+      this.wraper.classList.remove("edit");
+      this.formOverlay.classList.remove("open");
+      this.loader.classList.remove("load");
+      this.buttons.classList.add("load");
       form.clear();
     })
   }
@@ -767,16 +859,26 @@ class Form {
     this.img.value = object.img;
     this.genre.value = object.genre;
     this.rating.value = object.rating;
+    this.ratingValue.innerHTML = object.rating;
+    this.nameValue.innerHTML = object.name;
+    this.imgValue.src = object.img;
 
     this.element = film;
-    this.form.classList.add("edit");
+    this.wraper.classList.add("edit");
+    this.formOverlay.classList.add("open");
+    this.wraper.classList.remove("open");
   }
   clear(){
-    this.name.value = "";
-    this.link.value = "";
-    this.img.value = "";
-    this.genre.value = "";
-    this.rating.value = "";
+    setTimeout(() => {
+      this.name.value = "";
+      this.link.value = "";
+      this.img.value = "";
+      this.genre.value = "";
+      this.rating.value = 0;
+      this.ratingValue.innerHTML = "0";
+      this.imgValue.src = "";
+      this.nameValue.innerHTML = "";
+    }, 100);
   }
 }
 let form = new Form();
@@ -820,16 +922,7 @@ debug.addEventListener("click",()=>{
     }
   })
 })
-const requestData = document.querySelector(".request-data");
-requestData.addEventListener("click",()=>{
-  fetch("/mockUserData")
-  .then((res)=>{
-    return res.json();
-  })
-  .then((info)=>{
-    console.log(info);
-  })
-});
+
 
 
 

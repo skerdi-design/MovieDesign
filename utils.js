@@ -202,21 +202,14 @@ function editMovie(data){
         db.find({username:"devil"},(err,docs)=>{
             if(err)throw err;
             if(docs.length == 1){
-                let foundName = docs[0].movies.find(({name})=>{
-                    return name === data.updatedData.name;
+                let index = docs[0].movies.findIndex(({name})=>{
+                    return name == data.data.name;
                 })
-                if(foundName){
-                    rej(true);
-                }else{
-                    let index = docs[0].movies.findIndex(({name})=>{
-                        return name == data.data.name;
-                    })
-                    docs[0].movies[index] = data.updatedData;
-                    db.update({username:"devil"},{ $set: {movies:docs[0].movies}},{},(err,numReplaced)=>{
-                        if(err)throw false;
-                        res(true);
-                    });                                                        
-                };
+                docs[0].movies[index] = data.updatedData;
+                db.update({username:"devil"},{ $set: {movies:docs[0].movies}},{},(err,numReplaced)=>{
+                    if(err)throw false;
+                    res(true);
+                });
             }else{
                 rej(false);
             };

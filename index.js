@@ -322,7 +322,8 @@ app.post("/mockUserAdd",(req,res)=>{
         link:req.body.link,
         img:req.body.img,
         genre:req.body.genre,
-        rating:req.body.rating
+        rating:req.body.rating,
+        bookmark:req.body.bookmark
     }
     debugMovie(data)
     .then((info)=>{
@@ -407,8 +408,10 @@ app.post("/mockUserInsert",(req,res)=>{
 })
 
 
-
-
+// app.use(function(req, res, next) {
+//     res.status(200);
+//     res.send('https://www.technistone.com/color-range/image-slab/Starlight%20Black_SLAB_web.jpg');
+// });
 
 
 
