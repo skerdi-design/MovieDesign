@@ -176,7 +176,6 @@ body,html{
   pointer-events: none;
   display: flex;
   align-items: center;
-  overflow: hidden;
 }
 .outside_top_nav .logo{
   width: 10em;
@@ -191,17 +190,17 @@ body,html{
 .outside_top_nav.down .logo{opacity: 1;transition: all 0.2s ease-out;pointer-events: all;}
 .outside_top_nav .logo .border{
   width: 100%;
-  height: 0.2em;
+  height: 0.16em;
   position: absolute;
   top: 0;
-  pointer-events: none;
-  transition: all 0.15s ease-out;
+  background: rgb(224, 5, 86);
+  transition: all 0.15s ease-in-out;
   transform: scaleY(0);
-  background: rgb(203, 0, 74);
   transform-origin: top;
+  border-radius: 0px 0px 2px 2px;
 }
-.outside_top_nav.down .logo .border{transform: scaleY(0.5);transition: all 0.2s ease-out;}
-.outside_top_nav.down .logo:hover .border{transform: scaleY(0.85)}
+.outside_top_nav.down .logo .border{transform: scaleY(0.7);}
+.outside_top_nav .logo:hover .border{transform: scaleY(1);}
 .outside_top_nav .logo .svg_wraper{
   width: 93%;
   height: 93%;
@@ -216,6 +215,29 @@ body,html{
 }
 .outside_top_nav .logo:hover .svg_wraper svg path{filter: drop-shadow(0px 0px 15px #ff1a6e);}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*0.1 == search wraper - section =======================================================================================================*/
 
 .outside_top_nav .search{
@@ -226,77 +248,49 @@ body,html{
   display: flex;
   align-items: center;
   transition: all 0.2s ease-out;
-  border-radius: 5px;
+  border-radius: 0px 0px 5px 5px;
 }
-.outside_top_nav.down .search.active{background: rgba(38, 11, 36, 0.35);}
+.outside_top_nav.down .search.active{background: rgba(38, 11, 36, 0.5);}
 .outside_top_nav .search .search_butt{
   position: absolute;
   right: 0;
   width: 3em;
   height: 3em;
   cursor: pointer;
-  pointer-events: none;
-  border-radius: 6px;
 }
 .outside_top_nav.down .search .search_butt{pointer-events: all;}
-.outside_top_nav .search .border{
-  width: 3em;
-  height: 0.2em;
-  position: absolute;
-  top: 0;
-  right: -0.1em;
-  background: rgb(203, 0, 74);
-  transition: all 0.15s cubic-bezier(0.7, 0.01, 0.37, 1);
-  transform: scaleY(0);
-  transform-origin: top;
-  border-radius: 0px 0px 2px 2px ;
-}
-.outside_top_nav.down .search .border{transform: scaleY(0.6); transition: all 0.2s ease-in-out}
-.outside_top_nav .search:hover .border{transform: scaleY(0.8);}
-.outside_top_nav.down .search.active .border{
-  transform: scaleY(0.8);
-  width: 101%;
-  right: -0.5%;
-}
 .outside_top_nav .search .search_butt .search_icon{
   position: absolute;
-  width: 1.26em;
-  height: 1.26em;
-  border: 2px solid rgb(203, 0, 74);
+  width: 1.36em;
+  height: 1.36em;
+  border: 2px solid rgb(224, 5, 86);
   border-radius: 50%;
   cursor: pointer;
-  pointer-events: all;
-  transition: all 0.15s ease-in-out;
-  pointer-events: none;
   opacity: 0;
+  transform: rotate(-45deg);
+  transition: filter 0.05s ease-in-out,opacity 0.15s ease-in-out;
 }
-.outside_top_nav.down .search .search_butt .search_icon{opacity: 1;transition: all 0.2s ease-in-out;}
-.outside_top_nav .search .search_butt:hover .search_icon{filter: drop-shadow(0px 0px 3px rgba(233, 10, 92, 0.9));}
-.outside_top_nav .search .search_butt.active .search_icon{filter: drop-shadow(0px 0px 3px rgba(233, 10, 92, 0.9));}
+.outside_top_nav.down .search .search_butt .search_icon{opacity: 1; transition: filter 0.05s ease-in-out,opacity 0.2s ease-in-out;}
+.outside_top_nav .search .search_butt:hover .search_icon{filter: drop-shadow(0px 0px 3px rgba(252, 17, 103, 0.9));}
+.outside_top_nav .search .search_butt.active .search_icon{filter: drop-shadow(0px 0px 3px rgba(252, 17, 103, 0.9));}
 .outside_top_nav .search .search_butt .search_icon::before{
   content: "";
   position: absolute;
-  right: -0.13em;
-  bottom: -0.3em;
-  transform: rotate(-45deg);
+  transform: translateY(140%);
   width: 2px;
-  height: 0.5em;
+  height: 0.62em;
   background: #ff2a78;
   border-radius: 10px;
-  transition: all 0.1s ease-in-out;
+  transition:all 0.1s ease-in-out;
   pointer-events: none;
 }
-.outside_top_nav .search .search_butt.active .search_icon::before{
-  right: 50%;
-  bottom: 50%;
-  transform: translate(50%,50%) rotate(-45deg);
-}
+.outside_top_nav .search .search_butt.active .search_icon::before{transform: translateY(0%);}
 .outside_top_nav .search .search_butt .search_icon::after{
   content: "";
   position: absolute;
-  transform: rotate(45deg) translateX(0px);
+  transform: rotate(90deg);
   width: 2px;
-  height: 0.5em;
+  height: 0.62em;
   background: #ff2a78;
   opacity: 0;
   transition: all 0.1s ease-in-out;
@@ -304,46 +298,157 @@ body,html{
 }
 .outside_top_nav .search .search_butt.active .search_icon::after{opacity: 1;}
 
+
+.outside_top_nav .search .border{
+  width: 3em;
+  height: 0.16em;
+  position: absolute;
+  top: 0;
+  right: -0.1em;
+  background: rgb(224, 5, 86);
+  transition: all 0.15s ease-in-out;
+  transform: scaleY(0);
+  transform-origin: top;
+  border-radius: 0px 0px 2px 2px;
+}
+.outside_top_nav.down .search .border{transform: scaleY(0.7);}
+.outside_top_nav .search:hover .border{transform: scaleY(1);}
+.outside_top_nav.down .search.active .border{
+  transform: scaleY(1);
+  width: 101%;
+  right: -0.5%;
+}
+
 /*0.1 input ---------------------------------------------------------------------------------------------------*/
 
 .outside_top_nav .search .search_input{
   position: absolute;
-  width: 14.5em;
-  height: 2.2em;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
-  filter: drop-shadow(0px 0px 3px rgba(255, 26, 110, 0.8));
+  /* filter: drop-shadow(0px 0px 3px rgba(255, 26, 110, 0.8)); */
   border-radius: 5px;
   transition: al 0.1s ease-in-out;
-  opacity: 0;
+  opacity: 1;
+
+  /* border: 1px solid white; */
 }
 .outside_top_nav.down .search .search_input{opacity: 1;}
 .outside_top_nav .search .search_input input{
-  width: 100%;
+  width: calc(100% - 3em);
   background: rgba(255, 255, 255, 0);
   border: none;
   outline: none;
   color: #ff2a78;
-  padding: 0.1em 0.2em 0.1em 1em;
+  padding: 0.1em 0em 0.1em 0.8em;
   text-shadow: 0px 0px 2px #ff1a6e;
   font-size: 1em;
   opacity: 0;
-  pointer-events: none;
   transition: all 0.1s ease-in-out;
 }
 .outside_top_nav.down .search .search_input.active input{opacity: 1; pointer-events: all;}
 .outside_top_nav .search .search_input label{
   position: absolute;
   color: #ff2a78;
-  left: 1em;
+  left: 0.8em;
   transition: all 0.1s ease-in-out;
   text-shadow: 0px 0px 2px #ff1a6e;
   opacity: 0;
   font-size: 1em;
 }
-.outside_top_nav .search .search_input.active label{opacity: 1;}
-.outside_top_nav .search .search_input input:not(:placeholder-shown) + label,
-.outside_top_nav .search .search_input input:focus + label{opacity: 0;}
+.outside_top_nav.down .search .search_input.active label{opacity: 1;}
+.outside_top_nav .search .search_input.active input:not(:placeholder-shown) + label,
+.outside_top_nav .search .search_input.active input:focus + label{opacity: 0;}
+
+
+
+.outside_top_nav .search .search_input .input_result{
+  /* border: 1px solid white; */
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 0%;
+  opacity: 1;
+  pointer-events: all;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.outside_top_nav.down .search .search_input.active .input_result.focus{
+  opacity: 1;
+  height: 450%;
+}
+.outside_top_nav .search .search_input .input_result .result_wraper{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.outside_top_nav .search .search_input .input_result .result_wraper .ele_search{
+  width: 100%;
+  height: 2em;
+  background: rgba(38, 11, 36, 0.5);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.outside_top_nav .search .search_input .input_result .result_wraper .ele_search:hover{
+  background: rgba(38, 11, 36, 0.65);
+}
+.outside_top_nav .search .search_input .input_result .result_wraper .ele_search p{
+  color: rgba(255, 26, 110, 0.8);
+  text-shadow: 0px 0px 2px rgba(255, 26, 110, 0.8);
+  margin-left: 0.8em;
+}
+.outside_top_nav .search .search_input .input_result .result_wraper .ele_search:hover p{
+  color: #ff1a6e;
+  text-shadow: 0px 0px 2px #ff1a6e;
+}
+
+
+
+.outside_top_nav .search .search_input .input_result::-webkit-scrollbar {
+  width: 7px;
+}
+.outside_top_nav .search .search_input .input_result::-webkit-scrollbar-track {
+  background: rgba(222, 222, 222, .7);
+}
+.outside_top_nav .search .search_input .input_result::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, .45);
+  border-radius: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -355,465 +460,723 @@ body,html{
   width: 100%;
   height: 100%;
   pointer-events: none;
+  overflow: hidden;
   position: absolute;
-  z-index: 8;
-  background: rgba(0,0,0,0);
-  transition: all 0.2s ease-out;
+  z-index: 11;
 }
-.form_overlay.open{
-  pointer-events: all;
-  background: rgba(24, 5, 22, 0.5);
-}
-
-.ele_form{
-  z-index: 8;
-  width: 37em;
-  height: 22em;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  pointer-events: none;
-}
-.ele_form.open,.ele_form.edit{
-  pointer-events: all;
-}
-.ele_form .border_wraper{
+.form_overlay .border_wraper{
   width: 100%;
   height: 100%;
   position: absolute;
+  z-index: 1;
 }
-.ele_form .border_wraper .border{
-  position: absolute; background: rgba(59, 24, 54, 1); transition: all 0.3s ease-out 0.15s; 
+.form_overlay .border_wraper .border{
+  position: absolute; background: rgb(137, 8, 63); transition: all 0.2s ease-out; 
 }
-.ele_form:hover .border_wraper .border{background: rgb(230, 0, 84);}
 
-.ele_form .border_wraper .border.horizontal{transform: scaleX(0);}
-.ele_form.open .border_wraper .border.horizontal,.ele_form.edit .border_wraper .border.horizontal{transform: scaleX(1);transition: all 0.3s ease-out;}
-.ele_form .border_wraper .border.vertical{transform: scaleY(0);}
-.ele_form.open .border_wraper .border.vertical,.ele_form.edit .border_wraper .border.vertical{transform: scaleY(1);transition: all 0.3s ease-out;}
-.ele_form .border_wraper .horizontal.left{transform-origin: left;}
-.ele_form .border_wraper .horizontal.right{transform-origin: right;}
-.ele_form .border_wraper .vertical.top{transform-origin: top;}
-.ele_form .border_wraper .vertical.bottom{transform-origin: bottom;}
+.form_overlay .border_wraper .border.horizontal{transform: scaleX(0);}
+.form_overlay.open .border_wraper .border.horizontal,.ele_form.edit .border_wraper .border.horizontal{transform: scaleX(1);transition: all 0.4s ease-out 0.35s;}
+.form_overlay .border_wraper .border.vertical{transform: scaleY(0);}
+.form_overlay.open .border_wraper .border.vertical,.ele_form.edit .border_wraper .border.vertical{transform: scaleY(1);transition: all 0.4s ease-out 0.35s;}
+.form_overlay .border_wraper .horizontal.left{transform-origin: left;}
+.form_overlay .border_wraper .horizontal.right{transform-origin: right;}
+.form_overlay .border_wraper .vertical.top{transform-origin: top;}
+.form_overlay .border_wraper .vertical.bottom{transform-origin: bottom;}
 
-.ele_form .border_wraper .horizontal{width: 3.5em; height: 2px;}
-.ele_form .border_wraper .vertical{height: 2.3em; width: 2px;}
-.ele_form .border_wraper .right{right: 0;}
-.ele_form .border_wraper .top{top: 0;}
-.ele_form .border_wraper .left{left: 0;}
-.ele_form .border_wraper .bottom{bottom: 0;}
+.form_overlay .border_wraper .horizontal{width: 4.2em; height: 3px;}
+.form_overlay .border_wraper .vertical{height: 2.6em; width: 3px;}
+.form_overlay .border_wraper .right{right: 1.8em;}
+.form_overlay .border_wraper .top{top: 1.8em;}
+.form_overlay .border_wraper .left{left: 1.8em;}
+.form_overlay .border_wraper .bottom{bottom: 1.8em;}
 
-/* word wraper ------------------------------------------------------------------------------------------------------------ */
 
-.ele_form .words_wraper{
-  width: 100%; height: 100%;
-  position: absolute;
-  pointer-events: none;
-  opacity: 0;
-  transition: all 0.3s ease-out;
+.form_overlay .form_background{
+  width: 100%;
+  height: 100%;
+  background: rgba(45, 17, 43, 1);
+  transition: all 0.5s cubic-bezier(0,0,.21,1);
+  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
 }
-.ele_form.open .words_wraper,.ele_form.edit .words_wraper{
-  opacity: 1;
+.form_overlay.open .form_background,.form_overlay.edit .form_background{
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 110%);
 }
-.ele_form .words_wraper .time_container{
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 4.8em;
-  height: 2.4em;
-}
-.ele_form .words_wraper .time_container p{
-  color: rgb(100, 39, 95, 0.9);
-  font-size: 1.1em;
-  font-family: 'Allerta Stencil', sans-serif;
-  transition: all 0.3s ease-out
-}
-.ele_form:hover .words_wraper .time_container p{
-  color: rgb(255, 29, 112);
-  text-shadow: 0px 0px 6px rgba(255, 13, 102, 0.4);
-}
-.ele_form .words_wraper .date_container{
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 8.8em;
-  height: 2.4em;
-}
-.ele_form .words_wraper .date_container p{
-  color: rgb(100, 39, 95, 0.9);
-  font-size: 1.1em;
-  word-spacing: -3px;
-  font-family: 'Allerta Stencil', sans-serif;
-  transition: all 0.3s ease-out
-}
-.ele_form:hover .words_wraper .date_container p{
-  color: rgb(255, 29, 112);
-  text-shadow: 0px 0px 6px rgba(255, 13, 102, 0.4);
-}
-.ele_form .words_wraper .play_container{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 6.8em;
-  height: 3em;
-  flex-direction: column;
-  padding-top: 0.5em;
-}
-.ele_form .words_wraper .play_container .parent{
-  width: 75%;
-  height: 50%;
+
+.form_overlay .form_background .ele_form{
+  width: 70%;
+  height: 80%;
   display: flex;
-  align-items: center;
-}
-.ele_form .words_wraper .play_container .parent p{
-  color: rgb(100, 39, 95, 0.9);
-  font-size: 1em;
-  font-family: 'Allerta Stencil', sans-serif;
-  transition: all 0.3s ease-out;
-}
-.ele_form:hover .words_wraper .play_container .parent p{
-  color: rgb(255, 29, 112);
-  text-shadow: 0px 0px 6px rgba(255, 13, 102, 0.4);
-}
-.ele_form .words_wraper .play_container .parent .svg-icon{
-  padding: 0.2em; margin-left: 0.1em;
-  transition: all 0.3s ease-in-out;
-}
-.ele_form:hover .words_wraper .play_container .parent:nth-child(1) .svg-icon{margin-left: 0.25em;}
-.ele_form .words_wraper .play_container .parent .svg-icon path,.ele_form .words_wraper .play_container .parent .svg-icon circle{
-  fill: rgba(90, 34, 85, 0.9);
-  transition: all 0.3s ease-out;
-}
-.ele_form:hover .words_wraper .play_container .parent .svg-icon path{fill:rgb(255, 21, 107);}
-.ele_form:hover .words_wraper .play_container .parent .svg-icon circle{animation: on 0.8s ease-in-out infinite alternate;}
-@keyframes on {
-  0%{fill: rgba(90, 34, 85, 0.9);}
-  100%{fill: rgba(243, 20, 69, 1);}
-}
-
-/* remove wraper ------------------------------------------------------------------------------------------------------------*/
-
-.ele_form .remove_butt{
-  position: absolute;
-  right: 0.55em;
-  top: 0.55em;
-  width: 1.9em;
-  height: 1.9em;
-  cursor: pointer;
-  transition: all 0.3s ease-out;
-  pointer-events: none;
-  opacity: 0;
-}
-.ele_form.open .remove_butt,.ele_form.edit .remove_butt{
-  pointer-events: all;
-  opacity: 1;
-}
-.ele_form .remove_butt .svg-icon path{
-  fill: rgba(59, 24, 54, 1);
-  transition: all 0.3s ease-out;
-  pointer-events: none;
-}
-.ele_form:hover .remove_butt .svg-icon path{
-  fill: rgb(230, 0, 84);
-}
-
-
-
-
-
-/* form wraper -------------------------------------------------------------------------------------------------------------*/ 
-/* form wraper -------------------------------------------------------------------------------------------------------------*/
-
-.ele_form .form_wraper{
-  background: rgba(44, 15, 41,0.98);
-  width: 93%;
-  height: 90%;
-  border-radius: 0px;
-  position: absolute;
-  opacity: 0;
-  transition: all 0.25s ease-out 0.15s;
-  pointer-events: none;
   position: relative;
-}
-.ele_form.open .form_wraper,.ele_form.edit .form_wraper{
-  opacity: 1;
-  pointer-events: all;
-}
-.ele_form .form_wraper .plus{
-  position: absolute;
+  margin-top: 1%;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  width: 2.5em;
-  height: 2.5em;
+  pointer-events: all;
 }
-.ele_form .form_wraper .plus .svg-icon{transform: rotate(45deg);}
-.ele_form .form_wraper .plus .svg-icon path{
-  fill: rgba(59, 24, 54, 0.2);
-  transition: all 0.3s ease-out;
-}
-.ele_form:hover .form_wraper .plus .svg-icon path{fill: rgba(59, 24, 54, 1);}
-
-.ele_form .form_wraper .error_msg{
-  width: 50%;
-  height: 2em;
+.form_overlay .form_background .ele_form .remove_butt{
+  width: 4em;
+  height: 4em;
+  border-radius: 50%;
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  overflow: hidden;
+  top: -1em;
+  right: 0;
+  pointer-events: all;
+  cursor: pointer;
+  background: rgb(71, 37, 69);
+
+  opacity: 0;
+  transform: translateY(5em);
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0,0,.21,1),transform 0s linear 0.4s;
+}
+.form_overlay.open .form_background .ele_form .remove_butt,.form_overlay.edit .form_background .ele_form .remove_butt{
+  opacity: 1;
+  transform: translateY(0em);
+  pointer-events: all;
+  transition: all 0.8s cubic-bezier(0,0,.21,1) 0.1s;
+}
+.form_overlay .form_background .ele_form .remove_butt .svg-icon{
+  width: 30%;
+  height: 30%;
+}
+.form_overlay .form_background .ele_form .remove_butt .svg-icon path{
+  fill: rgb(255, 44, 121);
+}
+
+
+
+
+
+
+
+
+.form_overlay .form_background .ele_form .img_wraper{
+  width: 34%;
+  height: 100%;
+  /* border: 1px solid white; */
+
+  opacity: 0;
+  transform: translateY(6em);
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0,0,.21,1),transform 0s linear 0.4s;
+}
+.form_overlay.open .form_background .ele_form .img_wraper,.form_overlay.edit .form_background .ele_form .img_wraper{
+  opacity: 1;
+  transform: translateY(0em);
+  pointer-events: all;
+  transition: all 0.8s cubic-bezier(0,0,.21,1) 0.1s;
+}
+.form_overlay .form_background .ele_form .img_wraper .time{
+  /* border: 1px solid white; */
+  position: absolute;
+  top: 5%;
+  font-size: 1.2em;
+  color: rgba(255, 82, 144, 1);
+  text-shadow: 0px 0px 4px rgba(255, 82, 144, 0.4);
+  word-spacing: 2px;
+  font-weight: 600;
+}
+
+
+
+
+.form_overlay .form_background .ele_form .img_wraper .img_background{
+  width: 80%;
+  height: 71%;
+  background: #3A1838;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
-  pointer-events: none;
-}
-.ele_form .form_wraper .error_msg .error_wraper{
-  width: 80%;
-  height: 80%;
-  background: #3E183B;
-  border-radius: 0px 0px 4px 4px;
-  opacity: 0.3;
-}
-.ele_form .form_wraper .error_msg .error_wraper p{
-  color: #F84040;
-  font-size: 0.88em;
-}
-.ele_form .form_wraper .error_msg .error_wraper .svg-icon{
-  height: 100%;
-  padding: 0.15em;
-  margin-left: 0.7em;
-}
-.ele_form .form_wraper .error_msg .error_wraper .svg-icon path{
-  fill: #F84040;;
-}
-
-
-
-
-
-
-/* form ------------------------------------------------------------------------------------------------------------------*/
-/* form ------------------------------------------------------------------------------------------------------------------*/
-
-.ele_form .form_wraper .form{
-  width: 100%; height: 100%;
-  justify-content: flex-end;
-  flex-direction: column;
-}
-
-/* inputs ---------------------------------------------------------------------------------------------------------------*/
-
-.ele_form .form_wraper .form .inputs{
-  width: 100%; height: 76%;
-  display: flex;
-  transition: all 0.15s;
-  opacity: 0;
-}
-.ele_form.open .form_wraper .form .inputs,.ele_form.edit .form_wraper .form .inputs{
-  opacity: 1;
-}
-.ele_form .form_wraper .form .inputs .data{
-  width: 68%; height: 100%;
   position: relative;
 }
-.ele_form .form_wraper .form .inputs .data .triangle{
-  width: 2em; height: 2em;
+.form_overlay .form_background .ele_form .img_wraper .img_background .img_container{
+  width: 92%;
+  height: 88%;
+  margin-top: 5%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px rgba(0,0,0,0.3);
+}
+.form_overlay .form_background .ele_form .img_wraper .img_background .img_container img{
+ width: 100%;
+}
+.form_overlay .form_background .ele_form .img_wraper .img_background .name{
   position: absolute;
-  right: -0.3em;
+  bottom: -0.1em;
 }
-.ele_form .form_wraper .form .inputs .data .triangle .svg-icon{
-  width: 68%;
-  height: 68%;
+.form_overlay .form_background .ele_form .img_wraper .img_background .name p{
+  color: #773464;
+  font-family: 'Allerta Stencil', sans-serif;
+  font-size: 1.6em;
+  text-transform: uppercase;
 }
-.ele_form .form_wraper .form .inputs .data .triangle .svg-icon path{
-  fill: rgba(90, 34, 85, 1);
-  transition: all 0.3s ease-out;
-}
-.ele_form .form_wraper .form .inputs .data:hover .triangle .svg-icon path{fill: rgb(255, 29, 112);}
 
-/*children ------------------------------------------------------------------------------------------------------------*/
 
-.ele_form .form_wraper .form .inputs .data .children_wraper{
-  width: 100%; height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.ele_form .form_wraper .form .inputs .data .children_wraper .children{
-  width: 100%; height: 20%;
+
+
+.form_overlay .form_background .ele_form .form_wraper{
+  width: 70%;
+  height: 100%;
   display: flex;
   align-items: center;
+}
+.form_overlay .form_background .ele_form .form_wraper .form{
+  width: 100%;
+  height: 76%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .children{
+  width: 100%;
   position: relative;
-  padding-left: 0.5em;
+  display: flex;
+  align-items: center;
+  pointer-events: all;
+  margin: 0px 0px 2% 0px;
 }
-.ele_form .form_wraper .form .inputs .data .children_wraper .children .border{
-  width: 2px;
-  height: 2px;
-  background: rgb(119, 52, 100);
-  transition: all 0.3s ease-out;
-  border-radius: 10px;
+.form_overlay .form_background .ele_form .form_wraper .form .children input{
+  outline: none;
+  border: none;
+  background: rgba(58, 24, 56, 0);
+  color: #863e72;
+  border-radius: 4px;
+  transition: 0.1s;
 }
-.ele_form .form_wraper .form .inputs .data .children_wraper .children:hover .border{
+.form_overlay .form_background .ele_form .form_wraper .form .children input::placeholder{
+  color: rgba(255, 255, 255, 0.15);
+  font-weight: 400;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .children input:focus{
+  background: rgba(58, 24, 56, 1);
+}
+
+
+
+
+
+
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder{
+  height: 27%;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(5em);
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0,0,.21,1),transform 0s linear 0.4s;
+}
+.form_overlay.open .form_background .ele_form .form_wraper .form .title_holder,.form_overlay.edit .form_background .ele_form .form_wraper .form .title_holder{
+  opacity: 1;
+  transform: translateY(0em);
+  pointer-events: all;
+  transition: all 1s cubic-bezier(0,0,.21,1) 0.35s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .border{
+  width: 3px;
+  height: 105%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  transform-origin: center;
+  background: rgba(176,0,68,1);
+  transition: all 0.2s cubic-bezier(0,0,.21,1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder:hover .border{
+  transform: translateY(-50%) scaleX(1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 1%;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section{height: 68%;}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section:last-child{height: 32%;}
+
+
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section input{
+  width: 90%;
   height: 90%;
+  padding-right: 6%;
 }
-.ele_form .form_wraper .form .inputs .data .children_wraper .children label{
-  color: #773464;
-  font-weight: 800;
-  margin-left: 0.25em;
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section #name{
+  font-family: 'Allerta Stencil', sans-serif;
+  font-size: 2.1em;
+  padding-left: 1%;
+  text-transform: uppercase;
 }
-.ele_form .form_wraper .form .inputs .data .children_wraper .children input{
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section #genre{
+  font-size: 0.9em;
+  padding-left: 1%;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section label{
+  color: rgba(255, 255, 255, 0.15);
+  position: absolute;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0,0,.21,1);
+  text-transform: none;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section label#name{
+  text-transform: none;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section input:focus + label,
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section input:not(:placeholder-shown) + label{
+  transform: translate(-10%,-90%) scale(0.8);
+  color: rgba(255, 30, 116, 0.7);
+  text-shadow: 0px 0px 4px rgba(255, 30, 116, 0.4);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section .icon{
+  width: 1.6em;
+  height: 1.6em;
+  position: absolute;
+  right: 11%;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section:nth-child(3) .icon i{
+  font-size: 0.9em;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section .icon i{
+  color: #642853;
+  transition: 0.15s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section input:not(:placeholder-shown) ~ .icon i{
+  color: rgba(255, 49, 128, 0);
+  text-shadow: 0px 0px 4px rgba(255, 49, 128, 0);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section input:focus ~ .icon i{
+  color: rgba(255, 49, 128, 0.7);
+  text-shadow: 0px 0px 4px rgba(255, 49, 128, 0.4);
+}
+
+
+
+
+
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder{
+  width: 100%;
+  height: 14%;
+  display: flex;
+  align-items: center;
+  padding-left: 1%;
+  margin-top: 2%;
+  opacity: 0;
+  transform: translateY(5em);
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0,0,.21,1),transform 0s linear 0.4s;
+}
+.form_overlay.open .form_background .ele_form .form_wraper .form .link_holder,.form_overlay.edit .form_background .ele_form .form_wraper .form .link_holder{
+  opacity: 1;
+  transform: translateY(0em);
+  pointer-events: all;
+  transition: all 1s cubic-bezier(0,0,.21,1) 0.43s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder .border{
+  width: 3px;
+  height: 105%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  transform-origin: center;
+  background: rgba(176,0,68,1);
+  transition: all 0.2s cubic-bezier(0,0,.21,1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder:hover .border{
+  transform: translateY(-50%) scaleX(1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder input{
+  width: 90%;
+  height: 90%;
+  padding-right: 6%;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder #link{
+  font-size: 1.25em;
+  padding-left: 1%;
+  font-weight: 600;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder label{
+  color: rgba(255, 255, 255, 0.15);
+  position: absolute;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0,0,.21,1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder input:focus + label,
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder input:not(:placeholder-shown) + label{
+  transform: translate(-10%,-90%) scale(0.8);
+  color: rgba(255, 30, 116, 0.7);
+  text-shadow: 0px 0px 4px rgba(255, 30, 116, 0.4);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder .icon{
+  width: 1.6em;
+  height: 1.6em;
+  position: absolute;
+  right: 11%;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder .icon i{
+  color: #642853;
+  transition: 0.15s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder input:not(:placeholder-shown) ~ .icon i{
+  color: rgba(255, 49, 128, 0);
+  text-shadow: 0px 0px 4px rgba(255, 49, 128, 0);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder input:focus ~ .icon i{
+  color: rgba(255, 49, 128, 0.7);
+  text-shadow: 0px 0px 4px rgba(255, 49, 128, 0.4);
+}
+
+
+
+
+
+
+
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder{
+  width: 100%;
+  height: 14%;
+  display: flex;
+  align-items: center;
+  padding-left: 1%;
+  opacity: 0;
+  transform: translateY(5em);
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0,0,.21,1),transform 0s linear 0.4s;
+}
+.form_overlay.open .form_background .ele_form .form_wraper .form .image_holder,.form_overlay.edit .form_background .ele_form .form_wraper .form .image_holder{
+  opacity: 1;
+  transform: translateY(0em);
+  pointer-events: all;
+  transition: all 1s cubic-bezier(0,0,.21,1) 0.51s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder .border{
+  width: 3px;
+  height: 105%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  transform-origin: center;
+  background: rgba(176,0,68,1);
+  transition: all 0.2s cubic-bezier(0,0,.21,1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder:hover .border{
+  transform: translateY(-50%) scaleX(1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder input{
+  width: 90%;
+  height: 90%;
+  padding-right: 6%;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder #image{
+  font-size: 1.25em;
+  padding-left: 1%;
+  font-weight: 600;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder label{
+  color: rgba(255, 255, 255, 0.15);
+  position: absolute;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0,0,.21,1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder input:focus + label,
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder input:not(:placeholder-shown) + label{
+  transform: translate(-10%,-90%) scale(0.8);
+  color: rgba(255, 30, 116, 0.7);
+  text-shadow: 0px 0px 4px rgba(255, 30, 116, 0.4);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder .icon{
+  width: 1.6em;
+  height: 1.6em;
+  position: absolute;
+  right: 11%;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder .icon i{
+  color: #642853;
+  transition: 0.15s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder input:not(:placeholder-shown) ~ .icon i{
+  color: rgba(255, 49, 128, 0);
+  text-shadow: 0px 0px 4px rgba(255, 49, 128, 0);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder input:focus ~ .icon i{
+  color: rgba(255, 49, 128, 0.7);
+  text-shadow: 0px 0px 4px rgba(255, 49, 128, 0.4);
+}
+
+
+
+
+
+
+
+
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder{
+  width: 90%;
+  height: 14.5%;
+  opacity: 0;
+  transform: translateY(5em);
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0,0,.21,1),transform 0s linear 0.4s;
+}
+.form_overlay.open .form_background .ele_form .form_wraper .form .rates_holder,.form_overlay.edit .form_background .ele_form .form_wraper .form .rates_holder{
+  opacity: 1;
+  transform: translateY(0em);
+  pointer-events: all;
+  transition: all 1s cubic-bezier(0,0,.21,1) 0.59s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder .rating_holder .border{
+  width: 3px;
+  height: 105%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  transform-origin: center;
+  background: rgba(176,0,68,1);
+  transition: all 0.2s cubic-bezier(0,0,.21,1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder .rating_holder:hover .border{
+  transform: translateY(-50%) scaleX(1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder .type_holder:hover .border{
+  transform: translateY(-50%) scaleX(1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder .section{
+  height: 100%;
+  width: 34%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 0.5%;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder .section #rating{
+  width: 85%;
+  height: 80%;
+  margin-left: 3.8%;
+  font-size: 1.6em;
+  padding-left: 2%;
+  font-weight: 600;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder .section label{
+  position: absolute;
+  left: 3.8%;
+  pointer-events: none;
+  font-size: 1.1em;
+  transition: color 0.2s cubic-bezier(0,0,.21,1),transform 0.2s cubic-bezier(0,0,.21,1);
+  color: rgba(255, 255, 255, 0.15);
+  font-weight: 600;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder input:focus + label,
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder input:not(:placeholder-shown) + label{
+  transform: translate(-10%,-90%) scale(0.8);
+  color: rgba(255, 30, 116, 0.7);
+  text-shadow: 0px 0px 4px rgba(255, 30, 116, 0.4);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder .section #types{
+  width: 90%;
+  height: 80%;
+  margin-left: 2.8%;
+  font-size: 1.1em;
+  padding-left: 1%;
+  font-weight: 600;
+}
+
+
+
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder .section .icon{
+  width: 1.6em;
+  height: 1.6em;
+  position: absolute;
+  right: 19%;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder .section .icon i{
+  color: #642853;
+  transition: 0.15s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder .section input:not(:placeholder-shown) ~ .icon i{
+  color: rgba(255, 49, 128, 0);
+  text-shadow: 0px 0px 4px rgba(255, 49, 128, 0);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder .section input:focus ~ .icon i{
+  color: rgba(255, 49, 128, 0.7);
+  text-shadow: 0px 0px 4px rgba(255, 49, 128, 0.4);
+}
+
+
+
+
+
+
+
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder{
+  width: 70%;
+  height: 15%;
+  justify-content: flex-start;
+
+  opacity: 0;
+  transform: translateY(5em);
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0,0,.21,1),transform 0s linear 0.4s;
+}
+.form_overlay.open .form_background .ele_form .form_wraper .form .button_holder,.form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder{
+  opacity: 1;
+  transform: translateY(1em);
+  pointer-events: all;
+  transition: all 1s cubic-bezier(0,0,.21,1) 0.68s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt{
+  width: 12em;
+  height: 100%;
+  background: #3A1838;
   border: none;
   outline: none;
-  background: none;
-  width: 74%;
-  margin-left: 4.3em;
-  padding: 0.2em;
-  position: absolute;
-  color: rgb(238, 48, 105);
-  text-shadow: 0px 0px 6px rgb(238, 48, 105, 0.5);
-  font-weight: 800;
-  font-size: 0.95em;
-}
-.ele_form .form_wraper .form .inputs .data .children_wraper .children input::placeholder{
-  color: rgba(119, 52, 100, 0.5);
-  text-shadow: 0px 0px 6px rgb(238, 48, 105, 0);
-  transition: all 0.25s ease-out;
-}
-.ele_form:hover .form_wraper .form .inputs .data .children_wraper .children input::placeholder{
-  color: rgba(238, 48, 105, 0.5);
-}
-
-
-
-
-
-
-.ele_form .form_wraper .form .inputs .data .children_wraper .children p{
-  position: absolute;
-  right: 2.2em;
-  color: rgba(119, 52, 100, 0.5);
-  font-family: 'Allerta Stencil', sans-serif;
-  font-size: 1.1em;
-  transition: all 0.25s;
-}
-.ele_form:hover .form_wraper .form .inputs .data .children_wraper .children p{
-  color: rgba(238, 48, 105, 0.5);
-}
-.ele_form .form_wraper .form .inputs .data .children_wraper .children:hover p{
-  color: rgba(238, 48, 105, 1);
-}
-.ele_form .form_wraper .form .inputs .data .children_wraper .children input[type=range]{
-  width: 60%;
-  opacity: 1;
-  transition: all 0.15s ease-out;
-}
-.ele_form .form_wraper .form .inputs .data .children_wraper .children:hover input[type=range]{
-  opacity: 1;
-}
-input[type=range]{
-  -webkit-appearance: none;
-  width: 100%;
-  background: transparent;
-}
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-}
-input[type=range]:focus {
-  outline: none;
-}
-input[type=range]::-ms-track {
-  width: 60%;
+  border-radius: 7px;
   cursor: pointer;
-  background: transparent; 
-  border-color: transparent;
-  color: transparent;
+  display: none;
+  pointer-events: none;
 }
-input[type=range]::-webkit-slider-thumb {
-  height: 1.6em;
-  width: 5px;
-  background: rgba(119, 52, 100, 0.5);
-  cursor: pointer;
-  margin-top: -0.7em;
-  transition:all 0.15s ease-out;
-}
-input[type=range]::-webkit-slider-runnable-track {
-  width: 60%;
-  height: 4px;
-  cursor: pointer;
-  background: rgba(119, 52, 100, 0.5);
-  transition:all 0.25s ease-out;
-}
-.ele_form:hover .form_wraper .form .inputs .data .children_wraper .children input[type=range]::-webkit-slider-thumb {
-  background: rgba(238, 48, 105, 0.5);
-}
-.ele_form:hover .form_wraper .form .inputs .data .children_wraper .children input[type=range]::-webkit-slider-runnable-track {
-  background: rgba(238, 48, 105, 0.5);
-}
-.ele_form .form_wraper .form .inputs .data .children_wraper .children:hover input[type=range]::-webkit-slider-thumb {
-  background: rgba(238, 48, 105, 0.9);
-}
-.ele_form .form_wraper .form .inputs .data .children_wraper .children:hover input[type=range]::-webkit-slider-runnable-track {
-  background: rgba(238, 48, 105, 0.9);
-}
-
-/* img -----------------------------------------------------------------------------------------------------------*/
-
-.ele_form .form_wraper .form .inputs .img{
-  width: 32%; height: 100%;
-}
-.ele_form .form_wraper .form .inputs .img .img_background{
-  width: 95%;
-  height: 95%;
-  background: #351633;
-  border-radius: 6px;
+.form_overlay.open .form_background .ele_form .form_wraper .form .button_holder .submit_butt{
   display: flex;
-  justify-content: center;
-  position: relative;
+  pointer-events: all;
 }
-.ele_form .form_wraper .form .inputs .img .img_background > p{
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 50%;
-  color: rgb(119, 52, 100);
-  font-weight: 800;
-  text-align: center;
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt p{
+  color: #773464;
+  font-weight: 600;
+  font-size: 1.2em;
+  margin-left: -0.1em;
+  transition: all 0.15s;
 }
-.ele_form .form_wraper .form .inputs .img .img_background .img_wraper{
-  width: 92%;
-  height: 89%;
-  margin-top: 0.5em;
-  border-radius: 5px;
-  overflow: hidden;
-  z-index: 2;
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt:hover p{
+  color: rgba(255, 50, 128, 0.8);
 }
-.ele_form .form_wraper .form .inputs .img .img_background .img_wraper img{width: 100%; opacity: 0.9;}
-.ele_form .form_wraper .form .inputs .img .img_background .name_parent{
- width: 100%;
- height: 2em;
- position: absolute;
- bottom: -1em;
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt .svg-icon{
+  height: 65%;
+  padding: 0.1em;
+  margin-right: 0.5em;
 }
-.ele_form .form_wraper .form .inputs .img .img_background .name_parent p{
-  color: rgb(119, 52, 100);
-  width: 100%;
-  font-family: 'Allerta Stencil', sans-serif;
-  font-size: 1.1em;
-  text-align: center;
-  line-height: 0.8em;
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt .svg-icon path{
+  fill:#773464;
+  transition: all 0.15s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt:hover .svg-icon path{
+  fill:rgba(255, 50, 128, 0.8);
 }
 
 
-/* -- buttons ------------------------------------------------------------------------------------------------------------*/
 
-.ele_form .form_wraper .form .buttons{
-  width: 65%; height: 12%;
-  justify-content: space-evenly;
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt{
+  width: 12em;
+  height: 100%;
+  background: #3A1838;
+  border: none;
+  outline: none;
+  border-radius: 7px;
+  cursor: pointer;
+  display: none;
+  pointer-events: none;
 }
+.form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder .edit_butt{
+  display: flex;
+  pointer-events: all;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt p{
+  color: #773464;
+  font-weight: 600;
+  font-size: 1.2em;
+  margin-left: -0.1em;
+  transition: all 0.15s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt:hover p{
+  color: rgba(255, 160, 35, 0.9);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt .svg-icon{
+  height: 65%;
+  padding: 0.2em;
+  margin-right: 0.5em;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt .svg-icon path{
+  fill:#773464;
+  transition: all 0.15s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt:hover .svg-icon path{
+  fill:rgba(255, 160, 35, 1);
+}
+
+
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt{
+  width: 12em;
+  height: 100%;
+  margin-left: 3em;
+  border: none;
+  outline: none;
+  border-radius: 7px;
+  cursor: pointer;
+  display: none;
+  pointer-events: none;
+}
+.form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder .delete_butt{
+  display: flex;
+  pointer-events: all;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt p{
+  color: #773464;
+  font-weight: 600;
+  font-size: 1.2em;
+  margin-left: -0.1em;
+  transition: all 0.15s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt:hover p{
+  color: rgba(247, 62, 16, 0.9);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt .svg-icon{
+  height: 65%;
+  padding: 0.2em;
+  margin-right: 0.5em;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt .svg-icon path{
+  fill:#773464;
+  transition: all 0.15s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt:hover .svg-icon path{
+  fill:rgba(247, 62, 16, 0.9);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .ele_form .form_wraper .form .buttons .loader{
   position: absolute;
   width: 2.5em;
   height: 2.5em;
   opacity: 0;
   transition: all 0.2s ease-out;
+  pointer-events: none;
 }
 .ele_form .form_wraper .form .buttons .loader.load{
   opacity: 1;
@@ -1591,6 +1954,11 @@ input[type=range]::-webkit-slider-runnable-track {
   justify-content: center;
   align-items: flex-start;
   padding-bottom: 7em;
+  transition: all 0.4s ease-in-out;
+  opacity: 1;
+}
+.web_parent .body .movie_list.updating{
+  opacity: 0;
 }
 .web_parent .body .movie_list .add_butt{
   width: 7em;
@@ -1766,7 +2134,7 @@ input[type=range]::-webkit-slider-runnable-track {
   top: 3.5%;
   width: 91%;
   height: 85%;
-  transition: all 0.9s ease-in-out;
+  transition: height 0.9s ease-in-out;
   z-index: 11;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .image_wraper{height: 55%;}

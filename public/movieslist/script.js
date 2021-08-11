@@ -56,6 +56,15 @@ function randomNumber(min, max) {
 
 
 //------------------------------------------------------------------------------------------------------------
+let scrollMethods;
+function scrollIntoView(){
+  scrollMethods.scrollIntoView(document.querySelector('.body'), {
+    offsetLeft: 0,
+    offsetTop: 0,
+    alignToTop: true,
+    onlyScrollIfNeeded: false
+  });
+}
 function handleScrolling () {
   webParent = document.querySelector(".web_parent");
   let Scrollbar = window.Scrollbar;
@@ -86,18 +95,18 @@ function handleScrolling () {
     }
   }
   Scrollbar.use(EdgeEasingPlugin);
-  const scrollMethods = Scrollbar.init(webParent,opt);
+  scrollMethods = Scrollbar.init(webParent,opt);
+
+  
 
   sendTop.addEventListener("click",()=>{
-    // scrollMethods.scrollTo(0, window.innerHeight + 100, undefined,{
-    //   callback: (e) => console.log(e),//code for later
+    // scrollMethods.scrollIntoView(document.querySelector('.body'), {
+    //   offsetLeft: 0,
+    //   offsetTop: 0,
+    //   alignToTop: true,
+    //   onlyScrollIfNeeded: false
     // });
-    scrollMethods.scrollIntoView(document.querySelector('.body'), {
-      offsetLeft: 0,
-      offsetTop: 0,
-      alignToTop: true,
-      onlyScrollIfNeeded: false
-    });
+    scrollIntoView();
   })
 
   const root = document.documentElement;
@@ -107,6 +116,10 @@ function handleScrolling () {
     leftNavMapping(offset,root);
     toggleScrollText(offset);
     leftNavUpdate(offset)
+
+
+
+
 
   });
 };
@@ -194,19 +207,24 @@ options.forEach(x=>x.addEventListener("click",()=>{
     y.classList.remove("active");
   })
   x.classList.add("active");
-
-
   if(x.dataset.mode === "home"){
+    if(movieList.dataset.mode === "home"){
+      movieList.classList.remove("edit_mode");
+      return;
+    }
+    movieList.dataset.mode = "home";
     displayAll();
   }
-
   if(x.dataset.mode === "bookmark"){
-  let list = bookmarkFilter();
-    for(let i = 0;i<list.length;i++){
-      list[i].eleWraper.style.display = "none";
-    }
+    let list = bookmarkFilter();
+    movieListUpdate()
+    .then(()=>{
+      for(let i = 0;i<list.length;i++){
+        list[i].eleWraper.style.display = "none";
+      }
+    })
+    movieList.dataset.mode = "bookmark";
   }
-
   if(x.dataset.mode === "edit"){
     movieList.classList.add("edit_mode");
   }else{
@@ -433,9 +451,12 @@ function bookmarkFilter(){
   return bookmarks
 }
 function displayAll(){
-  for(let i = 0;i<movieObject.length;i++){
-    movieObject[i].eleWraper.style.display = "flex"
-  }
+  movieListUpdate()
+  .then(()=>{
+    for(let i = 0;i<movieObject.length;i++){
+      movieObject[i].eleWraper.style.display = "flex"
+    }
+  })
 }
 
 
@@ -455,6 +476,8 @@ getFetch("/eleinfo")
     movieObject[i].addeventlistener();
   }
   namesTransitionDelay();
+
+  searchObj.searchLister();
 })
 .catch((err)=>{
   if(err){
@@ -607,18 +630,44 @@ class Film {
 
 
       if(e.target.dataset.bookmark === "false"){
-        e.target.dataset.bookmark = "true";
-        this.bookmark = true;
-        this.eleWraper.classList.add("fav");
+        let body = {
+          name:this.name,
+          bookmark:true
+        }
+        postFetch("mockFavEdit",body)
+        .then(permition=>{
+          if(permition){
+            e.target.dataset.bookmark = "true";
+            this.bookmark = true;
+            this.eleWraper.classList.add("fav");
+          }else{
+            console.log("something went wrong trying to edit favorites");
+          }
+        })
+        .catch(reason=>{
+          console.log(`favorite rejected because ${reason}`);
+        })
       }else if (e.target.dataset.bookmark === "true"){
-        e.target.dataset.bookmark = "false";
-        this.bookmark = false;
-        this.eleWraper.classList.remove("fav");
+        let body = {
+          name:this.name,
+          bookmark:false
+        }
+        postFetch("mockFavEdit",body)
+        .then(permition=>{
+          if(permition){
+            e.target.dataset.bookmark = "false";
+            this.bookmark = false;
+            this.eleWraper.classList.remove("fav");
+          }else{
+            console.log("something went wrong trying to edit favorites");
+          }
+        })
+        .catch(reason=>{
+          console.log(`favorite rejected because ${reason}`);
+        })
       }else{
         this.eleWraper.classList.toggle("toggled");
       }
-
-      
     })
   }
   hidden(){
@@ -658,29 +707,28 @@ class Film {
 class Form {
   constructor(){
     this.formOverlay = document.querySelector(".form_overlay");
-    this.wraper = document.querySelector(".ele_form");
-    this.form = document.querySelector(".form");
+    // this.wraper = document.querySelector(".ele_form");
+    // this.form = document.querySelector(".form");
 
-    this.name = this.form.querySelector("#name");
-    this.link = this.form.querySelector("#link");
-    this.img = this.form.querySelector("#img");
-    this.genre = this.form.querySelector("#genre");
-    this.rating = this.form.querySelector("#rating");
-    this.ratingValue = this.form.querySelector(".range_value");
-    this.nameValue = this.form.querySelector(".name_value");
-    this.imgValue = document.querySelector(".img_value");
+    // this.name = this.form.querySelector("#name");
+    // this.link = this.form.querySelector("#link");
+    // this.img = this.form.querySelector("#img");
+    // this.genre = this.form.querySelector("#genre");
+    // this.rating = this.form.querySelector("#rating");
+    // this.ratingValue = this.form.querySelector(".range_value");
+    // this.nameValue = this.form.querySelector(".name_value");
+    // this.imgValue = document.querySelector(".img_value");
 
     this.openButt = document.querySelector(".add_butt");
     this.closeButt = document.querySelector(".remove_butt");
 
 
-    this.buttons = this.form.querySelector(".buttons_wraper");
-    this.loader = this.form.querySelector(".loader");
-    this.submitButt = this.form.querySelector(".submit_butt");
-    this.editButt = this.form.querySelector(".edit_butt");
-    this.deleteButt = this.form.querySelector(".delete_butt");
+    // this.buttons = this.form.querySelector(".buttons_wraper");
+    // this.loader = this.form.querySelector(".loader");
+    // this.submitButt = this.form.querySelector(".submit_butt");
+    // this.editButt = this.form.querySelector(".edit_butt");
+    // this.deleteButt = this.form.querySelector(".delete_butt");
 
-    // this.element;
   }
 
 
@@ -688,138 +736,139 @@ class Form {
 
   eventListener(){
     this.closeButt.addEventListener("click",()=>{
-      this.wraper.classList.remove("open");
-      this.wraper.classList.remove("edit");
+      // this.wraper.classList.remove("open");
+      // this.wraper.classList.remove("edit");
+      // this.formOverlay.classList.remove("open");
+      // form.clear();
       this.formOverlay.classList.remove("open");
-      form.clear();
+      this.formOverlay.classList.remove("edit");
     })
     this.openButt.addEventListener("click",()=>{
-      this.wraper.classList.add("open");
       this.formOverlay.classList.add("open");
     })
 
-    this.editButt.addEventListener("click",()=>{
-      this.loader.classList.add("load");
-      this.buttons.classList.remove("load");
+  //   this.editButt.addEventListener("click",()=>{
+  //     this.loader.classList.add("load");
+  //     this.buttons.classList.remove("load");
 
-      let data = {
-        data:{
-          name:this.element.name,
-          link:this.element.link,
-          img:this.element.img,
-          genre:this.element.genre,
-          rating:this.element.rating,
-          bookmark:this.element.bookmark
-        },
-        updatedData:{
-          name:this.name.value,
-          link:this.link.value,
-          img:this.img.value,
-          genre:this.genre.value,
-          rating:this.rating.value,
-          bookmark:this.element.bookmark
-        }
-      }
-      postFetch("/mockUserEdit",data)
-      .then((permition)=>{
-        if(permition){
-          this.element.name = data.updatedData.name,
-          this.element.link = data.updatedData.link,
-          this.element.img = data.updatedData.img,
-          this.element.genre = data.updatedData.genre,
-          this.element.rating = data.updatedData.rating,
-          this.element.bookmark = data.updatedData.bookmark
-        }
-        this.element.mapName();
-        this.element.updateMovie();
-        namesTransitionDelay();
-      })
-      .then(()=>{
-        this.wraper.classList.remove("open");
-        this.wraper.classList.remove("edit");
-        this.formOverlay.classList.remove("open");
-        this.loader.classList.remove("load");
-        this.buttons.classList.add("load");
-        form.clear();
-      })
-      console.log("edit clicked");
-    })
+  //     let data = {
+  //       data:{
+  //         name:this.element.name,
+  //         link:this.element.link,
+  //         img:this.element.img,
+  //         genre:this.element.genre,
+  //         rating:this.element.rating,
+  //         bookmark:this.element.bookmark
+  //       },
+  //       updatedData:{
+  //         name:this.name.value,
+  //         link:this.link.value,
+  //         img:this.img.value,
+  //         genre:this.genre.value,
+  //         rating:this.rating.value,
+  //         bookmark:this.element.bookmark
+  //       }
+  //     }
+  //     postFetch("/mockUserEdit",data)
+  //     .then((permition)=>{
+  //       if(permition){
+  //         this.element.name = data.updatedData.name,
+  //         this.element.link = data.updatedData.link,
+  //         this.element.img = data.updatedData.img,
+  //         this.element.genre = data.updatedData.genre,
+  //         this.element.rating = data.updatedData.rating,
+  //         this.element.bookmark = data.updatedData.bookmark
+  //       }
+  //       this.element.mapName();
+  //       this.element.updateMovie();
+  //       namesTransitionDelay();
+  //     })
+  //     .then(()=>{
+  //       this.wraper.classList.remove("open");
+  //       this.wraper.classList.remove("edit");
+  //       this.formOverlay.classList.remove("open");
+  //       this.loader.classList.remove("load");
+  //       this.buttons.classList.add("load");
+  //       form.clear();
+  //     })
+  //     console.log("edit clicked");
+    // })
 
-    this.deleteButt.addEventListener("click",()=>{
-      this.loader.classList.add("load");
-      this.buttons.classList.remove("load");
-      let data = {
-        name:this.element.name,
-        link:this.element.link,
-        img:this.element.img,
-        genre:this.element.genre,
-        rating:this.element.rating,
-        bookmark:this.element.bookmark
-      }
-      postFetch("/mockUserDelete",data)
-      .then((permition)=>{
-        if(permition){
-          movieWraper.removeChild(this.element.eleWraper);
-          let eleIndex = movieObject.findIndex(({name})=>{
-            return name === data.name; 
-          })
-          movieObject.splice(eleIndex,1);
-        }else{
-          console.log("MOVIE HAS NOT BEEN DELETED!!!");
-        }
-      })
-      .then(()=>{
-        this.wraper.classList.remove("open");
-        this.wraper.classList.remove("edit");
-        this.formOverlay.classList.remove("open");
-        this.loader.classList.remove("load");
-        this.buttons.classList.add("load");
-        form.clear();
-      })
-      console.log("delete clicked");
-    })
+  //   this.deleteButt.addEventListener("click",()=>{
+  //     this.loader.classList.add("load");
+  //     this.buttons.classList.remove("load");
+  //     let data = {
+  //       name:this.element.name,
+  //       link:this.element.link,
+  //       img:this.element.img,
+  //       genre:this.element.genre,
+  //       rating:this.element.rating,
+  //       bookmark:this.element.bookmark
+  //     }
+  //     postFetch("/mockUserDelete",data)
+  //     .then((permition)=>{
+  //       if(permition){
+  //         movieWraper.removeChild(this.element.eleWraper);
+  //         let eleIndex = movieObject.findIndex(({name})=>{
+  //           return name === data.name; 
+  //         })
+  //         movieObject.splice(eleIndex,1);
+  //       }else{
+  //         console.log("MOVIE HAS NOT BEEN DELETED!!!");
+  //       }
+  //     })
+  //     .then(()=>{
+  //       this.wraper.classList.remove("open");
+  //       this.wraper.classList.remove("edit");
+  //       this.formOverlay.classList.remove("open");
+  //       this.loader.classList.remove("load");
+  //       this.buttons.classList.add("load");
+  //       form.clear();
+  //     })
+  //     console.log("delete clicked");
+  //   })
 
-    this.form.addEventListener("submit",(e)=>{
-      this.loader.classList.add("load");
-      this.buttons.classList.remove("load");
-      e.preventDefault();
-      let data = {
-        name:this.name.value,
-        link:this.link.value,
-        img:this.img.value,
-        genre:this.genre.value,
-        rating:this.rating.value,
-        bookmark:false
-      };
-      this.submit(data);
-      console.log("submit clicked");
-    })
+  //   this.form.addEventListener("submit",(e)=>{
+  //     this.loader.classList.add("load");
+  //     this.buttons.classList.remove("load");
+  //     e.preventDefault();
+  //     let data = {
+  //       name:this.name.value,
+  //       link:this.link.value,
+  //       img:this.img.value,
+  //       genre:this.genre.value,
+  //       rating:this.rating.value,
+  //       bookmark:false
+  //     };
+  //     this.submit(data);
+  //     console.log("submit clicked");
+  //   })
 
-    function handleUpdate () {
-      form.ratingValue.innerHTML = this.value;
-    }
-    this.rating.addEventListener('change', handleUpdate);
-    this.rating.addEventListener('mousemove', handleUpdate);
+  //   function handleUpdate () {
+  //     form.ratingValue.innerHTML = this.value;
+  //   }
+  //   this.rating.addEventListener('change', handleUpdate);
+  //   this.rating.addEventListener('mousemove', handleUpdate);
 
-    this.name.addEventListener("input",()=>{
-      this.nameValue.innerHTML = this.name.value;
-    })
+  //   this.name.addEventListener("input",()=>{
+  //     this.nameValue.innerHTML = this.name.value;
+  //   })
     
-    this.formOverlay.addEventListener("click",(e)=>{
-      if(e.target === this.formOverlay){
-        this.wraper.classList.remove("open");
-        this.wraper.classList.remove("edit");
-        this.formOverlay.classList.remove("open");
-      }
-    })
+  //   this.formOverlay.addEventListener("click",(e)=>{
+  //     if(e.target === this.formOverlay){
+  //       this.wraper.classList.remove("open");
+  //       this.wraper.classList.remove("edit");
+  //       this.formOverlay.classList.remove("open");
+  //     }
+  //   })
 
-    this.img.addEventListener("change",()=>{
-      let url = this.img.value
-      function checkimg(url) {
-        form.imgValue.src = url;
-      }
-      checkimg(url)
-    })
+  //   this.img.addEventListener("change",()=>{
+  //     let url = this.img.value
+  //     function checkimg(url) {
+  //       form.imgValue.src = url;
+  //     }
+  //     checkimg(url)
+  //   })
 
   }
 
@@ -828,64 +877,165 @@ class Form {
 
 
 
-  submit(body){
-    postFetch("/mockUserAdd",body)
-    .then((data)=>{
-      if(data){
-        movieObject.push(new Film(body));
-        movieWraper.innerHTML = "";
-        movieObject[movieObject.length-1].mapName();
-        movieObject[movieObject.length-1].buildMovie();
-      }
-    })
-    .then(()=>{
-      for(let i = movieObject.length-1;i >= 0; i--){
-        movieObject[i].display();
-      }
-      movieObject[movieObject.length-1].addeventlistener();
-      namesTransitionDelay();
+  // submit(body){
+  //   postFetch("/mockUserAdd",body)
+  //   .then((data)=>{
+  //     if(data){
+  //       movieObject.push(new Film(body));
+  //       movieWraper.innerHTML = "";
+  //       movieObject[movieObject.length-1].mapName();
+  //       movieObject[movieObject.length-1].buildMovie();
+  //     }
+  //   })
+  //   .then(()=>{
+  //     for(let i = movieObject.length-1;i >= 0; i--){
+  //       movieObject[i].display();
+  //     }
+  //     movieObject[movieObject.length-1].addeventlistener();
+  //     namesTransitionDelay();
 
-      this.wraper.classList.remove("open");
-      this.wraper.classList.remove("edit");
-      this.formOverlay.classList.remove("open");
-      this.loader.classList.remove("load");
-      this.buttons.classList.add("load");
-      form.clear();
-    })
-  }
+  //     this.wraper.classList.remove("open");
+  //     this.wraper.classList.remove("edit");
+  //     this.formOverlay.classList.remove("open");
+  //     this.loader.classList.remove("load");
+  //     this.buttons.classList.add("load");
+  //     form.clear();
+  //   })
+  // }
   edit(object,film){
-    this.name.value = object.name;
-    this.link.value = object.link;
-    this.img.value = object.img;
-    this.genre.value = object.genre;
-    this.rating.value = object.rating;
-    this.ratingValue.innerHTML = object.rating;
-    this.nameValue.innerHTML = object.name;
-    this.imgValue.src = object.img;
+    // this.name.value = object.name;
+    // this.link.value = object.link;
+    // this.img.value = object.img;
+    // this.genre.value = object.genre;
+    // this.rating.value = object.rating;
+    // this.ratingValue.innerHTML = object.rating;
+    // this.nameValue.innerHTML = object.name;
+    // this.imgValue.src = object.img;
 
-    this.element = film;
-    this.wraper.classList.add("edit");
-    this.formOverlay.classList.add("open");
-    this.wraper.classList.remove("open");
+    // this.element = film;
+
+    this.formOverlay.classList.add("edit");
+    // this.wraper.classList.add("edit");
+    // this.formOverlay.classList.add("open");
+    // this.wraper.classList.remove("open");
   }
-  clear(){
-    setTimeout(() => {
-      this.name.value = "";
-      this.link.value = "";
-      this.img.value = "";
-      this.genre.value = "";
-      this.rating.value = 0;
-      this.ratingValue.innerHTML = "0";
-      this.imgValue.src = "";
-      this.nameValue.innerHTML = "";
-    }, 100);
-  }
+  // clear(){
+  //   setTimeout(() => {
+  //     this.name.value = "";
+  //     this.link.value = "";
+  //     this.img.value = "";
+  //     this.genre.value = "";
+  //     this.rating.value = 0;
+  //     this.ratingValue.innerHTML = "0";
+  //     this.imgValue.src = "";
+  //     this.nameValue.innerHTML = "";
+  //   }, 100);
+  // }
 }
 let form = new Form();
 form.eventListener();
 
 
 
+
+
+
+function movieListUpdate() {
+  movieList.classList.add("updating");
+  return new Promise ((res,rej)=>{
+    scrollIntoView()
+    setTimeout(() => {
+      movieList.classList.remove("updating");
+      res(true)
+    }, 600);
+  })
+}
+
+
+
+
+
+
+class searchBar {
+  constructor(){
+    this.input = document.querySelector("#search");
+    this.inputResult = document.querySelector(".input_result")
+    this.resultWraper = document.querySelector(".result_wraper");
+  }
+
+  find(nameValue,array){
+    return array.filter((obj) => {
+      const regex = new RegExp(nameValue, "gi");
+      return obj.name.match(regex);
+    });
+  }
+
+
+  searchLister(){
+    this.input.addEventListener("focus",()=>{
+      this.inputResult.classList.add("focus");
+    })
+    this.input.addEventListener("blur",()=>{
+      this.inputResult.classList.remove("focus");
+    })
+    this.input.addEventListener("keypress",(e)=>{
+      if(e.key === "Enter"){
+        movieListUpdate()
+        .then(()=>{
+          let elt = searchObj.find(this.input.value,movieObject);
+          for(let i = 0;i<movieObject.length;i++){
+            movieObject[i].eleWraper.style.display = "none"
+          }
+          for(let i = 0;i<elt.length;i++){
+            elt[i].eleWraper.style.display = "flex"
+          }
+          this.inputResult.classList.remove("focus");
+          this.input.blur();
+          this.input.value = "";
+        })
+      }
+    })
+    this.input.addEventListener("input",()=>{
+      console.log(this.input.value);
+      if (this.input.value !== "") {
+        let citiesArr = searchObj.find(this.input.value,movieObject);
+        let html = citiesArr
+          .map((x) => {
+            return `
+            <div class="ele_search">
+              <p>${x.name}</p>
+            </div>`;
+          })
+          .join(" ");
+          document.querySelector(".result_wraper").innerHTML = html;
+      } else {
+        document.querySelector(".result_wraper").innerHTML = "";
+      }
+      searchObj.eleListeners();
+    });
+  }
+
+
+  eleListeners(){
+    let eleSearch = document.querySelectorAll(".ele_search");
+    eleSearch.forEach((x)=>{
+      x.addEventListener("mousedown",()=>{
+        this.input.value = x.children[0].innerText;
+        this.inputResult.classList.remove("focus");
+        let elt = searchObj.find(this.input.value,movieObject);
+        movieListUpdate()
+        .then(()=>{
+          for(let i = 0;i<movieObject.length;i++){
+            movieObject[i].eleWraper.style.display = "none"
+          }
+          console.log(elt);
+          elt[0].eleWraper.style.display = "flex";
+        })
+      })
+    })
+  }
+}
+let searchObj = new searchBar()
 
 
 
@@ -922,28 +1072,6 @@ debug.addEventListener("click",()=>{
     }
   })
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

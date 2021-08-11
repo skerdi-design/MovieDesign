@@ -68,12 +68,131 @@
       <div class="search_input">
         <input type="text" id="search" autocomplete="off" placeholder=" ">
         <label for="search">search</label>
+
+        <div class="input_result">
+          <div class="result_wraper">
+            <!-- <div class="ele_search">
+              <p>Option 1</p>
+            </div> -->
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 
-  <div class="form_overlay">
-    <div class="ele_form flex_middle">
+  <div class="form_overlay open flex_middle">
+    
+    <div class="border_wraper">
+      <div class="border vertical top left"></div>
+      <div class="border vertical top right"></div>
+      <div class="border vertical bottom left"></div>
+      <div class="border vertical bottom right"></div>
+      <div class="border horizontal top left"></div>
+      <div class="border horizontal top right"></div>
+      <div class="border horizontal bottom left"></div>
+      <div class="border horizontal bottom right"></div>
+    </div>
+
+    <div class="form_background">
+      <div class="ele_form">
+
+        <div class="remove_butt flex_middle">
+          <svg class="svg-icon" viewBox="0 0 20 20">
+            <path d="M18.271,9.212H3.615l4.184-4.184c0.306-0.306,0.306-0.801,0-1.107c-0.306-0.306-0.801-0.306-1.107,0
+            L1.21,9.403C1.194,9.417,1.174,9.421,1.158,9.437c-0.181,0.181-0.242,0.425-0.209,0.66c0.005,0.038,0.012,0.071,0.022,0.109
+            c0.028,0.098,0.075,0.188,0.142,0.271c0.021,0.026,0.021,0.061,0.045,0.085c0.015,0.016,0.034,0.02,0.05,0.033l5.484,5.483
+            c0.306,0.307,0.801,0.307,1.107,0c0.306-0.305,0.306-0.801,0-1.105l-4.184-4.185h14.656c0.436,0,0.788-0.353,0.788-0.788
+            S18.707,9.212,18.271,9.212z"></path>
+          </svg>
+        </div>
+
+        <div class="img_wraper flex_middle">
+          <p class="time">JUN. 16 2021</p>
+          <div class="img_background">
+            <div class="img_container flex_middle">
+              <img src="https://wallpapercave.com/wp/wp4056407.jpg" alt="">
+            </div>
+            <div class="name">
+              <p>dark</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form_wraper">
+          <form action="" class="form" method="POST">
+            <div class="children title_holder">
+              <div class="border"></div>
+              <div class="section">
+                <input type="text" id="name" name="Title" placeholder=" " autocomplete="off">
+                <label for="name" id="name">Title:</label>
+                <div class="icon flex_middle"><i class="fas fa-pen"></i></div>
+              </div>
+              <div class="section">
+                <input type="text" id="genre" name="Genre" placeholder=" " autocomplete="off">
+                <label for="genre" id="genre">Genre:</label>
+                <div class="icon flex_middle"><i class="fas fa-pen"></i></div>
+              </div>
+            </div>
+            <div class="children link_holder">
+              <div class="border"></div>
+              <input type="text" placeholder=" " id="link" name="Link" autocomplete="off">
+              <label for="link" id="link">Link:</label>
+              <div class="icon flex_middle"><i class="fas fa-pen"></i></div>
+            </div>
+            <div class="children image_holder">
+              <div class="border"></div>
+              <input type="text" placeholder=" " id="image" name="Image" autocomplete="off">
+              <label for="image" id="image">Image:</label>
+              <div class="icon flex_middle"><i class="fas fa-pen"></i></div>
+            </div>
+            <div class="children rates_holder">
+              <div class="section rating_holder">
+                <div class="border"></div>
+                <input type="number" placeholder=" " min="1" max="10" step="0.1" name="Rating" id="rating">
+                <label for="rating">Rating: 0-10</label>
+                <div class="icon flex_middle"><i class="fas fa-pen"></i></div>
+              </div>
+              <div class="section type_holder rating_holder flex_middle">
+                <div class="border"></div>
+                <input list="type" type="text" placeholder=" " name="Type" id="types">
+                <label for="types">Type:</label>
+                <div class="icon flex_middle"><i class="fas fa-pen"></i></div>
+                <datalist id="type">
+                  <option value="Movie"></option>
+                  <option value="Series"></option>
+                  <option value="Anime"></option>
+                </datalist>
+              </div>
+            </div>
+            <div class="children button_holder">
+              <button type="submit" class="submit_butt flex_middle">
+                <svg class="svg-icon" viewBox="0 0 20 20">
+                  <path d="M14.613,10c0,0.23-0.188,0.419-0.419,0.419H10.42v3.774c0,0.23-0.189,0.42-0.42,0.42s-0.419-0.189-0.419-0.42v-3.774H5.806c-0.23,0-0.419-0.189-0.419-0.419s0.189-0.419,0.419-0.419h3.775V5.806c0-0.23,0.189-0.419,0.419-0.419s0.42,0.189,0.42,0.419v3.775h3.774C14.425,9.581,14.613,9.77,14.613,10 M17.969,10c0,4.401-3.567,7.969-7.969,7.969c-4.402,0-7.969-3.567-7.969-7.969c0-4.402,3.567-7.969,7.969-7.969C14.401,2.031,17.969,5.598,17.969,10 M17.13,10c0-3.932-3.198-7.13-7.13-7.13S2.87,6.068,2.87,10c0,3.933,3.198,7.13,7.13,7.13S17.13,13.933,17.13,10"></path>
+                </svg>
+                <p>Add Movie</p>
+              </button>
+              <div type="submit" class="edit_butt flex_middle">
+                <svg class="svg-icon" viewBox="0 0 20 20">
+                  <path d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"></path>
+                </svg>
+                <p>Edit Movie</p>
+              </div>
+              <div type="submit" class="delete_butt flex_middle">
+                <svg class="svg-icon" viewBox="0 0 20 20">
+                  <path d="M17.114,3.923h-4.589V2.427c0-0.252-0.207-0.459-0.46-0.459H7.935c-0.252,0-0.459,0.207-0.459,0.459v1.496h-4.59c-0.252,0-0.459,0.205-0.459,0.459c0,0.252,0.207,0.459,0.459,0.459h1.51v12.732c0,0.252,0.207,0.459,0.459,0.459h10.29c0.254,0,0.459-0.207,0.459-0.459V4.841h1.511c0.252,0,0.459-0.207,0.459-0.459C17.573,4.127,17.366,3.923,17.114,3.923M8.394,2.886h3.214v0.918H8.394V2.886z M14.686,17.114H5.314V4.841h9.372V17.114z M12.525,7.306v7.344c0,0.252-0.207,0.459-0.46,0.459s-0.458-0.207-0.458-0.459V7.306c0-0.254,0.205-0.459,0.458-0.459S12.525,7.051,12.525,7.306M8.394,7.306v7.344c0,0.252-0.207,0.459-0.459,0.459s-0.459-0.207-0.459-0.459V7.306c0-0.254,0.207-0.459,0.459-0.459S8.394,7.051,8.394,7.306"></path>
+                </svg>
+                <p>Remove</p>
+              </div>
+            </div> 
+
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- <div class="ele_form flex_middle">
       <div class="border_wraper">
         <div class="border vertical top left"></div>
         <div class="border vertical top right"></div>
@@ -140,7 +259,6 @@
                 <p>Image Preview</p>
                 <div class="img_wraper flex_middle">
                   <img class="img_value" src="" alt="">
-                  <!-- https://wallpapercave.com/wp/wp4056407.jpg -->
                 </div>
                 <div class="name_parent flex_middle">
                   <p class="name_value"></p>
@@ -207,7 +325,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
   
 
@@ -393,7 +511,7 @@
 
 
 
-      <div class="movie_list">
+      <div class="movie_list" data-mode="home">
         <div class="add_butt">
           <div class="wraper flex_middle">
             <svg class="svg-icon" viewBox="0 0 20 20">

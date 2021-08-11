@@ -255,5 +255,27 @@ function debugUser (name,email,pass) {
     })
 }
 
+function editFav(ele){
+    return  new Promise((res,rej)=>{
+        db.find({username:"devil"},(err,docs)=>{
+            if(err)throw err;
+            if(docs.length == 1){
+                let index = docs[0].movies.findIndex(({name})=>{
+                    return name == ele.name;
+                })
+                // docs[0].movies[index]
+                docs[0].movies[index].bookmark = ele.bookmark;
+                db.update({username:"devil"},{ $set: {movies:docs[0].movies}},{},(err,numReplaced)=>{
+                    if(err)throw err;
+                    res(true);
+                })
+            }else{
+                rej(true);
+            };
+        });
+        db.persistence.compactDatafile();
+    });
+}
 
-module.exports = {findUser,authUser,allowUser,updateUser,updateFavorite,debugUser,debugData,debugMovie,deleteMovie,editMovie};
+
+module.exports = {findUser,authUser,allowUser,updateUser,updateFavorite,debugUser,debugData,debugMovie,deleteMovie,editMovie,editFav};

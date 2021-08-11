@@ -3,7 +3,7 @@ const app = express();
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
 
-const {findUser,authUser,allowUser,updateUser,updateFavorite,debugUser,debugData,debugMovie,deleteMovie,editMovie} = require("./utils.js");
+const {findUser,authUser,allowUser,updateUser,updateFavorite,debugUser,debugData,debugMovie,deleteMovie,editMovie,editFav} = require("./utils.js");
 
 
 let user;
@@ -356,6 +356,21 @@ app.post("/mockUserDelete",(req,res)=>{
 
 app.post("/mockUserEdit",(req,res)=>{
     editMovie(req.body)
+    .then((data)=>{
+        if(data){
+            res.send(true);
+        }
+    })
+    .catch((reason)=>{
+        if(reason){
+            res.send(false);
+        }
+        res.send(null);
+    })
+})
+
+app.post("/mockFavEdit",(req,res)=>{
+    editFav(req.body)
     .then((data)=>{
         if(data){
             res.send(true);
