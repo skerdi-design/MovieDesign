@@ -7,8 +7,10 @@ const searchinput = document.querySelector(".search_input");
 const search = document.querySelector(".search");
 // web parent
 let webParent;
+const root = document.documentElement;
+let topOffset;
 //mapping left nav lines
-let mappedH,mappedS,mappedL,headScale,bodyScale;
+let mappedH,mappedS,mappedL,scale;
 //parallax images 
 const para1 = document.querySelector(".parallax_1");
 const para2 = document.querySelector(".parallax_2");
@@ -27,8 +29,6 @@ const options = document.querySelectorAll(".options");
 const Ball = document.querySelector(".lerp_ball");
 let ball = new mouseFollowCircle();
 
-
-let offset = 0;
 
 
 function lerp (start, end, amt){
@@ -97,31 +97,9 @@ function handleScrolling () {
   Scrollbar.use(EdgeEasingPlugin);
   scrollMethods = Scrollbar.init(webParent,opt);
 
-  
-
   sendTop.addEventListener("click",()=>{
-    // scrollMethods.scrollIntoView(document.querySelector('.body'), {
-    //   offsetLeft: 0,
-    //   offsetTop: 0,
-    //   alignToTop: true,
-    //   onlyScrollIfNeeded: false
-    // });
     scrollIntoView();
   })
-
-  const root = document.documentElement;
-  scrollMethods.addListener((info)=>{
-    offset = info.offset.y;
-
-    leftNavMapping(offset,root);
-    toggleScrollText(offset);
-    leftNavUpdate(offset)
-
-
-
-
-
-  });
 };
 
 
@@ -166,23 +144,20 @@ function toggleScrollText(x) {
 };
 
 function parallaxAnimation(x) {
-  text.style.transform = "translateY(" + x / 8.5 + "%)";
-  para1.style.transform = "translateY(" + x / 5.5 + "%)";
-  para2.style.transform = "translateY(" + x / 7 + "%)";
-  para3.style.transform = "translateY(" + x / 9 + "%)";
-  para4.style.transform = "translateY(" + x / 12 + "%)";
-  para5.style.transform = "translateY(" + x / 17 + "%)";
+  text.style.cssText = "transform:translateY(" + x / 8.5 + "%);";
+  para1.style.cssText = "transform:translateY(" + x / 5.5 + "%);";
+  para2.style.cssText = "transform:translateY(" + x / 7 + "%);";
+  para3.style.cssText = "transform:translateY(" + x / 9 + "%);";
+  para4.style.cssText = "transform:translateY(" + x / 12 + "%);";
+  para5.style.cssText = "transform:translateY(" + x / 17 + "%);";
 }
 function leftNavMapping(x,ele){
-  mappedH = Math.floor(mapping(x,0,window.innerHeight,305,338,true));
-  mappedS = Math.floor(mapping(x,0,window.innerHeight,72,100,true));
   mappedL = Math.floor(mapping(x,0,window.innerHeight,9,45,true));
-  headScale = Math.floor(mapping(x,0,window.innerHeight+200 ,100,40,true));
-  bodyScale = Math.floor(mapping(x,0,window.innerHeight+200 ,40,100,true));
+  scale = Math.floor(mapping(x,0,window.innerHeight + 80 ,60,0,true));
 
-  ele.style.setProperty("--line-color",`hsl(${mappedH}, ${mappedS}%, ${mappedL}%)`)
-  ele.style.setProperty("--head-scale",`scaleX(${headScale}%)`)
-  ele.style.setProperty("--body-scale",`scaleX(${bodyScale}%)`)
+  ele.style.setProperty("--line-color",`hsl(338, 100%, ${mappedL}%)`)
+  ele.style.setProperty("--head-scale",`scaleX(calc(40% + ${scale}%))`);
+  ele.style.setProperty("--body-scale",`scaleX(calc(100% - ${scale}%))`);
 }
 
 
@@ -277,10 +252,10 @@ function mouseFollowCircle (){
   this.update = function () {
     this.mx = mx;
     this.my = my;
-    this.x = lerp(this.x, this.mx, 0.3);
-    this.y = lerp(this.y, this.my, 0.3);
+    this.x = lerp(this.x, this.mx, 0.26);
+    this.y = lerp(this.y, this.my, 0.26);
     if (this.hover) {
-      this.size = lerp(this.size, 1, 0.3);
+      this.size = lerp(this.size, 1, 0.2);
     } else if(this.size > 0.01){
       this.size = lerp(this.size, 0, 0.3);
     }
@@ -297,6 +272,9 @@ function ballFunctions(x) {
   ball.update();
   ball.move(Ball,-x);
 }
+
+
+
 
 
 
@@ -320,25 +298,26 @@ class Particles {
     this.x = x;
     this.y = y;
     this.r = r;
+    this.bouncSpeed=this.r/2;
     this.tube = {
       r:this.x+randomNumber(40,100),
       l:this.x-randomNumber(40,100)
     }
-    this.speed = -this.r/14;
+    this.speed = -this.r/15;
     this.bounce = randomNumber(-this.speed,this.speed);
   }
   update(){
     this.y = this.y + this.speed;
-    if(this.y+this.r/2 < 0){
-      this.y = canvas.height+this.r/2
+    if(this.y+this.bouncSpeed < 0){
+      this.y = canvas.height+this.bouncSpeed
     }
-    if(this.x+this.r/2>this.tube.r){
+    if(this.x+this.bouncSpeed>this.tube.r){
       this.bounce = -0.2
-    }else if(this.x-this.r/2<this.tube.l){
+    }else if(this.x-this.bouncSpeed<this.tube.l){
       this.bounce = 0.2
     }
     this.x = this.x + this.bounce;
-    this.alpha = mapping(this.y,canvas.height,0-this.r/2,1,0.3);
+    this.alpha = mapping(this.y,canvas.height,0-this.bouncSpeed,1,0.3);
   }
   paint(){
     ctx.beginPath();
@@ -358,13 +337,13 @@ function windowResize(){
 }
 function redraw() {
   array = [];
-  numParticels = Math.floor(window.innerWidth / 12)
+  numParticels = Math.floor(window.innerWidth / 15)
   for(let i = 0;i < numParticels;i++){
     if(canvas.width <= 900){
       particle = new Particles(randomNumber(0,canvas.width),randomNumber(0,canvas.height),randomNumber(1,3));
       array.push(particle)
     }else{
-      particle = new Particles(randomNumber(0,canvas.width),randomNumber(0,canvas.height),randomNumber(1,3.5));
+      particle = new Particles(randomNumber(0,canvas.width),randomNumber(0,canvas.height),randomNumber(2,4));
       array.push(particle)
     }
   }
@@ -414,6 +393,8 @@ function prepMovies(array){
       img:array[i].img,
       genre:array[i].genre,
       rating:array[i].rating,
+      type:array[i].type,
+      time:array[i].time,
       bookmark:array[i].bookmark
     };
     movieObject.push(new Film(movie));
@@ -468,7 +449,8 @@ let movieObject = [];
 getFetch("/eleinfo")
 .then((data)=>{USER = data;})
 .then(()=>{
-  prepMovies(USER.movies);
+  prepMovies(USER);
+  console.log(movieObject);
   for(let i = movieObject.length-1;i >= 0; i--){
     movieObject[i].mapName();
     movieObject[i].buildMovie();
@@ -497,6 +479,8 @@ class Film {
     this.name = data.name;
     this.genre = data.genre;
     this.bookmark = data.bookmark;
+    this.type = data.type;
+    this.time = data.time;
 
     this.Name = [];
     this.eleWraper;
@@ -521,47 +505,92 @@ class Film {
     this.eleWraper.classList.add("flex_middle");
     this.eleWraper.innerHTML = 
     `
-      <div class="edit_wraper flex_middle">
-        <svg class="svg-icon" viewBox="0 0 20 20">
-          <path d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"></path>
-        </svg>
-      </div>
-      <div class="ele">
-        <div class="image_wraper flex_middle">
-          <div class="image_parent flex_middle">
-            <img src="${this.img}">
-          </div>
-          <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
-            <svg class="svg-icon" viewBox="0 0 20 20">
-              <path d="M14.467,1.771H5.533c-0.258,0-0.47,0.211-0.47,0.47v15.516c0,0.414,0.504,0.634,0.802,
-              0.331L10,13.955l4.136,4.133c0.241,0.241,0.802,0.169,0.802-0.331V2.241C14.938,1.982,14.726,
-              1.771,14.467,1.771 M13.997,16.621l-3.665-3.662c-0.186-0.186-0.479-0.186-0.664,0l-3.666,
-              3.662V2.711h7.994V16.621z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="info_parent flex_middle">
-          <div class="section rating flex_middle">
-            <p><span>Rating:</span> ${this.rating}</p>
-          </div>
-          <div class="section genre flex_middle">
-            <div class="top_line"></div>
-            <div class="bottom_line"></div>
-            <p><span>Genre:</span> ${this.genre}</p>
-          </div>
-          <div class="section play flex_middle">
-            <a href="${this.link}" target="_blank" class="play_butt flex_middle" data-type="object" data-color="rgba(255, 82, 144, 0.2)">
-              <p>WATCH</p>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="name_parent flex_middle">
-        <p class="name" data-name="${this.name}">
-          ${this.Name.join(" ")}
-        </p>
-      </div>
+            <div class="edit_wraper flex_middle">
+              <svg class="svg-icon" width="40" height="14" viewBox="0 0 40 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11.5 7C11.5 9.48528 9.48528 11.5 7 11.5C4.51472 11.5 2.5 9.48528 2.5 7C2.5 4.51472 4.51472 2.5 7 2.5C9.48528 2.5 11.5 4.51472 11.5 7ZM24.5 7C24.5 9.48528 22.4853 11.5 20 11.5C17.5147 11.5 15.5 9.48528 15.5 7C15.5 4.51472 17.5147 2.5 20 2.5C22.4853 2.5 24.5 4.51472 24.5 7ZM37.5 7C37.5 9.48528 35.4853 11.5 33 11.5C30.5147 11.5 28.5 9.48528 28.5 7C28.5 4.51472 30.5147 2.5 33 2.5C35.4853 2.5 37.5 4.51472 37.5 7Z"/>
+              </svg>                             
+            </div>
+            <div class="ele">
+              <div class="info_wraper">
+                <div class="section play flex_middle"></div>
+                <div class="section info flex_middle"></div>
+                <div class="section genre flex_middle">
+                  <p>Drama, miniseires</p>
+                </div>
+              </div>
+            </div>
+            <div class="image_wraper flex_middle">
+              <img src="https://i.pinimg.com/originals/5a/d3/f1/5ad3f1a8c6a04f5eda5d5f2fa1331626.jpg">
+              <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
+                <svg class="svg-icon" width="23" height="42" viewBox="0 0 23 42" fill="none">
+                  <path d="M1.5 39.5V1H21.5V39.5L11.5 29.5L1.5 39.5Z" stroke-width="2"/>
+                </svg>
+              </div>
+            </div>
+            <div class="name_parent">
+              <p class="name">
+                <span>q</span>
+                <span>u</span>
+                <span>e</span>
+                <span>e</span>
+                <span>n</span>
+                <span>'</span>
+                <span>s</span>
+                <span class="space">g</span>
+                <span>a</span>
+                <span>m</span>
+                <span>b</span>
+                <span>i</span>
+                <span>t</span>
+              </p>
+            </div>
     `
+    // this.eleWraper.innerHTML = 
+    // `
+    //   <div class="edit_wraper flex_middle">
+    //     <svg class="svg-icon" viewBox="0 0 20 20">
+    //       <path d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"></path>
+    //     </svg>
+    //   </div>
+    //   <div class="ele">
+    //     <div class="image_wraper flex_middle">
+    //       <div class="image_parent flex_middle">
+    //         <img src="${this.img}">
+    //       </div>
+    //       <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
+    //         <svg class="svg-icon" viewBox="0 0 20 20">
+    //           <path d="M14.467,1.771H5.533c-0.258,0-0.47,0.211-0.47,0.47v15.516c0,0.414,0.504,0.634,0.802,
+    //           0.331L10,13.955l4.136,4.133c0.241,0.241,0.802,0.169,0.802-0.331V2.241C14.938,1.982,14.726,
+    //           1.771,14.467,1.771 M13.997,16.621l-3.665-3.662c-0.186-0.186-0.479-0.186-0.664,0l-3.666,
+    //           3.662V2.711h7.994V16.621z"/>
+    //         </svg>
+    //       </div>
+    //     </div>
+    //     <div class="info_parent flex_middle">
+    //       <div class="section rating flex_middle">
+    //         <p>Rating:<span>${this.rating}</span></p>
+    //       </div>
+    //       <div class="section genre flex_middle">
+    //         <div class="top_line"></div>
+    //         <div class="bottom_line"></div>
+    //         <p>Genre:<span>${this.genre}</span></p>
+    //       </div>
+    //       <div class="section play flex_middle">
+    //         <a href="${this.link}" target="_blank" class="play_butt flex_middle" data-type="object" data-color="rgba(209, 68, 134, 0.2)">
+    //           <p>WATCH</p>
+    //           <svg width="31" class="svg-icon" height="33" viewBox="0 0 31 33" xmlns="http://www.w3.org/2000/svg" fill="none">
+    //             <path d="M29.335 17.376L3.23225 31.7455C2.56579 32.1124 1.75 31.6303 1.75 30.8695L1.75 2.13049C1.75 1.36972 2.56579 0.887574 3.23225 1.25446L29.335 15.624C30.0254 16.004 30.0254 16.996 29.335 17.376Z" stroke-width="4"/>
+    //           </svg>   
+    //         </a>
+    //       </div>
+    //     </div>
+    //   </div>
+    //   <div class="name_parent flex_middle">
+    //     <p class="name" data-name="${this.name}">
+    //       ${this.Name.join(" ")}
+    //     </p>
+    //   </div>
+    // `
   }
   display(){
     movieWraper.appendChild(this.eleWraper);
@@ -590,16 +619,19 @@ class Film {
         </div>
         <div class="info_parent flex_middle">
           <div class="section rating flex_middle">
-            <p><span>Rating:</span> ${this.rating}</p>
+          <p>Rating:<span>${this.rating}</span></p>
           </div>
           <div class="section genre flex_middle">
             <div class="top_line"></div>
             <div class="bottom_line"></div>
-            <p><span>Genre:</span> ${this.genre}</p>
+            <p>Genre:<span>${this.genre}</span></p>
           </div>
           <div class="section play flex_middle">
-            <a href="${this.link}" target="_blank" class="play_butt flex_middle" data-type="object" data-color="rgba(255, 82, 144, 0.2)">
+            <a href="${this.link}" target="_blank" class="play_butt flex_middle" data-type="object" data-color="rgba(209, 68, 134, 0.2)">
               <p>WATCH</p>
+              <svg width="31" class="svg-icon" height="33" viewBox="0 0 31 33" xmlns="http://www.w3.org/2000/svg" fill="none">
+                <path d="M29.335 17.376L3.23225 31.7455C2.56579 32.1124 1.75 31.6303 1.75 30.8695L1.75 2.13049C1.75 1.36972 2.56579 0.887574 3.23225 1.25446L29.335 15.624C30.0254 16.004 30.0254 16.996 29.335 17.376Z" stroke-width="4"/>
+              </svg>   
             </a>
           </div>
         </div>
@@ -622,7 +654,9 @@ class Film {
           link:this.link,
           img:this.img,
           genre:this.genre,
-          rating:this.rating
+          rating:this.rating,
+          type:this.type,
+          time:this.time
         }
         form.edit(data,this);
         return;
@@ -674,12 +708,13 @@ class Film {
     let top = this.eleWraper.getBoundingClientRect();
     this.ele = this.eleWraper.querySelector(".ele");
     this.nameParent = this.eleWraper.querySelector(".name_parent");
+    this.imageParent = this.eleWraper.querySelector("img");
+
+
     if(top.top < window.innerHeight + 100){
-      this.ele.style.display = "flex";
-      this.nameParent.style.display = "flex";
+      this.ele.classList.remove("hidden");
     }else{
-      this.ele.style.display = "none";
-      this.nameParent.style.display = "none";
+      this.ele.classList.add("hidden");
     }
   }
 }
@@ -707,233 +742,242 @@ class Film {
 class Form {
   constructor(){
     this.formOverlay = document.querySelector(".form_overlay");
-    // this.wraper = document.querySelector(".ele_form");
-    // this.form = document.querySelector(".form");
+    this.form = document.querySelector(".form");
+    this.time = document.querySelector(".time");
+    this.timeAdded = document.querySelector(".time_added");
 
-    // this.name = this.form.querySelector("#name");
-    // this.link = this.form.querySelector("#link");
-    // this.img = this.form.querySelector("#img");
-    // this.genre = this.form.querySelector("#genre");
-    // this.rating = this.form.querySelector("#rating");
-    // this.ratingValue = this.form.querySelector(".range_value");
-    // this.nameValue = this.form.querySelector(".name_value");
-    // this.imgValue = document.querySelector(".img_value");
+    this.name = this.form.querySelector("#name");
+    this.link = this.form.querySelector("#link");
+    this.img = this.form.querySelector("#image");
+    this.genre = this.form.querySelector("#genre");
+    this.rating = this.form.querySelector("#rating");
+    this.type = this.form.querySelector("#types");
+    this.nameValue = document.querySelector(".name_value");
+    this.imgValue = document.querySelector(".img_value");
 
     this.openButt = document.querySelector(".add_butt");
     this.closeButt = document.querySelector(".remove_butt");
 
-
-    // this.buttons = this.form.querySelector(".buttons_wraper");
-    // this.loader = this.form.querySelector(".loader");
-    // this.submitButt = this.form.querySelector(".submit_butt");
-    // this.editButt = this.form.querySelector(".edit_butt");
-    // this.deleteButt = this.form.querySelector(".delete_butt");
-
+    this.buttons = this.form.querySelector(".button_holder");
+    this.loader = document.querySelector(".loader");
+    this.submitButt = this.form.querySelector(".submit_butt");
+    this.editButt = this.form.querySelector(".edit_butt");
+    this.deleteButt = this.form.querySelector(".delete_butt");
   }
 
+  handleTime(){
+    let months = ["JAN","FEB","MAR","APR","MAY","JUNE","JULY","AUG","SEP","OCT","NOV","DEC"]
+    let date = new Date();
+    let month = date.getMonth();
+    let day = date.getDate();
+    let year = date.getFullYear();
 
+    this.time.innerHTML=`${months[month]}. ${day} ${year}`;
+    return this.time.innerHTML;
+  }
 
 
   eventListener(){
     this.closeButt.addEventListener("click",()=>{
-      // this.wraper.classList.remove("open");
-      // this.wraper.classList.remove("edit");
-      // this.formOverlay.classList.remove("open");
-      // form.clear();
       this.formOverlay.classList.remove("open");
       this.formOverlay.classList.remove("edit");
+      this.timeAdded.innerHTML = "";
+      form.clear();
+
+      this.buttons.classList.remove("loading");
+      this.loader.classList.remove("loading");
     })
     this.openButt.addEventListener("click",()=>{
       this.formOverlay.classList.add("open");
+      form.handleTime();
     })
 
-  //   this.editButt.addEventListener("click",()=>{
-  //     this.loader.classList.add("load");
-  //     this.buttons.classList.remove("load");
+    this.editButt.addEventListener("click",()=>{
 
-  //     let data = {
-  //       data:{
-  //         name:this.element.name,
-  //         link:this.element.link,
-  //         img:this.element.img,
-  //         genre:this.element.genre,
-  //         rating:this.element.rating,
-  //         bookmark:this.element.bookmark
-  //       },
-  //       updatedData:{
-  //         name:this.name.value,
-  //         link:this.link.value,
-  //         img:this.img.value,
-  //         genre:this.genre.value,
-  //         rating:this.rating.value,
-  //         bookmark:this.element.bookmark
-  //       }
-  //     }
-  //     postFetch("/mockUserEdit",data)
-  //     .then((permition)=>{
-  //       if(permition){
-  //         this.element.name = data.updatedData.name,
-  //         this.element.link = data.updatedData.link,
-  //         this.element.img = data.updatedData.img,
-  //         this.element.genre = data.updatedData.genre,
-  //         this.element.rating = data.updatedData.rating,
-  //         this.element.bookmark = data.updatedData.bookmark
-  //       }
-  //       this.element.mapName();
-  //       this.element.updateMovie();
-  //       namesTransitionDelay();
-  //     })
-  //     .then(()=>{
-  //       this.wraper.classList.remove("open");
-  //       this.wraper.classList.remove("edit");
-  //       this.formOverlay.classList.remove("open");
-  //       this.loader.classList.remove("load");
-  //       this.buttons.classList.add("load");
-  //       form.clear();
-  //     })
-  //     console.log("edit clicked");
-    // })
+      this.buttons.classList.add("loading");
+      this.loader.classList.add("loading");
 
-  //   this.deleteButt.addEventListener("click",()=>{
-  //     this.loader.classList.add("load");
-  //     this.buttons.classList.remove("load");
-  //     let data = {
-  //       name:this.element.name,
-  //       link:this.element.link,
-  //       img:this.element.img,
-  //       genre:this.element.genre,
-  //       rating:this.element.rating,
-  //       bookmark:this.element.bookmark
-  //     }
-  //     postFetch("/mockUserDelete",data)
-  //     .then((permition)=>{
-  //       if(permition){
-  //         movieWraper.removeChild(this.element.eleWraper);
-  //         let eleIndex = movieObject.findIndex(({name})=>{
-  //           return name === data.name; 
-  //         })
-  //         movieObject.splice(eleIndex,1);
-  //       }else{
-  //         console.log("MOVIE HAS NOT BEEN DELETED!!!");
-  //       }
-  //     })
-  //     .then(()=>{
-  //       this.wraper.classList.remove("open");
-  //       this.wraper.classList.remove("edit");
-  //       this.formOverlay.classList.remove("open");
-  //       this.loader.classList.remove("load");
-  //       this.buttons.classList.add("load");
-  //       form.clear();
-  //     })
-  //     console.log("delete clicked");
-  //   })
+      let data = {
+        data:{
+          name:this.element.name,
+          link:this.element.link,
+          img:this.element.img,
+          genre:this.element.genre,
+          rating:this.element.rating,
+          time:this.element.time,
+          bookmark:this.element.bookmark
+        },
+        updatedData:{
+          name:this.name.value,
+          link:this.link.value,
+          img:this.img.value,
+          genre:this.genre.value,
+          rating:this.rating.value,
+          time:this.time.innerHTML,
+          bookmark:this.element.bookmark
+        }
+      }
+      postFetch("/mockUserEdit",data)
+      .then((permition)=>{
+        if(permition){
+          this.element.name = data.updatedData.name,
+          this.element.link = data.updatedData.link,
+          this.element.img = data.updatedData.img,
+          this.element.genre = data.updatedData.genre,
+          this.element.rating = data.updatedData.rating,
+          this.element.time = data.updatedData.time,
+          this.element.bookmark = data.updatedData.bookmark
+        }
+        this.element.mapName();
+        this.element.updateMovie();
+        namesTransitionDelay();
+      })
+      .then(()=>{
+        setTimeout(() => {
+          this.formOverlay.classList.remove("open");
+          this.formOverlay.classList.remove("edit");
+  
+          this.buttons.classList.remove("loading");
+          this.loader.classList.remove("loading");
+          form.clear();
+        }, 500);
+      })
+    })
 
-  //   this.form.addEventListener("submit",(e)=>{
-  //     this.loader.classList.add("load");
-  //     this.buttons.classList.remove("load");
-  //     e.preventDefault();
-  //     let data = {
-  //       name:this.name.value,
-  //       link:this.link.value,
-  //       img:this.img.value,
-  //       genre:this.genre.value,
-  //       rating:this.rating.value,
-  //       bookmark:false
-  //     };
-  //     this.submit(data);
-  //     console.log("submit clicked");
-  //   })
+    this.deleteButt.addEventListener("click",()=>{
+      this.buttons.classList.add("loading");
+      this.loader.classList.add("loading");
 
-  //   function handleUpdate () {
-  //     form.ratingValue.innerHTML = this.value;
-  //   }
-  //   this.rating.addEventListener('change', handleUpdate);
-  //   this.rating.addEventListener('mousemove', handleUpdate);
+      let data = {
+        name:this.element.name,
+        link:this.element.link,
+        img:this.element.img,
+        genre:this.element.genre,
+        rating:this.element.rating,
+        time:this.element.time,
+        bookmark:this.element.bookmark,
+      }
+      postFetch("/mockUserDelete",data)
+      .then((permition)=>{
+        if(permition){
+          movieWraper.removeChild(this.element.eleWraper);
+          let eleIndex = movieObject.findIndex(({name})=>{
+            return name === data.name; 
+          })
+          movieObject.splice(eleIndex,1);
+        }else{
+          console.log("MOVIE HAS NOT BEEN DELETED!!!");
+        }
+      })
+      .then(()=>{
+        setTimeout(() => {
+          this.formOverlay.classList.remove("open");
+          this.formOverlay.classList.remove("edit");
+  
+          this.buttons.classList.remove("loading");
+          this.loader.classList.remove("loading");
+          form.clear();
+        }, 500);
+      })
+    })
 
-  //   this.name.addEventListener("input",()=>{
-  //     this.nameValue.innerHTML = this.name.value;
-  //   })
-    
-  //   this.formOverlay.addEventListener("click",(e)=>{
-  //     if(e.target === this.formOverlay){
-  //       this.wraper.classList.remove("open");
-  //       this.wraper.classList.remove("edit");
-  //       this.formOverlay.classList.remove("open");
-  //     }
-  //   })
+    this.form.addEventListener("submit",(e)=>{
+      this.buttons.classList.add("loading");
+      this.loader.classList.add("loading");
 
-  //   this.img.addEventListener("change",()=>{
-  //     let url = this.img.value
-  //     function checkimg(url) {
-  //       form.imgValue.src = url;
-  //     }
-  //     checkimg(url)
-  //   })
+      e.preventDefault();
+      let data = {
+        name:this.name.value,
+        link:this.link.value,
+        img:this.img.value,
+        genre:this.genre.value,
+        rating:this.rating.value,
+        type:this.type.value,
+        time:this.time.innerHTML,
+        bookmark:false
+      };
+      this.submit(data);
+    })
+
+    this.name.addEventListener("input",()=>{
+      this.nameValue.innerHTML = this.name.value;
+    })
+
+    this.img.addEventListener("change",()=>{
+      if(this.img.value.length == 0){
+        this.imgValue.style.opacity = `0`;
+      }else{
+        let url = this.img.value
+        function checkimg(url) {
+          form.imgValue.src = url;
+        }
+        checkimg(url);
+        this.imgValue.style.opacity = `1`;
+      }
+    })
 
   }
 
+  submit(body){
+    postFetch("/mockUserAdd",body)
+    .then((data)=>{
+      if(data){
+        movieObject.push(new Film(body));
+        movieWraper.innerHTML = "";
+        movieObject[movieObject.length-1].mapName();
+        movieObject[movieObject.length-1].buildMovie();
+      }
+    })
+    .then(()=>{
+      for(let i = movieObject.length-1;i >= 0; i--){
+        movieObject[i].display();
+      }
+      movieObject[movieObject.length-1].addeventlistener();
+      namesTransitionDelay();
 
+      setTimeout(() => {
+        this.formOverlay.classList.remove("open");
+        this.formOverlay.classList.remove("edit");
 
-
-
-
-  // submit(body){
-  //   postFetch("/mockUserAdd",body)
-  //   .then((data)=>{
-  //     if(data){
-  //       movieObject.push(new Film(body));
-  //       movieWraper.innerHTML = "";
-  //       movieObject[movieObject.length-1].mapName();
-  //       movieObject[movieObject.length-1].buildMovie();
-  //     }
-  //   })
-  //   .then(()=>{
-  //     for(let i = movieObject.length-1;i >= 0; i--){
-  //       movieObject[i].display();
-  //     }
-  //     movieObject[movieObject.length-1].addeventlistener();
-  //     namesTransitionDelay();
-
-  //     this.wraper.classList.remove("open");
-  //     this.wraper.classList.remove("edit");
-  //     this.formOverlay.classList.remove("open");
-  //     this.loader.classList.remove("load");
-  //     this.buttons.classList.add("load");
-  //     form.clear();
-  //   })
-  // }
+        this.buttons.classList.remove("loading");
+        this.loader.classList.remove("loading");
+        form.clear();
+      }, 500);
+    })
+  }
   edit(object,film){
-    // this.name.value = object.name;
-    // this.link.value = object.link;
-    // this.img.value = object.img;
-    // this.genre.value = object.genre;
-    // this.rating.value = object.rating;
-    // this.ratingValue.innerHTML = object.rating;
-    // this.nameValue.innerHTML = object.name;
-    // this.imgValue.src = object.img;
+    this.name.value = object.name;
+    this.link.value = object.link;
+    this.img.value = object.img;
+    this.genre.value = object.genre;
+    this.rating.value = object.rating;
+    this.type.value = object.type;
+    this.timeAdded.innerHTML = `Last Update: `+ object.time;
+    this.nameValue.innerHTML = object.name;
+    this.imgValue.src = object.img;
+    this.imgValue.style.opacity = `1`;
 
-    // this.element = film;
-
+    this.element = film;
     this.formOverlay.classList.add("edit");
-    // this.wraper.classList.add("edit");
-    // this.formOverlay.classList.add("open");
-    // this.wraper.classList.remove("open");
+    form.handleTime();
   }
-  // clear(){
-  //   setTimeout(() => {
-  //     this.name.value = "";
-  //     this.link.value = "";
-  //     this.img.value = "";
-  //     this.genre.value = "";
-  //     this.rating.value = 0;
-  //     this.ratingValue.innerHTML = "0";
-  //     this.imgValue.src = "";
-  //     this.nameValue.innerHTML = "";
-  //   }, 100);
-  // }
+  clear(){
+    setTimeout(() => {
+      this.name.value = "";
+      this.link.value = "";
+      this.img.value = "";
+      this.genre.value = "";
+      this.rating.value = "";
+      this.type.value = "";
+      this.imgValue.src = " ";
+      this.nameValue.innerHTML = "";
+      this.imgValue.style.opacity = `0`;
+    }, 250);
+  }
 }
 let form = new Form();
 form.eventListener();
+form.handleTime();
 
 
 
@@ -969,7 +1013,6 @@ class searchBar {
       return obj.name.match(regex);
     });
   }
-
 
   searchLister(){
     this.input.addEventListener("focus",()=>{
@@ -1014,7 +1057,6 @@ class searchBar {
       searchObj.eleListeners();
     });
   }
-
 
   eleListeners(){
     let eleSearch = document.querySelectorAll(".ele_search");
@@ -1090,27 +1132,33 @@ debug.addEventListener("click",()=>{
 window.onload = () =>{
   handleScrolling();
   const scrollContent = document.querySelector(".scroll-content");
+
+
+
   requestAnimationFrame(animate);
   function animate () {
-    let topOffset = scrollContent.getBoundingClientRect().top;
+    topOffset = scrollContent.getBoundingClientRect().top;
     //animation that run only on the head
     if(-(topOffset) < window.innerHeight){
       parallaxAnimation(-topOffset);
       canvasAnimation();
-      // console.log("running");
+
+      leftNavMapping(-topOffset,root);
+      toggleScrollText(-topOffset);
+      leftNavUpdate(-topOffset);
     }
     //animation that run only on the body
     if(-(topOffset) > window.innerHeight + 40){
-      rightNav.style.transform = `translateY(${-(topOffset)-window.innerHeight - 50}px)`;
+      // for(let i = movieObject.length-1;i >= 0; i--){
+      //   movieObject[i].hidden();
+      // }
+
+      rightNav.style.cssText = `transform:translateY(${-(topOffset)-window.innerHeight - 50}px);`;
     }else{
-      rightNav.style.transform = `translateY(0px)`;
+      rightNav.style.cssText = `transform:translateY(0px);`;
     };
-    for(let i = movieObject.length-1;i >= 0; i--){
-      movieObject[i].hidden();
-    }
-
-
-    ballFunctions(topOffset)
+    ballFunctions(topOffset);
     requestAnimationFrame(animate);
   }
 };
+

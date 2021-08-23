@@ -300,11 +300,7 @@ app.get('/eleinfo',(req,res)=>{
     debugData(/* here will be the cookie id that will be passed latter */)
     .then((data)=>{
         if(data){
-            let formatedData = {
-                movies:data.movies,
-                bookmarks:data.bookmark
-            };
-            res.send(formatedData);
+            res.send(data.movies);
         };
     })
     .catch((reason)=>{
@@ -323,6 +319,8 @@ app.post("/mockUserAdd",(req,res)=>{
         img:req.body.img,
         genre:req.body.genre,
         rating:req.body.rating,
+        type:req.body.type,
+        time:req.body.time,
         bookmark:req.body.bookmark
     }
     debugMovie(data)

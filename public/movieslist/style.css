@@ -4,8 +4,8 @@
   --main-white: rgb(254, 220, 200);
   --main-purple: rgb(36,10,34);
   --line-color: hsl(305, 57%, 9%);
-  --head-scale: scaleX(100%);
-  --body-scale: scaleX(40%);
+  --head-scale: scaleX(calc(40% + 60%));
+  --body-scale: scaleX(calc(100% - 60%));
 }
 [data-type="object"]{
   z-index: 10;
@@ -140,7 +140,7 @@ body,html{
 .outside_left_nav .scroll_text .line{
   width: 2px;
   height: 50%;
-  background: rgb(255, 180, 211);
+  background: #a354a1;
   transition: all 0.4s ease-in-out;
 }
 .outside_left_nav .scroll_text .text{
@@ -156,7 +156,7 @@ body,html{
   transform: rotate(-180deg);
   font-family: 'Allerta Stencil', sans-serif;
   text-align: bottom;
-  color: rgb(255, 180, 211);
+  color: #a354a1;
 }
 .outside_left_nav .scroll_text.down .line,.outside_left_nav .scroll_text.down .text{
   transform: translateY(150px);
@@ -462,7 +462,9 @@ body,html{
   pointer-events: none;
   overflow: hidden;
   position: absolute;
-  z-index: 11;
+  z-index: 9;
+
+  /* border: 1px solid white; */
 }
 .form_overlay .border_wraper{
   width: 100%;
@@ -470,21 +472,38 @@ body,html{
   position: absolute;
   z-index: 1;
 }
+.form_overlay .border_wraper .time{
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  bottom: 8%;
+  right: 5%;
+  font-size: 1.2em;
+  color: rgb(255, 57, 130);
+  text-shadow: 0px 0px 4px rgba(255, 57, 130, 0.4);
+  word-spacing: 2px;
+  font-weight: 600;
+  transition: opacity 0.25s ease-in-out;
+}
+.form_overlay.open .border_wraper .time,.form_overlay.edit .border_wraper .time{
+  opacity: 0.9;
+  transition: opacity 0.5s ease-in-out 0.7s;
+}
 .form_overlay .border_wraper .border{
-  position: absolute; background: rgb(137, 8, 63); transition: all 0.2s ease-out; 
+  position: absolute; background: rgb(151, 10, 71); transition: all 0.2s ease-out; 
 }
 
 .form_overlay .border_wraper .border.horizontal{transform: scaleX(0);}
-.form_overlay.open .border_wraper .border.horizontal,.ele_form.edit .border_wraper .border.horizontal{transform: scaleX(1);transition: all 0.4s ease-out 0.35s;}
+.form_overlay.open .border_wraper .border.horizontal,.form_overlay.edit .border_wraper .border.horizontal{transform: scaleX(1);transition: transform 0.4s ease-out 0.35s;}
 .form_overlay .border_wraper .border.vertical{transform: scaleY(0);}
-.form_overlay.open .border_wraper .border.vertical,.ele_form.edit .border_wraper .border.vertical{transform: scaleY(1);transition: all 0.4s ease-out 0.35s;}
+.form_overlay.open .border_wraper .border.vertical,.form_overlay.edit .border_wraper .border.vertical{transform: scaleY(1);transition: transform 0.4s ease-out 0.35s;}
 .form_overlay .border_wraper .horizontal.left{transform-origin: left;}
 .form_overlay .border_wraper .horizontal.right{transform-origin: right;}
 .form_overlay .border_wraper .vertical.top{transform-origin: top;}
 .form_overlay .border_wraper .vertical.bottom{transform-origin: bottom;}
 
-.form_overlay .border_wraper .horizontal{width: 4.2em; height: 3px;}
-.form_overlay .border_wraper .vertical{height: 2.6em; width: 3px;}
+.form_overlay .border_wraper .horizontal{width: 6vw; height: 0.2vw; min-height: 2px;}
+.form_overlay .border_wraper .vertical{height: 6.5vh; width: 0.2vw; min-width: 2px;}
 .form_overlay .border_wraper .right{right: 1.8em;}
 .form_overlay .border_wraper .top{top: 1.8em;}
 .form_overlay .border_wraper .left{left: 1.8em;}
@@ -502,42 +521,74 @@ body,html{
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 110%);
 }
 
+
 .form_overlay .form_background .ele_form{
   width: 70%;
+  min-width: 55em;
   height: 80%;
   display: flex;
+  justify-content: space-between;
   position: relative;
   margin-top: 1%;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
   pointer-events: all;
+  /* border: 1px solid white; */
 }
 .form_overlay .form_background .ele_form .remove_butt{
   width: 4em;
   height: 4em;
-  border-radius: 50%;
   position: absolute;
   top: -1em;
   right: 0;
   pointer-events: all;
   cursor: pointer;
-  background: rgb(71, 37, 69);
+  z-index: 2;
 
   opacity: 0;
   transform: translateY(5em);
   pointer-events: none;
-  transition: opacity 0.6s cubic-bezier(0,0,.21,1),transform 0s linear 0.4s;
+  transition: opacity 0.5s cubic-bezier(0,0,.21,1),transform 0s linear 0.4s;
 }
 .form_overlay.open .form_background .ele_form .remove_butt,.form_overlay.edit .form_background .ele_form .remove_butt{
   opacity: 1;
   transform: translateY(0em);
   pointer-events: all;
-  transition: all 0.8s cubic-bezier(0,0,.21,1) 0.1s;
+  transition: all 0.7s cubic-bezier(0,0,.21,1) 0.1s;
+}
+.form_overlay .form_background .ele_form .remove_butt .background{
+  width: 100%;
+  height: 100%;
+  background: rgb(71, 37, 69);
+  border-radius: 50%;
+  position: absolute;
+  pointer-events: none;
+  transform-origin: center;
+}
+.form_overlay .form_background .ele_form .remove_butt:hover .background{
+  animation: jelly 0.5s ease-in-out;
+}
+@keyframes jelly {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  25% {
+    transform: scale(1.08, 1.08);
+  }
+  50% {
+    transform: scale(0.97, 0.97);
+  }
+  75% {
+    transform: scale(1.05, 1.05);
+  }
 }
 .form_overlay .form_background .ele_form .remove_butt .svg-icon{
   width: 30%;
   height: 30%;
+  position: absolute;
+  pointer-events: none;
 }
 .form_overlay .form_background .ele_form .remove_butt .svg-icon path{
   fill: rgb(255, 44, 121);
@@ -549,11 +600,9 @@ body,html{
 
 
 
-
 .form_overlay .form_background .ele_form .img_wraper{
   width: 34%;
   height: 100%;
-  /* border: 1px solid white; */
 
   opacity: 0;
   transform: translateY(6em);
@@ -564,30 +613,32 @@ body,html{
   opacity: 1;
   transform: translateY(0em);
   pointer-events: all;
-  transition: all 0.8s cubic-bezier(0,0,.21,1) 0.1s;
+  transition: opacity 0.8s cubic-bezier(0,0,.21,1) 0.1s,transform 0.8s cubic-bezier(0,0,.21,1) 0.1s;
 }
-.form_overlay .form_background .ele_form .img_wraper .time{
-  /* border: 1px solid white; */
-  position: absolute;
-  top: 5%;
-  font-size: 1.2em;
-  color: rgba(255, 82, 144, 1);
-  text-shadow: 0px 0px 4px rgba(255, 82, 144, 0.4);
-  word-spacing: 2px;
-  font-weight: 600;
-}
+
 
 
 
 
 .form_overlay .form_background .ele_form .img_wraper .img_background{
-  width: 80%;
-  height: 71%;
+  width: 15em;
+  height: 21.5em;
   background: #3A1838;
   border-radius: 10px;
   display: flex;
   justify-content: center;
   position: relative;
+  /* border: 1px solid white; */
+}
+.form_overlay .form_background .ele_form .img_wraper .img_background .time_added{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: -2.8em;
+  text-align: center;
+  font-size: 0.8em;
+  color: rgb(255, 57, 130);
+  text-shadow: 0px 0px 4px rgba(255, 57, 130, 0.4);
 }
 .form_overlay .form_background .ele_form .img_wraper .img_background .img_container{
   width: 92%;
@@ -597,32 +648,44 @@ body,html{
   overflow: hidden;
   box-shadow: 0px 0px 20px rgba(0,0,0,0.3);
 }
+.form_overlay .form_background .ele_form .img_wraper .img_background .img_container p{
+  position: absolute;
+  color: rgba(255,255,255,0.4);
+  width: 50%;
+  text-align: center;
+  font-size: 1.3em;
+}
 .form_overlay .form_background .ele_form .img_wraper .img_background .img_container img{
  width: 100%;
+ z-index: 1;
+ opacity: 0;
 }
 .form_overlay .form_background .ele_form .img_wraper .img_background .name{
   position: absolute;
-  bottom: -0.1em;
+  top: 92%;
+  width: 100%;
 }
 .form_overlay .form_background .ele_form .img_wraper .img_background .name p{
   color: #773464;
   font-family: 'Allerta Stencil', sans-serif;
   font-size: 1.6em;
   text-transform: uppercase;
+  text-align: center;
+  line-height: 0.9em;
 }
 
 
 
 
 .form_overlay .form_background .ele_form .form_wraper{
-  width: 70%;
+  width: 66%;
   height: 100%;
   display: flex;
   align-items: center;
 }
 .form_overlay .form_background .ele_form .form_wraper .form{
   width: 100%;
-  height: 76%;
+  height: 25em;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -639,7 +702,7 @@ body,html{
   outline: none;
   border: none;
   background: rgba(58, 24, 56, 0);
-  color: #863e72;
+  color: rgb(134, 62, 114);
   border-radius: 4px;
   transition: 0.1s;
 }
@@ -668,7 +731,7 @@ body,html{
   opacity: 1;
   transform: translateY(0em);
   pointer-events: all;
-  transition: all 1s cubic-bezier(0,0,.21,1) 0.35s;
+  transition: opacity 0.9s cubic-bezier(0,0,.21,1) 0.35s,transform 0.9s cubic-bezier(0,0,.21,1) 0.35s;
 }
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder .border{
   width: 3px;
@@ -678,10 +741,15 @@ body,html{
   top: 50%;
   transform: translateY(-50%) scaleY(0);
   transform-origin: center;
-  background: rgba(176,0,68,1);
+  background: rgb(212, 1, 82);
+  box-shadow: 0px 0px 3px rgba(176,0,68,0.7);
   transition: all 0.2s cubic-bezier(0,0,.21,1);
 }
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder:hover .border{
+  transform: translateY(-50%) scaleX(1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section input:focus ~ .border,
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section input:not(:placeholder-shown) ~ .border{
   transform: translateY(-50%) scaleX(1);
 }
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder .section{
@@ -701,12 +769,12 @@ body,html{
 }
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder .section #name{
   font-family: 'Allerta Stencil', sans-serif;
-  font-size: 2.1em;
+  font-size: 2.05em;
   padding-left: 1%;
   text-transform: uppercase;
 }
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder .section #genre{
-  font-size: 0.9em;
+  font-size: 0.95em;
   padding-left: 1%;
   font-weight: 600;
   text-transform: capitalize;
@@ -754,7 +822,7 @@ body,html{
 
 
 .form_overlay .form_background .ele_form .form_wraper .form .link_holder{
-  width: 100%;
+  /* width: 100%; */
   height: 14%;
   display: flex;
   align-items: center;
@@ -769,7 +837,7 @@ body,html{
   opacity: 1;
   transform: translateY(0em);
   pointer-events: all;
-  transition: all 1s cubic-bezier(0,0,.21,1) 0.43s;
+  transition: opacity 0.9s cubic-bezier(0,0,.21,1) 0.43s,transform 0.9s cubic-bezier(0,0,.21,1) 0.43s;
 }
 .form_overlay .form_background .ele_form .form_wraper .form .link_holder .border{
   width: 3px;
@@ -779,10 +847,15 @@ body,html{
   top: 50%;
   transform: translateY(-50%) scaleY(0);
   transform-origin: center;
-  background: rgba(176,0,68,1);
+  background: rgb(212, 1, 82);
+  box-shadow: 0px 0px 3px rgba(176,0,68,0.7);
   transition: all 0.2s cubic-bezier(0,0,.21,1);
 }
 .form_overlay .form_background .ele_form .form_wraper .form .link_holder:hover .border{
+  transform: translateY(-50%) scaleX(1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder input:focus ~ .border,
+.form_overlay .form_background .ele_form .form_wraper .form .link_holder input:not(:placeholder-shown) ~ .border{
   transform: translateY(-50%) scaleX(1);
 }
 .form_overlay .form_background .ele_form .form_wraper .form .link_holder input{
@@ -791,7 +864,7 @@ body,html{
   padding-right: 6%;
 }
 .form_overlay .form_background .ele_form .form_wraper .form .link_holder #link{
-  font-size: 1.25em;
+  font-size: 1.2em;
   padding-left: 1%;
   font-weight: 600;
 }
@@ -833,7 +906,7 @@ body,html{
 
 
 .form_overlay .form_background .ele_form .form_wraper .form .image_holder{
-  width: 100%;
+  /* width: 100%; */
   height: 14%;
   display: flex;
   align-items: center;
@@ -847,7 +920,7 @@ body,html{
   opacity: 1;
   transform: translateY(0em);
   pointer-events: all;
-  transition: all 1s cubic-bezier(0,0,.21,1) 0.51s;
+  transition: opacity 0.9s cubic-bezier(0,0,.21,1) 0.51s,transform 0.9s cubic-bezier(0,0,.21,1) 0.51s;
 }
 .form_overlay .form_background .ele_form .form_wraper .form .image_holder .border{
   width: 3px;
@@ -857,10 +930,15 @@ body,html{
   top: 50%;
   transform: translateY(-50%) scaleY(0);
   transform-origin: center;
-  background: rgba(176,0,68,1);
+  background: rgb(212, 1, 82);
+  box-shadow: 0px 0px 3px rgba(176,0,68,0.7);
   transition: all 0.2s cubic-bezier(0,0,.21,1);
 }
 .form_overlay .form_background .ele_form .form_wraper .form .image_holder:hover .border{
+  transform: translateY(-50%) scaleX(1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder input:focus ~ .border,
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder input:not(:placeholder-shown) ~ .border{
   transform: translateY(-50%) scaleX(1);
 }
 .form_overlay .form_background .ele_form .form_wraper .form .image_holder input{
@@ -869,7 +947,7 @@ body,html{
   padding-right: 6%;
 }
 .form_overlay .form_background .ele_form .form_wraper .form .image_holder #image{
-  font-size: 1.25em;
+  font-size: 1.2em;
   padding-left: 1%;
   font-weight: 600;
 }
@@ -923,7 +1001,7 @@ body,html{
   opacity: 1;
   transform: translateY(0em);
   pointer-events: all;
-  transition: all 1s cubic-bezier(0,0,.21,1) 0.59s;
+  transition: opacity 0.9s cubic-bezier(0,0,.21,1) 0.59s,transform 0.9s cubic-bezier(0,0,.21,1) 0.59s;
 }
 .form_overlay .form_background .ele_form .form_wraper .form .rates_holder .rating_holder .border{
   width: 3px;
@@ -933,10 +1011,15 @@ body,html{
   top: 50%;
   transform: translateY(-50%) scaleY(0);
   transform-origin: center;
-  background: rgba(176,0,68,1);
+  background: rgb(212, 1, 82);
+  box-shadow: 0px 0px 3px rgba(176,0,68,0.7);
   transition: all 0.2s cubic-bezier(0,0,.21,1);
 }
 .form_overlay .form_background .ele_form .form_wraper .form .rates_holder .rating_holder:hover .border{
+  transform: translateY(-50%) scaleX(1);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder input:focus ~ .border,
+.form_overlay .form_background .ele_form .form_wraper .form .rates_holder input:not(:placeholder-shown) ~ .border{
   transform: translateY(-50%) scaleX(1);
 }
 .form_overlay .form_background .ele_form .form_wraper .form .rates_holder .type_holder:hover .border{
@@ -955,7 +1038,7 @@ body,html{
   width: 85%;
   height: 80%;
   margin-left: 3.8%;
-  font-size: 1.6em;
+  font-size: 1.55em;
   padding-left: 2%;
   font-weight: 600;
 }
@@ -963,7 +1046,7 @@ body,html{
   position: absolute;
   left: 3.8%;
   pointer-events: none;
-  font-size: 1.1em;
+  font-size: 1.05em;
   transition: color 0.2s cubic-bezier(0,0,.21,1),transform 0.2s cubic-bezier(0,0,.21,1);
   color: rgba(255, 255, 255, 0.15);
   font-weight: 600;
@@ -978,7 +1061,7 @@ body,html{
   width: 90%;
   height: 80%;
   margin-left: 2.8%;
-  font-size: 1.1em;
+  font-size: 1.05em;
   padding-left: 1%;
   font-weight: 600;
 }
@@ -1024,11 +1107,21 @@ body,html{
   opacity: 1;
   transform: translateY(1em);
   pointer-events: all;
-  transition: all 1s cubic-bezier(0,0,.21,1) 0.68s;
+  transition: opacity 0.9s cubic-bezier(0,0,.21,1) 0.68s,transform 0.9s cubic-bezier(0,0,.21,1) 0.68s;
 }
+
+
+
+.form_overlay.open .form_background .ele_form .form_wraper .form .button_holder.loading,.form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder.loading{
+  opacity: 0;
+  transition: opacity 0.2s cubic-bezier(0,0,.21,1);
+}
+
+
+
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt{
-  width: 12em;
-  height: 100%;
+  width: 11.5em;
+  height: 95%;
   background: #3A1838;
   border: none;
   outline: none;
@@ -1041,10 +1134,13 @@ body,html{
   display: flex;
   pointer-events: all;
 }
+.form_overlay.open .form_background .ele_form .form_wraper .form .button_holder.loading .submit_butt{
+  pointer-events: none;
+}
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt p{
   color: #773464;
   font-weight: 600;
-  font-size: 1.2em;
+  font-size: 1.15em;
   margin-left: -0.1em;
   transition: all 0.15s;
 }
@@ -1053,7 +1149,7 @@ body,html{
 }
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt .svg-icon{
   height: 65%;
-  padding: 0.1em;
+  padding: 0.11em;
   margin-right: 0.5em;
 }
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt .svg-icon path{
@@ -1080,6 +1176,9 @@ body,html{
 .form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder .edit_butt{
   display: flex;
   pointer-events: all;
+}
+.form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder.loading .edit_butt{
+  pointer-events: none;
 }
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt p{
   color: #773464;
@@ -1120,6 +1219,9 @@ body,html{
   display: flex;
   pointer-events: all;
 }
+.form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder.loading .delete_butt{
+  pointer-events: none;
+}
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt p{
   color: #773464;
   font-weight: 600;
@@ -1148,179 +1250,57 @@ body,html{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.ele_form .form_wraper .form .buttons .loader{
+.form_overlay .form_background .ele_form .loader{
   position: absolute;
   width: 2.5em;
   height: 2.5em;
-  opacity: 0;
-  transition: all 0.2s ease-out;
+  bottom: 3em;
+  left: 50%;
+  transform: translateX(-50%);
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s cubic-bezier(0,0,.21,1) 0.1s;
 }
-.ele_form .form_wraper .form .buttons .loader.load{
+.form_overlay .form_background .ele_form .loader.loading{
   opacity: 1;
 }
-.ele_form .form_wraper .form .buttons .loader .loads{
-  width: 0.7em; height: 0.7em;
-  border-radius: 50%;
-  border: 2px solid rgb(119, 52, 100);
-  position: absolute;
-  transform: scale(0.4);
-}
-.ele_form .form_wraper .form .buttons .loader .loads{
-  width: 0.7em; height: 0.7em;
-  border-radius: 50%;
-  border: 2px solid rgb(119, 52, 100);
-  position: absolute;
-  transform: scale(0.4);
-  opacity: 0;
-}
-.ele_form .form_wraper .form .buttons .loader.load .loads:nth-child(1){left: 0; animation-delay: 0s;}
-.ele_form .form_wraper .form .buttons .loader.load .loads:nth-child(2){animation-delay: 0.2s;}
-.ele_form .form_wraper .form .buttons .loader.load .loads:nth-child(3){right: 0;animation-delay: 0.4s;}
-.ele_form .form_wraper .form .buttons .loader.load .loads{
-  animation: loader 0.6s infinite alternate;
-  opacity: 1;
-}
-@keyframes loader {
-  0%{transform: scale(0.4);}
-  100%{transform: scale(1);}
-}
-
-
-
-
-.ele_form .form_wraper .form .buttons .buttons_wraper{
-  width: 100%; height: 100%;
-  justify-content: space-evenly;
-  opacity: 0;
-  transition: all 0.15s;
-}
-.ele_form .form_wraper .form .buttons .buttons_wraper.load{opacity: 1;}
-.ele_form .form_wraper .form .buttons .submit_butt{
-  border: none;
-  width: 5em;
+.form_overlay .form_background .ele_form .loader .loader_wraper{
+  width: 100%;
   height: 100%;
-  background: none;
-  cursor: pointer;
-  transition: all 0.15s;
-
-  opacity: 0;pointer-events: none;
 }
-.ele_form.open .form_wraper .form .buttons .submit_butt{
-  opacity: 1;pointer-events: all;
-}
-.ele_form .form_wraper .form .buttons .submit_butt:hover{filter: drop-shadow(0px 0px 3px rgba(255, 53, 127, 0.6));}
-.ele_form .form_wraper .form .buttons .submit_butt .svg-icon{
-  height: 75%;
-  margin-right: 0.1em;
-}
-.ele_form .form_wraper .form .buttons .submit_butt .svg-icon path{
-  fill: rgb(119, 52, 100);transition: all 0.15s;
-}
-.ele_form .form_wraper .form .buttons .submit_butt:hover .svg-icon path{
-  fill: rgb(255, 53, 127);
-}
-.ele_form .form_wraper .form .buttons .submit_butt p{
-  color: rgb(119, 52, 100);
-  font-weight: 800;
-  transition: all 0.15s;
-}
-.ele_form .form_wraper .form .buttons .submit_butt:hover p{
-  color: rgb(255, 53, 127);
-}
-
-
-
-
-
-/* edit butt ----------------------------------------------------------------------------------------------------------------*/
-/* edit butt ----------------------------------------------------------------------------------------------------------------*/
-.ele_form .form_wraper .form .buttons .edit_butt{
-  border: none;
-  width: 5em;
+.form_overlay .form_background .ele_form .loader .loader_wraper .loader_container{
+  width: 100%;
   height: 100%;
-  background: none;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  opacity: 0;pointer-events: none;
 }
-.ele_form.edit .form_wraper .form .buttons .edit_butt{
-  opacity: 1;pointer-events: all;
-}
-.ele_form .form_wraper .form .buttons .edit_butt:hover{filter: drop-shadow(0px 0px 3px rgba(250, 137, 31, 0.5));}
-.ele_form .form_wraper .form .buttons .edit_butt .svg-icon{
-  height: 75%;
-  margin-right: 0.1em;
-  margin-top: -0.1em;
-}
-.ele_form .form_wraper .form .buttons .edit_butt .svg-icon path{
-  fill: rgb(119, 52, 100);transition: all 0.15s;
-}
-.ele_form .form_wraper .form .buttons .edit_butt:hover .svg-icon path{
-  fill: rgb(250, 137, 31);
-}
-.ele_form .form_wraper .form .buttons .edit_butt p{
-  color: rgb(119, 52, 100);
-  font-weight: 800;
-  transition: all 0.15s;
-}
-.ele_form .form_wraper .form .buttons .edit_butt:hover p{
-  color: rgb(250, 137, 31);
-}
-
-
-
-
-/* delete butt ----------------------------------------------------------------------------------------------------------------*/
-/* delete butt ----------------------------------------------------------------------------------------------------------------*/
-.ele_form .form_wraper .form .buttons .delete_butt{
-  border: none;
-  width: 5em;
+.form_overlay .form_background .ele_form .loader .loader_wraper .loader_container svg{
+  width: 100%;
   height: 100%;
-  background: none;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  opacity: 0;pointer-events: none;
 }
-.ele_form.edit .form_wraper .form .buttons .delete_butt{
-  opacity: 1;pointer-events: all;
-}
-.ele_form .form_wraper .form .buttons .delete_butt:hover{filter: drop-shadow(0px 0px 3px rgba(243, 20, 69, 0.4));}
-.ele_form .form_wraper .form .buttons .delete_butt p{
-  color: rgb(119, 52, 100);
-  font-weight: 800;
-  transition: all 0.15s;
-}
-.ele_form .form_wraper .form .buttons .delete_butt:hover p{
-  color: rgba(243, 20, 69, 1);
+.form_overlay .form_background .ele_form .loader .loader_wraper .loader_container svg path{
+  fill: rgb(134, 62, 114);
 }
 
 
 
+@media only screen and (max-width: 900px){
+  .form_overlay{font-size: 75%;}
+  .form_overlay .form_background .ele_form{min-width: 50em; height: 60%;}
+  .form_overlay .form_background .ele_form .form_wraper .form{margin-top: 5em;}
+  .form_overlay .form_background .ele_form .form_wraper{font-size: 110%; width: 68%;}
+  .form_overlay .border_wraper{height: 90%;}
+  .form_overlay .form_background .ele_form .img_wraper{width: 32%;}
+  .form_overlay .form_background .ele_form .form_wraper .form .children{width: 105%;}
+  .form_overlay .form_background .ele_form .img_wraper .img_background{width: 15em; height: 21.5em;}
+  .form_overlay .border_wraper .time{bottom: 7%; right: 7%; font-size: 1.25em;}
+  .form_overlay .form_background .ele_form .remove_butt{right: 10%;}
+}
+@media only screen and (max-width: 600px){
+  .form_overlay .form_background .ele_form{width: 70%; min-width: 33em; font-size: 90%;}
+  .form_overlay .form_background .ele_form .img_wraper{display: none;}
+  .form_overlay .form_background .ele_form .form_wraper{width: 100%; justify-content: center;}
+  .form_overlay .form_background .ele_form .form_wraper .form{width: 90%; height: 23em;}
+  .form_overlay .border_wraper .time{bottom: 6%; right: 10%; font-size: 1.3em;}
+}
 
 
 
@@ -1345,11 +1325,11 @@ body,html{
   border-radius: 50%;
   width: 3.2em;
   height: 3.2em;
-  z-index: 8;
+  z-index: 10;
   position: absolute;
-  transform: translateX(0px) translateY(0px) scale(0);
   pointer-events: none;
 }
+
 
 /*1.0 == head & images - section =======================================================================================================*/
 /*1.0 == head & images - section =======================================================================================================*/
@@ -1376,7 +1356,7 @@ body,html{
   background-size:cover;
   background-position: center;
 }
-.parallax_1{background-image: url("/image/layer_1.png");}
+.parallax_1{background-image: url("/image/layer_1_edites.png");}
 .parallax_2{background-image: url("/image/layer_2.png");}
 .parallax_3{background-image: url("/image/layer_3.png");}
 .parallax_4{background-image: url("/image/layer_4.png");}
@@ -1462,7 +1442,8 @@ body,html{
   transition: all 0.1s ease-in-out;
   pointer-events: none;
 }
-.web_parent .head .circles_wraper  .top_circles .main_circle .svg-icon:hover path{stroke: rgb(243, 35, 174);}
+.web_parent .head .circles_wraper .top_circles .main_circle .svg-icon:hover path{stroke: rgb(243, 35, 174);}
+
 
 
 
@@ -1491,12 +1472,22 @@ body,html{
   justify-content: space-evenly;
   cursor: pointer;
 }
-.web_parent .head .circles_wraper .right_line .right_links .link{height: 33%; width: 100%;}
+.web_parent .head .circles_wraper .right_line .right_links .link{height: 33%; width: 100%; position: relative;}
 .web_parent .head .circles_wraper .right_line .right_links .link .svg-icon{
   height: 62%;
   width: 62%;
   fill: rgba(36,10, 34, 0.7);
   filter: drop-shadow(0px 0px 1px rgba(36,10, 34, 0.7));
+}
+.web_parent .head .circles_wraper .right_line .right_links .link p{
+  position: absolute;
+  bottom: -0.5em;
+  font-size: 0.75em;
+  color: var(--main-purple);
+  font-weight: 600;
+  width: 120%;
+  text-align: center;
+  pointer-events: none;
 }
 
 
@@ -1596,7 +1587,35 @@ body,html{
 }
 .web_parent .head .circles_wraper .top_line .top_logo .svg_wraper svg path{fill: var(--main-purple);}
 
-
+.web_parent .head .circles_wraper .top_line .top_links .link_wraper .link p{
+  position: absolute;
+  color: var(--main-purple);
+  pointer-events: none;
+  left: 50%;
+  width: 80%;
+  text-align: center;
+  bottom: 0;
+  transform: translateX(-50%);
+  font-weight: 600;
+  font-size: 0.85em;
+  transition: all 0.15s ease-in-out;
+  opacity: 0;
+}
+.web_parent .head .circles_wraper .top_line .top_links .link_wraper .link:hover .like{
+  margin-bottom: -3px;
+  opacity: 1;
+  color: rgb(205, 72, 107);
+}
+.web_parent .head .circles_wraper .top_line .top_links .link_wraper .link:hover .msg{
+  margin-bottom: -3px;
+  opacity: 1;
+  color: rgb(180, 23, 253);
+}
+.web_parent .head .circles_wraper .top_line .top_links .link_wraper .link:hover .logout{
+  margin-bottom: -3px;
+  opacity: 1;
+  color: rgb(117, 36, 247);
+}
 
 
 
@@ -1673,7 +1692,6 @@ body,html{
 .web_parent .head .main_text .text_wraper .main_txt p span{
   color: rgb(126, 2, 50);
   font-family: 'Allerta Stencil', sans-serif;
-  text-shadow: 0px 0px 2px rgba(126, 2, 50, 0.5);
   position: relative;
 }
 .web_parent .head .main_text .text_wraper .main_txt p span::before{
@@ -1699,7 +1717,6 @@ body,html{
   color: var(--main-purple);
   font-family: 'Allerta Stencil', sans-serif;
   text-transform: uppercase;
-  text-shadow: 0px 0px 2px rgba(36,10, 34, 0.5);
   font-size: 2em;
   line-height: 1.15em;
   text-align: center;
@@ -1712,7 +1729,6 @@ body,html{
 .web_parent .head .main_text .text_wraper .description_txt p span{
   color: rgb(126, 2, 50);
   font-family: 'Allerta Stencil', sans-serif;
-  text-shadow: 0px 0px 2px rgba(126, 2, 50, 0.5);
   position: relative;
 }
 .web_parent .head .main_text .text_wraper .description_txt p span::before{
@@ -1754,7 +1770,6 @@ body,html{
   .outside_left_nav{font-size: 85%;}
   .outside_top_nav .search{font-size: 90%;right: 15vw;}
   .outside_top_nav .logo{font-size: 90%;}
-  .element_form{font-size: 85%;}
 
   .web_parent .head .parallax_images{height: 32%;}
   .web_parent .lerp_ball{font-size: 85%;}
@@ -1769,30 +1784,6 @@ body,html{
 
 @media only screen and (max-width: 600px){
   .outside_left_nav{font-size: 70%;}
-  /* form ----------------------------------------------------------------------*/
-  .element_form{font-size: 70%;transform: translate(-50%,-45%);width: 22em;height: 36em;}
-
-  .element_form .form .inputs_wraper{height: 80%;flex-direction: column;}
-  .element_form .form .head_wraper,.element_form .form .submit_wraper{height: 10%;}
-  .element_form .form .head_wraper p{font-size: 1.7em; margin-top: 0.1em;}
-
-  .element_form .form .inputs_wraper .inputs{width: 100%; height: 90%;}
-  .element_form .form .inputs_wraper .inputs .triangle{
-    right: 50%;
-    bottom: -0.8em;
-    transform: translateX(50%) rotate(90deg);
-  }
-  .element_form .form .inputs_wraper .inputs .triangle{filter: drop-shadow(0px 0px 3px rgba(255, 61, 119, 1));}
-  .element_form .form .inputs_wraper .inputs .triangle path{fill: rgba(255, 61, 119, 1);}
-  .element_form .form .inputs_wraper .inputs .inputs_parent{width: 95%; margin-left: 0;}
-  
-  .element_form .form .inputs_wraper .image{width: 49%; height: 110%;}
-  .element_form .form .inputs_wraper .image .img_parent{width: 100%;height: 95%;margin-top: 1em;}
-  .element_form .form .inputs_wraper .image .img_parent .rating_parent label{left: 1.55em;}
-  .element_form .form .inputs_wraper .image .img_parent .rating_parent input{left: 5.45em;}
-
-  .element_form .form .submit_wraper .submit_butt{width: 30%;font-size: 1.6em;margin-bottom: 0em;}
-  .element_form .form .submit_wraper .submit_butt .svg-icon{margin-left: -0.8em;} 
   
   /* ouside top nav ----------------------------------------------------------------------*/
   .outside_top_nav .search{font-size: 80%;right: 13vw;}
@@ -1942,6 +1933,44 @@ body,html{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*== movie list & add button - element ===============================================================================================*/
 /*== movie list & add button - element ===============================================================================================*/
 .web_parent .body .movie_list{
@@ -2021,31 +2050,79 @@ body,html{
 
 
 
-/*== ele wraper & name & eedit butt - element ===============================================================================================*/
-/*== ele wraper & name & eedit butt - element ===============================================================================================*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*== ele wraper & name & edit butt - element ===============================================================================================*/
+/*== ele wraper & name & edit butt - element ===============================================================================================*/
 .web_parent .body .movie_list .movie_wraper{
-  width: 76%;
+  width: 78%;
   height: auto;
   position: relative;
   display: flex;
   flex-wrap: wrap;
+  border: 1px solid green;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper{
   width: 25%;
-  height: 26vw;
+  height: 27vw;
   position: relative;
 
-  /* border: 1px solid darkred; */
+  border: 1px solid darkred;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* edit butt --------------------------------------------------------------------------------------------------*/
-.web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper{
+/* .web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper{
   width: 3em;
   height: 3em;
   position: absolute;
   right: -0.7em;
   top: -0.7em;
   transform-origin: bottom left;
-  transform: scale(0);
+  transform: scale(1);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -2063,7 +2140,23 @@ body,html{
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper:hover .svg-icon{
   filter: drop-shadow(0px 0px 2px rgb(255, 166, 0));
-}
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* name -------------------------------------------------------------------------------------------------------*/
 .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent{
   width: 100%;
@@ -2092,7 +2185,7 @@ body,html{
 .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(11){transition-delay: 0.55s;}
 .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(12){transition-delay: 0.6s;} */
 .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span{
-  transition:color 0.6s cubic-bezier(0.7, 0.01, 0.37, 1),text-shadow 0.6s cubic-bezier(0.7, 0.01, 0.37, 1),filter 0.6s cubic-bezier(0.7, 0.01, 0.37, 1);
+  transition:color 0.6s cubic-bezier(0.7, 0.01, 0.37, 1),text-shadow 0.6s cubic-bezier(0.7, 0.01, 0.37, 1);
   font-family: 'Allerta Stencil', sans-serif;
   font-size: 1.1em;
   font-size: 1.3vw;
@@ -2111,20 +2204,214 @@ body,html{
 
 
 
+
+
+
+
+
+
 /*== ele - element =================================================================================================*/
 /*== ele - element =================================================================================================*/
+.web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper{
+  position: absolute;
+  width: 2em;
+  height: 1.5em;
+  top: 0.5em;
+  cursor: pointer;
+  transform: scale(0);
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper .svg-icon{
+  width: 100%;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper .svg-icon path{
+  stroke: rgb(255, 166, 0);
+  stroke-width: 2;
+}
+
+
+
+
+
+
+
+
+
+
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele{
   border-radius: 12px;
   position: absolute;
   width: 82%;
-  height: 87%;
+  height: 83%;
   background: linear-gradient(0deg, rgb(41, 12, 38) 0%, rgb(59, 23, 56) 100%);
   display: flex;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.9s ease-in-out;
+  transition: all 0.8s ease-in-out;
 }
-.web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele{height: 92%;}
+.web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele{height: 88%;}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele.hidden{
+  display: none;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper{
+  /* border: 1px solid white; */
+  width: 100%;
+  height: 36%;
+  position: absolute;
+  bottom: 2em;
+  transition: bottom 0.8s ease-in-out;
+  opacity: 0.2;
+
+  animation-name: unflicker;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .info_wraper{
+  width: 100%;
+  position: absolute;
+  bottom: 1.5em;
+
+  animation-name: flicker;
+  animation-duration: 0.9s;
+  animation-timing-function: ease-in;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .section{
+  width: 100%;
+  /* border: 1px solid white; */
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .play{
+  height: 25%;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info{
+  height: 60%;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .genre{
+  height: 15%;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .genre p{
+  color: rgba(121, 54, 119, 0.9);
+  font-weight: 600;
+  font-size: 0.75em;
+  text-transform:capitalize;
+}
+
+
+
+
+
+
+
+
+
+.web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper{
+  border-radius: 10px;
+  position: absolute;
+  width: 72.5%;
+  height: 71%;
+  top: 11.4%;
+  border: 4px solid rgba(0,0,0,0.15);
+  box-sizing: content-box;
+  transition: all 0.8s ease-in-out;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .image_wraper{top: 8.9%;height: 45%;}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper img{
+  width: 100%;
+  opacity: 1;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper{
+  position: absolute;
+  width: 2em;
+  height: 2em;
+  bottom: 0.5em;
+  right: 0.5em;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  backdrop-filter: blur(5px);
+  background: rgba(73, 73, 73, 0.1);
+  transition: all 0.15s ease-in-out;
+  pointer-events: all;
+  cursor: pointer;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper .svg-icon{
+  width: 65%;height: 65%;
+  transition: all 0.1s ease-in-out;
+  margin-top: 2px;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper:hover .svg-icon{
+  filter: drop-shadow(0px 0px 4px rgba(73, 255, 28, 1));
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper .svg-icon path{
+  stroke: rgb(114, 44, 113);
+  transition: all 0.1s ease-in-out;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper:hover .svg-icon path{
+  stroke: rgba(73, 255, 28, 0.6);
+}
+
+
+
+
+
+
+
+
+.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent{
+  width: 100%;
+  height: 14.5%;
+  position: absolute;
+  bottom: -1%;
+  pointer-events: none;
+  align-items: flex-start;
+  /* border: 1px solid white; */
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name{
+  padding: 0em 2em 0em 2em;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* border: 1px solid white; */
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span{
+  transition:color 0.6s cubic-bezier(0.7, 0.01, 0.37, 1),text-shadow 0.6s cubic-bezier(0.7, 0.01, 0.37, 1);
+  font-family: 'Allerta Stencil', sans-serif;
+  font-size: 1.5vw;
+  transition-delay: inherit;
+  color: #793677;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > .space{margin-left: 0.4em;}
+/* .web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .name_parent .name > span{
+  transform: translateY(-0%);
+  color: rgba(255, 61, 119, 1);
+  text-shadow: 0px 0px 8px rgba(255, 61, 119, 0.6);
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*== image & bookmark - element ===============================================================================================*/
 /*== image & bookmark - element ===============================================================================================*/
@@ -2146,10 +2433,11 @@ body,html{
   overflow: hidden;
   opacity: 1;
   z-index: 3;
-  box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
+  /* border: 4px solid rgba(0,0,0,0.1); */
+  /* box-shadow: 0px 0px 15px rgba(0,0,0,0.5); */
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .image_parent > img{width: 100%;}
-
+/* .web_parent .body .movie_list .movie_wraper .ele_wraper .ele.hidden .image_wraper .image_parent > img{opacity: 0;} */
 /*== bookmark - element ===============================================================================================*/
 /*== bookmark - element ===============================================================================================*/
 
@@ -2186,7 +2474,6 @@ body,html{
 .web_parent .body .movie_list .movie_wraper .ele_wraper.fav .ele .image_wraper .bookmark_wraper .svg-icon path{
   fill: rgba(73, 255, 28, 1); filter: drop-shadow(0px 0px 2px rgba(73, 255, 28, 1));
 }
-
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper[data-bookmark="true"] .svg-icon path{
   fill: rgba(73, 255, 28, 1); filter: drop-shadow(0px 0px 2px rgba(73, 255, 28, 1));
 }
@@ -2208,6 +2495,7 @@ body,html{
   width: 85%;
   height: 30%;
   position: relative;
+  /* border: 1px solid white; */
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section:nth-child(1){height: 28%;}
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section:nth-child(2){height: 28%;}
@@ -2244,7 +2532,8 @@ body,html{
 /* info sections, text and buttons -----------------------------------------------------------------------------*/
 
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section p{
-  color: rgba(255, 255, 255, 1);
+  color: rgb(209, 68, 134);
+  font-weight: 600;
   font-size: 0.9vw;
   opacity: 0.2;
   animation-name: unflicker;
@@ -2260,9 +2549,9 @@ body,html{
   animation-fill-mode: forwards;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section p span{
-  color: #FF5290;
-  text-shadow: 0px 0px 2px rgba(255, 82, 144, 0.8);
+  color: rgb(134, 62, 114);
   font-size: 1.1em;
+  margin-left: 0.2em;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section:last-child .play_butt{
   margin-top: 0.5em;
@@ -2277,11 +2566,35 @@ body,html{
   text-decoration: none;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt p{
-  color: rgb(255, 82, 144);
-  text-shadow: 0px 0px 2px rgba(255, 82, 144, 0.8);
+  color: rgb(209, 68, 134);
   font-size: 1.05vw;
+  font-weight: 500;
   pointer-events: none;
+  margin-left: 0.5em;
+  margin-top: 0.15em;
 }
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt .svg-icon{
+  height: 1.7em;
+  padding: 0.45em;
+  pointer-events: none;
+  opacity: 0.2;
+  animation-name: unflicker;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt .svg-icon path{
+  stroke: rgb(209, 68, 134);
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .info_parent .section .play_butt .svg-icon{
+  animation-name: flicker;
+  animation-duration: 0.9s;
+  animation-timing-function: ease-in;
+  animation-delay: 0.8s;
+  animation-fill-mode: forwards;
+}
+
+
 @keyframes flicker {
   0%{opacity: 0.2;}
   25%{opacity: 1;}
@@ -2307,7 +2620,8 @@ body,html{
   .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span{font-size: 1.65vw;}
 
   .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section p{font-size: 1.15vw;}
-  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt i{font-size: 1.4vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt p{font-size: 1.4vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper{font-size: 95%;}
 }
 
 @media only screen and (max-width: 600px){
@@ -2324,5 +2638,9 @@ body,html{
   .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span{font-size: 2.5vw;}
 
   .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section p{font-size: 1.7vw;}
-  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt i{font-size: 2vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt p{font-size: 2vw;}
+
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper{font-size: 88%;}
 }
+
+          
