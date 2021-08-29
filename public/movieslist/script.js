@@ -256,9 +256,13 @@ function mouseFollowCircle (){
     this.y = lerp(this.y, this.my, 0.26);
     if (this.hover) {
       this.size = lerp(this.size, 1, 0.2);
-    } else if(this.size > 0.01){
-      this.size = lerp(this.size, 0, 0.3);
+      return;
     }
+    if(this.size < 0.01){
+      this.size = 0;
+      return;
+    }
+    this.size = lerp(this.size, 0, 0.3);
   };
   this.move = function (ele,x) {
     ele.style.background = this.color;
@@ -482,6 +486,7 @@ class Film {
     this.type = data.type;
     this.time = data.time;
 
+    // this.imgFile = data.file;
     this.Name = [];
     this.eleWraper;
   }
@@ -503,94 +508,58 @@ class Film {
     this.eleWraper = document.createElement("div");
     this.eleWraper.classList.add("ele_wraper");
     this.eleWraper.classList.add("flex_middle");
+    // https://i.pinimg.com/originals/5a/d3/f1/5ad3f1a8c6a04f5eda5d5f2fa1331626.jpg
     this.eleWraper.innerHTML = 
     `
-            <div class="edit_wraper flex_middle">
-              <svg class="svg-icon" width="40" height="14" viewBox="0 0 40 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.5 7C11.5 9.48528 9.48528 11.5 7 11.5C4.51472 11.5 2.5 9.48528 2.5 7C2.5 4.51472 4.51472 2.5 7 2.5C9.48528 2.5 11.5 4.51472 11.5 7ZM24.5 7C24.5 9.48528 22.4853 11.5 20 11.5C17.5147 11.5 15.5 9.48528 15.5 7C15.5 4.51472 17.5147 2.5 20 2.5C22.4853 2.5 24.5 4.51472 24.5 7ZM37.5 7C37.5 9.48528 35.4853 11.5 33 11.5C30.5147 11.5 28.5 9.48528 28.5 7C28.5 4.51472 30.5147 2.5 33 2.5C35.4853 2.5 37.5 4.51472 37.5 7Z"/>
-              </svg>                             
+    <div class="edit_wraper flex_middle">
+      <svg class="svg-icon" width="40" height="14" viewBox="0 0 40 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.5 7C11.5 9.48528 9.48528 11.5 7 11.5C4.51472 11.5 2.5 9.48528 2.5 7C2.5 4.51472 4.51472 2.5 7 2.5C9.48528 2.5 11.5 4.51472 11.5 7ZM24.5 7C24.5 9.48528 22.4853 11.5 20 11.5C17.5147 11.5 15.5 9.48528 15.5 7C15.5 4.51472 17.5147 2.5 20 2.5C22.4853 2.5 24.5 4.51472 24.5 7ZM37.5 7C37.5 9.48528 35.4853 11.5 33 11.5C30.5147 11.5 28.5 9.48528 28.5 7C28.5 4.51472 30.5147 2.5 33 2.5C35.4853 2.5 37.5 4.51472 37.5 7Z"/>
+      </svg>                             
+    </div>
+    <div class="ele">
+      <div class="info_wraper">
+        <div class="section play flex_middle">
+          <a href="${this.link}" target="_blank" class="play_butt flex_middle" data-type="object" data-color="rgba(255, 82, 144, 0.2)">
+            <svg class="svg-icon" width="31" height="36" viewBox="0 0 31 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 16.268C31.3333 17.0378 31.3333 18.9623 30 19.7321L3 35.3205C1.66666 36.0903 -1.68435e-06 35.1281 -1.61807e-06 33.5885L-2.75998e-07 2.41154C-2.09723e-07 0.87194 1.66667 -0.0903097 3 0.679491L30 16.268Z" fill="#773464"/>
+            </svg> 
+          </a> 
+        </div>
+        <div class="section genre flex_middle">
+          <p class="label">Genre:</p>
+          <p>${this.genre}</p>
+        </div>
+        <div class="section info">
+          <div class="child flex_middle">
+            <div class="rating flex_middle">
+              <p class="label">Rating:</p>
+              ${this.rating}
             </div>
-            <div class="ele">
-              <div class="info_wraper">
-                <div class="section play flex_middle"></div>
-                <div class="section info flex_middle"></div>
-                <div class="section genre flex_middle">
-                  <p>Drama, miniseires</p>
-                </div>
-              </div>
+            <div class="border"></div>
+          </div>
+          <div class="child flex_middle">
+            <div class="type flex_middle">
+              <p class="label">Type:</p>
+              ${this.type}
             </div>
-            <div class="image_wraper flex_middle">
-              <img src="https://i.pinimg.com/originals/5a/d3/f1/5ad3f1a8c6a04f5eda5d5f2fa1331626.jpg">
-              <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
-                <svg class="svg-icon" width="23" height="42" viewBox="0 0 23 42" fill="none">
-                  <path d="M1.5 39.5V1H21.5V39.5L11.5 29.5L1.5 39.5Z" stroke-width="2"/>
-                </svg>
-              </div>
-            </div>
-            <div class="name_parent">
-              <p class="name">
-                <span>q</span>
-                <span>u</span>
-                <span>e</span>
-                <span>e</span>
-                <span>n</span>
-                <span>'</span>
-                <span>s</span>
-                <span class="space">g</span>
-                <span>a</span>
-                <span>m</span>
-                <span>b</span>
-                <span>i</span>
-                <span>t</span>
-              </p>
-            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="image_wraper flex_middle">
+      <img src="${this.img}">
+      <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
+        <svg class="svg-icon" width="23" height="42" viewBox="0 0 23 42" fill="none">
+          <path d="M1.5 39.5V1H21.5V39.5L11.5 29.5L1.5 39.5Z" stroke-width="2"/>
+        </svg>
+      </div>
+    </div>
+    <div class="name_parent">
+      <p class="name" data-name="${this.name}">
+        ${this.Name.join(" ")}
+      </p>
+    </div>
     `
-    // this.eleWraper.innerHTML = 
-    // `
-    //   <div class="edit_wraper flex_middle">
-    //     <svg class="svg-icon" viewBox="0 0 20 20">
-    //       <path d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"></path>
-    //     </svg>
-    //   </div>
-    //   <div class="ele">
-    //     <div class="image_wraper flex_middle">
-    //       <div class="image_parent flex_middle">
-    //         <img src="${this.img}">
-    //       </div>
-    //       <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
-    //         <svg class="svg-icon" viewBox="0 0 20 20">
-    //           <path d="M14.467,1.771H5.533c-0.258,0-0.47,0.211-0.47,0.47v15.516c0,0.414,0.504,0.634,0.802,
-    //           0.331L10,13.955l4.136,4.133c0.241,0.241,0.802,0.169,0.802-0.331V2.241C14.938,1.982,14.726,
-    //           1.771,14.467,1.771 M13.997,16.621l-3.665-3.662c-0.186-0.186-0.479-0.186-0.664,0l-3.666,
-    //           3.662V2.711h7.994V16.621z"/>
-    //         </svg>
-    //       </div>
-    //     </div>
-    //     <div class="info_parent flex_middle">
-    //       <div class="section rating flex_middle">
-    //         <p>Rating:<span>${this.rating}</span></p>
-    //       </div>
-    //       <div class="section genre flex_middle">
-    //         <div class="top_line"></div>
-    //         <div class="bottom_line"></div>
-    //         <p>Genre:<span>${this.genre}</span></p>
-    //       </div>
-    //       <div class="section play flex_middle">
-    //         <a href="${this.link}" target="_blank" class="play_butt flex_middle" data-type="object" data-color="rgba(209, 68, 134, 0.2)">
-    //           <p>WATCH</p>
-    //           <svg width="31" class="svg-icon" height="33" viewBox="0 0 31 33" xmlns="http://www.w3.org/2000/svg" fill="none">
-    //             <path d="M29.335 17.376L3.23225 31.7455C2.56579 32.1124 1.75 31.6303 1.75 30.8695L1.75 2.13049C1.75 1.36972 2.56579 0.887574 3.23225 1.25446L29.335 15.624C30.0254 16.004 30.0254 16.996 29.335 17.376Z" stroke-width="4"/>
-    //           </svg>   
-    //         </a>
-    //       </div>
-    //     </div>
-    //   </div>
-    //   <div class="name_parent flex_middle">
-    //     <p class="name" data-name="${this.name}">
-    //       ${this.Name.join(" ")}
-    //     </p>
-    //   </div>
-    // `
   }
   display(){
     movieWraper.appendChild(this.eleWraper);
@@ -598,49 +567,54 @@ class Film {
   updateMovie(){
     this.eleWraper.innerHTML = 
     `
-      <div class="edit_wraper flex_middle">
-        <svg class="svg-icon" viewBox="0 0 20 20">
-          <path d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"></path>
+    <div class="edit_wraper flex_middle">
+      <svg class="svg-icon" width="40" height="14" viewBox="0 0 40 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.5 7C11.5 9.48528 9.48528 11.5 7 11.5C4.51472 11.5 2.5 9.48528 2.5 7C2.5 4.51472 4.51472 2.5 7 2.5C9.48528 2.5 11.5 4.51472 11.5 7ZM24.5 7C24.5 9.48528 22.4853 11.5 20 11.5C17.5147 11.5 15.5 9.48528 15.5 7C15.5 4.51472 17.5147 2.5 20 2.5C22.4853 2.5 24.5 4.51472 24.5 7ZM37.5 7C37.5 9.48528 35.4853 11.5 33 11.5C30.5147 11.5 28.5 9.48528 28.5 7C28.5 4.51472 30.5147 2.5 33 2.5C35.4853 2.5 37.5 4.51472 37.5 7Z"/>
+      </svg>                             
+    </div>
+    <div class="ele">
+      <div class="info_wraper">
+        <div class="section play flex_middle">
+          <a href="${this.link}" target="_blank" class="play_butt flex_middle" data-type="object" data-color="rgba(255, 82, 144, 0.2)">
+            <svg class="svg-icon" width="31" height="36" viewBox="0 0 31 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 16.268C31.3333 17.0378 31.3333 18.9623 30 19.7321L3 35.3205C1.66666 36.0903 -1.68435e-06 35.1281 -1.61807e-06 33.5885L-2.75998e-07 2.41154C-2.09723e-07 0.87194 1.66667 -0.0903097 3 0.679491L30 16.268Z" fill="#773464"/>
+            </svg> 
+          </a> 
+        </div>
+        <div class="section genre flex_middle">
+          <p class="label">Genre:</p>
+          <p>${this.genre}</p>
+        </div>
+        <div class="section info">
+          <div class="child flex_middle">
+            <div class="rating flex_middle">
+              <p class="label">Rating:</p>
+              ${this.rating}
+            </div>
+            <div class="border"></div>
+          </div>
+          <div class="child flex_middle">
+            <div class="type flex_middle">
+              <p class="label">Type:</p>
+              ${this.type}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="image_wraper flex_middle">
+      <img src="${this.img}">
+      <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
+        <svg class="svg-icon" width="23" height="42" viewBox="0 0 23 42" fill="none">
+          <path d="M1.5 39.5V1H21.5V39.5L11.5 29.5L1.5 39.5Z" stroke-width="2"/>
         </svg>
       </div>
-      <div class="ele">
-        <div class="image_wraper flex_middle">
-          <div class="image_parent flex_middle">
-            <img src="${this.img}">
-          </div>
-          <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
-            <svg class="svg-icon" viewBox="0 0 20 20">
-              <path d="M14.467,1.771H5.533c-0.258,0-0.47,0.211-0.47,0.47v15.516c0,0.414,0.504,0.634,0.802,
-              0.331L10,13.955l4.136,4.133c0.241,0.241,0.802,0.169,0.802-0.331V2.241C14.938,1.982,14.726,
-              1.771,14.467,1.771 M13.997,16.621l-3.665-3.662c-0.186-0.186-0.479-0.186-0.664,0l-3.666,
-              3.662V2.711h7.994V16.621z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="info_parent flex_middle">
-          <div class="section rating flex_middle">
-          <p>Rating:<span>${this.rating}</span></p>
-          </div>
-          <div class="section genre flex_middle">
-            <div class="top_line"></div>
-            <div class="bottom_line"></div>
-            <p>Genre:<span>${this.genre}</span></p>
-          </div>
-          <div class="section play flex_middle">
-            <a href="${this.link}" target="_blank" class="play_butt flex_middle" data-type="object" data-color="rgba(209, 68, 134, 0.2)">
-              <p>WATCH</p>
-              <svg width="31" class="svg-icon" height="33" viewBox="0 0 31 33" xmlns="http://www.w3.org/2000/svg" fill="none">
-                <path d="M29.335 17.376L3.23225 31.7455C2.56579 32.1124 1.75 31.6303 1.75 30.8695L1.75 2.13049C1.75 1.36972 2.56579 0.887574 3.23225 1.25446L29.335 15.624C30.0254 16.004 30.0254 16.996 29.335 17.376Z" stroke-width="4"/>
-              </svg>   
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="name_parent flex_middle">
-        <p class="name" data-name="${this.name}">
-          ${this.Name.join(" ")}
-        </p>
-      </div>
+    </div>
+    <div class="name_parent">
+      <p class="name" data-name="${this.name}">
+        ${this.Name.join(" ")}
+      </p>
+    </div>
     `
   }
   addeventlistener(){
@@ -763,6 +737,9 @@ class Form {
     this.submitButt = this.form.querySelector(".submit_butt");
     this.editButt = this.form.querySelector(".edit_butt");
     this.deleteButt = this.form.querySelector(".delete_butt");
+
+    this.fileButt = document.querySelector(".image_file");
+    this.fileClicked = false;
   }
 
   handleTime(){
@@ -778,6 +755,13 @@ class Form {
 
 
   eventListener(){
+    this.fileButt.addEventListener("click",()=>{
+      console.log("file clicked");
+      this.fileClicked = true;
+      console.log(`this.fileClicked is ${this.fileClicked}`);
+    })
+
+
     this.closeButt.addEventListener("click",()=>{
       this.formOverlay.classList.remove("open");
       this.formOverlay.classList.remove("edit");
@@ -794,96 +778,133 @@ class Form {
 
     this.editButt.addEventListener("click",()=>{
 
-      this.buttons.classList.add("loading");
-      this.loader.classList.add("loading");
-
-      let data = {
-        data:{
-          name:this.element.name,
-          link:this.element.link,
-          img:this.element.img,
-          genre:this.element.genre,
-          rating:this.element.rating,
-          time:this.element.time,
-          bookmark:this.element.bookmark
-        },
-        updatedData:{
-          name:this.name.value,
-          link:this.link.value,
-          img:this.img.value,
-          genre:this.genre.value,
-          rating:this.rating.value,
-          time:this.time.innerHTML,
-          bookmark:this.element.bookmark
+      if(this.fileClicked){
+        console.log("button had been clicked !!!");
+        if(this.img.value == this.element.img){
+          console.log("button had been clicked but no changes had been made !!!");
         }
+      }else{
+        console.log("button had not been clicked before !!!");
       }
-      postFetch("/mockUserEdit",data)
-      .then((permition)=>{
-        if(permition){
-          this.element.name = data.updatedData.name,
-          this.element.link = data.updatedData.link,
-          this.element.img = data.updatedData.img,
-          this.element.genre = data.updatedData.genre,
-          this.element.rating = data.updatedData.rating,
-          this.element.time = data.updatedData.time,
-          this.element.bookmark = data.updatedData.bookmark
-        }
-        this.element.mapName();
-        this.element.updateMovie();
-        namesTransitionDelay();
-      })
-      .then(()=>{
-        setTimeout(() => {
-          this.formOverlay.classList.remove("open");
-          this.formOverlay.classList.remove("edit");
+
+      // this.buttons.classList.add("loading");
+      // this.loader.classList.add("loading");
+
+      form.clear();
+      this.formOverlay.classList.remove("open");
+      this.formOverlay.classList.remove("edit");
+
+      // let data = {
+      //   data:{
+      //     name:this.element.name,
+      //     link:this.element.link,
+      //     img:this.element.img,
+      //     genre:this.element.genre,
+      //     rating:this.element.rating,
+      //     time:this.element.time,
+      //     type:this.element.type,
+      //     bookmark:this.element.bookmark
+      //   },
+      //   updatedData:{
+      //     name:this.name.value,
+      //     link:this.link.value,
+      //     img:this.img.value,
+      //     genre:this.genre.value,
+      //     rating:this.rating.value,
+      //     time:this.time.innerHTML,
+      //     type:this.type.value,
+      //     bookmark:this.element.bookmark
+      //   }
+      // }
+      // postFetch("/mockUserEdit",data)
+      // .then((permition)=>{
+      //   if(permition){
+      //     this.element.name = data.updatedData.name,
+      //     this.element.link = data.updatedData.link,
+      //     this.element.img = data.updatedData.img,
+      //     this.element.genre = data.updatedData.genre,
+      //     this.element.rating = data.updatedData.rating,
+      //     this.element.time = data.updatedData.time,
+      //     this.element.type = data.updatedData.type,
+      //     this.element.bookmark = data.updatedData.bookmark
+      //   }
+      //   this.element.mapName();
+      //   this.element.updateMovie();
+      //   namesTransitionDelay();
+      // })
+      // .then(()=>{
+      //   setTimeout(() => {
+      //     this.formOverlay.classList.remove("open");
+      //     this.formOverlay.classList.remove("edit");
   
-          this.buttons.classList.remove("loading");
-          this.loader.classList.remove("loading");
-          form.clear();
-        }, 500);
-      })
+      //     this.buttons.classList.remove("loading");
+      //     this.loader.classList.remove("loading");
+      //     form.clear();
+      //   }, 500);
+      // })
     })
 
     this.deleteButt.addEventListener("click",()=>{
-      this.buttons.classList.add("loading");
-      this.loader.classList.add("loading");
+      // this.buttons.classList.add("loading");
+      // this.loader.classList.add("loading");
 
-      let data = {
-        name:this.element.name,
-        link:this.element.link,
-        img:this.element.img,
-        genre:this.element.genre,
-        rating:this.element.rating,
-        time:this.element.time,
-        bookmark:this.element.bookmark,
+
+      if(this.element.imgFile){
+        console.log("Link is an uploaded one !!!");
+      }else{
+        console.log("Link is form the internet !!!");
       }
-      postFetch("/mockUserDelete",data)
-      .then((permition)=>{
-        if(permition){
-          movieWraper.removeChild(this.element.eleWraper);
-          let eleIndex = movieObject.findIndex(({name})=>{
-            return name === data.name; 
-          })
-          movieObject.splice(eleIndex,1);
-        }else{
-          console.log("MOVIE HAS NOT BEEN DELETED!!!");
-        }
-      })
-      .then(()=>{
-        setTimeout(() => {
-          this.formOverlay.classList.remove("open");
-          this.formOverlay.classList.remove("edit");
+
+      form.clear();
+      this.formOverlay.classList.remove("open");
+      this.formOverlay.classList.remove("edit");
+
+      // let data = {
+      //   name:this.element.name,
+      //   link:this.element.link,
+      //   img:this.element.img,
+      //   genre:this.element.genre,
+      //   rating:this.element.rating,
+      //   time:this.element.time,
+      //   bookmark:this.element.bookmark,
+      // }
+      // postFetch("/mockUserDelete",data)
+      // .then((permition)=>{
+      //   if(permition){
+      //     movieWraper.removeChild(this.element.eleWraper);
+      //     let eleIndex = movieObject.findIndex(({name})=>{
+      //       return name === data.name; 
+      //     })
+      //     movieObject.splice(eleIndex,1);
+      //   }else{
+      //     console.log("MOVIE HAS NOT BEEN DELETED!!!");
+      //   }
+      // })
+      // .then(()=>{
+      //   setTimeout(() => {
+      //     this.formOverlay.classList.remove("open");
+      //     this.formOverlay.classList.remove("edit");
   
-          this.buttons.classList.remove("loading");
-          this.loader.classList.remove("loading");
-          form.clear();
-        }, 500);
-      })
+      //     this.buttons.classList.remove("loading");
+      //     this.loader.classList.remove("loading");
+      //     form.clear();
+      //   }, 500);
+      // })
     })
 
     this.form.addEventListener("submit",(e)=>{
-      this.buttons.classList.add("loading");
-      this.loader.classList.add("loading");
+      // this.buttons.classList.add("loading");
+      // this.loader.classList.add("loading");
+
+      if(this.fileClicked){
+        console.log("button had been clicked !!!");
+      }else{
+        console.log("button had not been clicked before !!!");
+      }
+
+      form.clear();
+      this.formOverlay.classList.remove("open");
+      this.formOverlay.classList.remove("edit");
 
       e.preventDefault();
       let data = {
@@ -896,7 +917,7 @@ class Form {
         time:this.time.innerHTML,
         bookmark:false
       };
-      this.submit(data);
+      // this.submit(data);
     })
 
     this.name.addEventListener("input",()=>{
@@ -962,6 +983,8 @@ class Form {
     form.handleTime();
   }
   clear(){
+    this.fileClicked = false;
+    console.log(`this.fileClicked is ${this.fileClicked}`);
     setTimeout(() => {
       this.name.value = "";
       this.link.value = "";
@@ -1089,31 +1112,120 @@ let searchObj = new searchBar()
 
 
 
-const debug = document.querySelector(".debug");
-debug.addEventListener("click",()=>{
-  let USER = {
-    username:"devil",
-    email:"devil@cry.com",
-    password:"devilmaycry"
-  }
-  let options = {
-    method:"POST",
-    headers:{
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    body:JSON.stringify(USER)
-  };
-  fetch("/mockUserInsert",options).then((res)=>{
-    return res.json();
-  }).then((info)=>{
-    if(info){
-      console.log("User Added!!!");
-    }else{
-      console.log("User Already Exist!!!");
-    }
-  })
+
+
+
+
+
+
+
+
+// const debug = document.querySelector(".debug");
+let imgPrev = document.querySelector(".img_prev");
+
+let fileInput = document.querySelector("#file");
+fileInput.addEventListener("change",(e)=>{
+  imgPrev.src = URL.createObjectURL(e.target.files[0]);
 })
+
+
+const formImage = document.querySelector(".image_post");
+formImage.addEventListener("submit",(e)=>{
+  e.preventDefault();
+
+  uploadImage(fileInput.files[0]);
+
+  function uploadImage (file){
+    const fd = new FormData();
+    fd.append('file',file);
+
+    fetch('/upload', {
+      method: 'POST',
+      body: fd
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
+  }
+
+
+
+  console.log(e);
+})
+
+let imgDelete = document.querySelector(".img_delete_butt");
+imgDelete.addEventListener("click",()=>{
+  
+  uploadImage(fileInput.files[0]);
+
+  function uploadImage (file){
+    const fd = new FormData();
+    fd.append('file',file);
+
+    fetch('/delete', {
+      method: 'POST',
+      body: fd
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
+  }
+})
+
+// const paragraph = 'http://res.cloudinary.com/dwbsjfr6r/image/upload/v1630253493/Uploaded/dgwzro7ehduofwyshyiw.webp';
+// const paragraph = 'https://res.cloudinary.com/dwbsjfr6r/image/upload/v1630255908/Uploaded/hffup5gfvodgonq8rtph.webp';
+// const regex = /.([A-Z]).*/g;
+// const found = paragraph.match(regex)[0];
+// let id = found.substring(0, found.length-5);
+// console.log(id);
+// "http://res.cloudinary.com/dwbsjfr6r/image/upload/v1630253493/Uploaded/dgwzro7ehduofwyshyiw.webp"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// debug.addEventListener("click",()=>{
+//   let USER = {
+//     username:"devil",
+//     email:"devil@cry.com",
+//     password:"devilmaycry"
+//   }
+//   let options = {
+//     method:"POST",
+//     headers:{
+//       'Content-Type': 'application/json'
+//     },
+//     redirect: 'follow',
+//     body:JSON.stringify(USER)
+//   };
+//   fetch("/mockUserInsert",options).then((res)=>{
+//     return res.json();
+//   }).then((info)=>{
+//     if(info){
+//       console.log("User Added!!!");
+//     }else{
+//       console.log("User Already Exist!!!");
+//     }
+//   })
+// })
 
 
 

@@ -3,7 +3,98 @@ const app = express();
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
 
+
+const sharp = require("sharp");
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+const cloudinary = require("cloudinary").v2;
+
+const { Readable } = require("stream");
+
+
 const {findUser,authUser,allowUser,updateUser,updateFavorite,debugUser,debugData,debugMovie,deleteMovie,editMovie,editFav} = require("./utils.js");
+
+
+
+
+
+
+
+
+/*================ handeling images and compression section =====================================================*/
+/*================ handeling images and compression section =====================================================*/
+/*================ handeling images and compression section =====================================================*/
+
+// to be placed to the .ENV file
+
+const YOUR_CLOUD_NAME = "dwbsjfr6r";
+const YOUR_API_KEY = "375817292512894";
+const YOUR_API_SECRET = "F6P_OT9zqCJ5Kyt49gaH4Xr-TdA";
+
+cloudinary.config({
+    cloud_name: YOUR_CLOUD_NAME,
+    api_key: YOUR_API_KEY,
+    api_secret: YOUR_API_SECRET
+});
+
+
+const bufferToStream = (buffer) => {
+    const readable = new Readable({
+        read() {
+            this.push(buffer);
+            this.push(null);
+        },
+    });
+    return readable;
+}
+
+
+
+
+app.post("/upload", upload.single("file") ,async (req,res)=>{
+
+    const data = await sharp(req.file.buffer).webp({ quality: 15 }).toBuffer();
+
+    const stream = cloudinary.uploader.upload_stream(
+        { folder: "Uploaded" },
+        (error, result) => {
+            if (error) return console.error(error);
+            // return res.json({ URL: result.secure_url });
+            //console.log(result);//result.url
+            console.log(result);
+            return res.send(true);
+        }
+    );
+
+    bufferToStream(data).pipe(stream);
+
+})
+
+
+
+
+app.post("/delete", upload.single("file") ,async (req,res)=>{
+
+    cloudinary.uploader.destroy('Uploaded/dgwzro7ehduofwyshyiw',(error,result)=>{
+        console.log(result);
+        return res.send(false);
+    });
+
+})
+
+
+
+
+/*================ handeling images and compression section =====================================================*/
+/*================ handeling images and compression section =====================================================*/
+/*================ handeling images and compression section =====================================================*/
+
+
+
+
+
 
 
 let user;
@@ -27,6 +118,16 @@ app.use(express.json({limit:'1mb'}));
 
 
 // app.use(express.urlencoded({extended: true}));
+
+
+
+
+
+
+
+
+
+
 
 app.get("/",(req,res)=>{
     res.sendFile("index.html",root);

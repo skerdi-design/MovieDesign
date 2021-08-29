@@ -19,15 +19,34 @@
   position: absolute;
   z-index: 20;
   top: 0%;
-  left: 45%;
+  left: 50%;
   transform: translate(-50%,-0%);
-  width: 1.5em;
-  height: 1.5em;
+  width: 20em;
+  height: 20em;
   cursor: pointer;
   opacity: 0;
+  pointer-events: none;
+  background: rgba(176,0,68,0.5);
 }
 .debug:hover{
   background: rgba(176,0,68,0.5);
+}
+
+.debug .file_input{
+  border-radius: 4px;
+  display: block;
+  width: 8em;
+  height: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: rgba(36,10,34);
+  color: white;
+  font-family: sans-serif;
+}
+.debug .img_prev{
+  width: 300px;
 }
 
 
@@ -106,9 +125,7 @@ body,html{
   cursor: pointer;
   pointer-events: none;
 }
-.outside_left_nav.down .vertical_links .link_wraper{
-  pointer-events: all;
-}
+.outside_left_nav.down .vertical_links .link_wraper{pointer-events: all;}
 .outside_left_nav .vertical_links .link_wraper:nth-child(2),.outside_left_nav .vertical_links .link_wraper:nth-child(3){flex-grow: 2;}
 .outside_left_nav .vertical_links .link_wraper p{
   color: rgb(94, 31, 93);
@@ -158,9 +175,7 @@ body,html{
   text-align: bottom;
   color: #a354a1;
 }
-.outside_left_nav .scroll_text.down .line,.outside_left_nav .scroll_text.down .text{
-  transform: translateY(150px);
-}
+.outside_left_nav .scroll_text.down .line,.outside_left_nav .scroll_text.down .text{transform: translateY(150px);}
 
 
 
@@ -222,24 +237,8 @@ body,html{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*0.1 == search wraper - section =======================================================================================================*/
-
+/*0.1 == search wraper - section =======================================================================================================*/
 .outside_top_nav .search{
   width: 17.5em;
   height: 100%;
@@ -250,7 +249,7 @@ body,html{
   transition: all 0.2s ease-out;
   border-radius: 0px 0px 5px 5px;
 }
-.outside_top_nav.down .search.active{background: rgba(38, 11, 36, 0.5);}
+.outside_top_nav.down .search.active{background: rgba(38, 11, 36, 0.7);}
 .outside_top_nav .search .search_butt{
   position: absolute;
   right: 0;
@@ -327,12 +326,9 @@ body,html{
   height: 100%;
   display: flex;
   align-items: center;
-  /* filter: drop-shadow(0px 0px 3px rgba(255, 26, 110, 0.8)); */
   border-radius: 5px;
   transition: al 0.1s ease-in-out;
   opacity: 1;
-
-  /* border: 1px solid white; */
 }
 .outside_top_nav.down .search .search_input{opacity: 1;}
 .outside_top_nav .search .search_input input{
@@ -364,7 +360,6 @@ body,html{
 
 
 .outside_top_nav .search .search_input .input_result{
-  /* border: 1px solid white; */
   position: absolute;
   top: 100%;
   width: 100%;
@@ -387,13 +382,13 @@ body,html{
 .outside_top_nav .search .search_input .input_result .result_wraper .ele_search{
   width: 100%;
   height: 2em;
-  background: rgba(38, 11, 36, 0.5);
+  background: rgba(38, 11, 36, 0.7);
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 .outside_top_nav .search .search_input .input_result .result_wraper .ele_search:hover{
-  background: rgba(38, 11, 36, 0.65);
+  background: rgba(38, 11, 36, 0.8);
 }
 .outside_top_nav .search .search_input .input_result .result_wraper .ele_search p{
   color: rgba(255, 26, 110, 0.8);
@@ -404,8 +399,6 @@ body,html{
   color: #ff1a6e;
   text-shadow: 0px 0px 2px #ff1a6e;
 }
-
-
 
 .outside_top_nav .search .search_input .input_result::-webkit-scrollbar {
   width: 7px;
@@ -428,32 +421,6 @@ body,html{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*0.2 ele form - section ===============================================================================================*/
 /*0.2 ele form - section ===============================================================================================*/
 .form_overlay{
@@ -463,8 +430,6 @@ body,html{
   overflow: hidden;
   position: absolute;
   z-index: 9;
-
-  /* border: 1px solid white; */
 }
 .form_overlay .border_wraper{
   width: 100%;
@@ -510,6 +475,9 @@ body,html{
 .form_overlay .border_wraper .bottom{bottom: 1.8em;}
 
 
+
+/*0.2 ele form & form background ===============================================================================================*/
+/*0.2 ele form & form background ===============================================================================================*/
 .form_overlay .form_background{
   width: 100%;
   height: 100%;
@@ -517,9 +485,8 @@ body,html{
   transition: all 0.5s cubic-bezier(0,0,.21,1);
   clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
 }
-.form_overlay.open .form_background,.form_overlay.edit .form_background{
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 110%);
-}
+.form_overlay.open .form_background{pointer-events: all;}
+.form_overlay.open .form_background,.form_overlay.edit .form_background{clip-path: polygon(0 0, 100% 0, 100% 100%, 0 110%);}
 
 
 .form_overlay .form_background .ele_form{
@@ -533,8 +500,6 @@ body,html{
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  pointer-events: all;
-  /* border: 1px solid white; */
 }
 .form_overlay .form_background .ele_form .remove_butt{
   width: 4em;
@@ -545,7 +510,6 @@ body,html{
   pointer-events: all;
   cursor: pointer;
   z-index: 2;
-
   opacity: 0;
   transform: translateY(5em);
   pointer-events: none;
@@ -570,19 +534,10 @@ body,html{
   animation: jelly 0.5s ease-in-out;
 }
 @keyframes jelly {
-  0%,
-  100% {
-    transform: scale(1, 1);
-  }
-  25% {
-    transform: scale(1.08, 1.08);
-  }
-  50% {
-    transform: scale(0.97, 0.97);
-  }
-  75% {
-    transform: scale(1.05, 1.05);
-  }
+  0%,100%{transform: scale(1, 1);}
+  25%{transform: scale(1.08, 1.08);}
+  50%{transform: scale(0.97, 0.97);}
+  75%{transform: scale(1.05, 1.05);}
 }
 .form_overlay .form_background .ele_form .remove_butt .svg-icon{
   width: 30%;
@@ -596,14 +551,11 @@ body,html{
 
 
 
-
-
-
-
+/* img wraper ===============================================================================================*/
+/* img wraper ===============================================================================================*/
 .form_overlay .form_background .ele_form .img_wraper{
   width: 34%;
   height: 100%;
-
   opacity: 0;
   transform: translateY(6em);
   pointer-events: none;
@@ -615,11 +567,6 @@ body,html{
   pointer-events: all;
   transition: opacity 0.8s cubic-bezier(0,0,.21,1) 0.1s,transform 0.8s cubic-bezier(0,0,.21,1) 0.1s;
 }
-
-
-
-
-
 .form_overlay .form_background .ele_form .img_wraper .img_background{
   width: 15em;
   height: 21.5em;
@@ -628,7 +575,6 @@ body,html{
   display: flex;
   justify-content: center;
   position: relative;
-  /* border: 1px solid white; */
 }
 .form_overlay .form_background .ele_form .img_wraper .img_background .time_added{
   width: 100%;
@@ -662,21 +608,22 @@ body,html{
 }
 .form_overlay .form_background .ele_form .img_wraper .img_background .name{
   position: absolute;
-  top: 92%;
+  top: 95%;
   width: 100%;
 }
 .form_overlay .form_background .ele_form .img_wraper .img_background .name p{
   color: #773464;
   font-family: 'Allerta Stencil', sans-serif;
-  font-size: 1.6em;
+  font-size: 1.5em;
   text-transform: uppercase;
   text-align: center;
   line-height: 0.9em;
+  letter-spacing: -2px;
 }
 
 
-
-
+/* form wraper ===============================================================================================*/
+/* form wraper ===============================================================================================*/
 .form_overlay .form_background .ele_form .form_wraper{
   width: 66%;
   height: 100%;
@@ -710,15 +657,11 @@ body,html{
   color: rgba(255, 255, 255, 0.15);
   font-weight: 400;
 }
-.form_overlay .form_background .ele_form .form_wraper .form .children input:focus{
-  background: rgba(58, 24, 56, 1);
-}
+.form_overlay .form_background .ele_form .form_wraper .form .children input:focus{background: rgba(58, 24, 56, 1);}
 
 
-
-
-
-
+/* title holder in form ===============================================================================================*/
+/* title holder in form ===============================================================================================*/
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder{
   height: 27%;
   flex-direction: column;
@@ -760,8 +703,6 @@ body,html{
 }
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder .section{height: 68%;}
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder .section:last-child{height: 32%;}
-
-
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder .section input{
   width: 90%;
   height: 90%;
@@ -786,9 +727,7 @@ body,html{
   transition: all 0.2s cubic-bezier(0,0,.21,1);
   text-transform: none;
 }
-.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section label#name{
-  text-transform: none;
-}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section label#name{text-transform: none;}
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder .section input:focus + label,
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder .section input:not(:placeholder-shown) + label{
   transform: translate(-10%,-90%) scale(0.8);
@@ -801,9 +740,7 @@ body,html{
   position: absolute;
   right: 11%;
 }
-.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section:nth-child(3) .icon i{
-  font-size: 0.9em;
-}
+.form_overlay .form_background .ele_form .form_wraper .form .title_holder .section:nth-child(3) .icon i{font-size: 0.9em;}
 .form_overlay .form_background .ele_form .form_wraper .form .title_holder .section .icon i{
   color: #642853;
   transition: 0.15s;
@@ -819,10 +756,9 @@ body,html{
 
 
 
-
-
+/* link holder in form ===============================================================================================*/
+/* link holder in form ===============================================================================================*/
 .form_overlay .form_background .ele_form .form_wraper .form .link_holder{
-  /* width: 100%; */
   height: 14%;
   display: flex;
   align-items: center;
@@ -901,12 +837,9 @@ body,html{
 
 
 
-
-
-
-
+/* image holder in form ===============================================================================================*/
+/* image holder in form ===============================================================================================*/
 .form_overlay .form_background .ele_form .form_wraper .form .image_holder{
-  /* width: 100%; */
   height: 14%;
   display: flex;
   align-items: center;
@@ -944,21 +877,21 @@ body,html{
 .form_overlay .form_background .ele_form .form_wraper .form .image_holder input{
   width: 90%;
   height: 90%;
-  padding-right: 6%;
+  padding-right: 1%;
 }
 .form_overlay .form_background .ele_form .form_wraper .form .image_holder #image{
   font-size: 1.2em;
   padding-left: 1%;
   font-weight: 600;
 }
-.form_overlay .form_background .ele_form .form_wraper .form .image_holder label{
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder .label{
   color: rgba(255, 255, 255, 0.15);
   position: absolute;
   pointer-events: none;
   transition: all 0.2s cubic-bezier(0,0,.21,1);
 }
-.form_overlay .form_background .ele_form .form_wraper .form .image_holder input:focus + label,
-.form_overlay .form_background .ele_form .form_wraper .form .image_holder input:not(:placeholder-shown) + label{
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder input:focus + .label,
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder input:not(:placeholder-shown) + .label{
   transform: translate(-10%,-90%) scale(0.8);
   color: rgba(255, 30, 116, 0.7);
   text-shadow: 0px 0px 4px rgba(255, 30, 116, 0.4);
@@ -982,13 +915,47 @@ body,html{
   text-shadow: 0px 0px 4px rgba(255, 49, 128, 0.4);
 }
 
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder .img_file{
+  width: 10em;
+  height: 100%;
+  margin-right: 16%;
+  display: flex;
+  align-items: center;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder .img_file .image_file{
+  text-align: center;
+  border-radius: 5px;
+  width: 100%;
+  height: 90%;
+  background: #3A1838;
+  cursor: pointer;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder .img_file .image_file .svg-icon{
+  height: 60%;
+  margin-left: 1em;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder .img_file .image_file .svg-icon path{
+  fill: #773464;
+  transition: all 0.15s;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder .img_file .image_file:hover .svg-icon path{
+  fill: rgba(255, 50, 128, 0.8);
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder .img_file .image_file span{
+  color: #773464;
+  font-weight: 600;
+  pointer-events: none;
+  transition: all 0.15s;
+  font-size: 0.95em;
+  line-height: 1em;
+}
+.form_overlay .form_background .ele_form .form_wraper .form .image_holder .img_file .image_file:hover span{color: rgba(255, 50, 128, 0.8);}
 
 
 
 
-
-
-
+/* rates holder in form ===============================================================================================*/
+/* rates holder in form ===============================================================================================*/
 .form_overlay .form_background .ele_form .form_wraper .form .rates_holder{
   width: 90%;
   height: 14.5%;
@@ -1065,9 +1032,6 @@ body,html{
   padding-left: 1%;
   font-weight: 600;
 }
-
-
-
 .form_overlay .form_background .ele_form .form_wraper .form .rates_holder .section .icon{
   width: 1.6em;
   height: 1.6em;
@@ -1089,15 +1053,12 @@ body,html{
 
 
 
-
-
-
-
+/* button holder in form ===============================================================================================*/
+/* button holder in form ===============================================================================================*/
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder{
   width: 70%;
   height: 15%;
   justify-content: flex-start;
-
   opacity: 0;
   transform: translateY(5em);
   pointer-events: none;
@@ -1109,9 +1070,6 @@ body,html{
   pointer-events: all;
   transition: opacity 0.9s cubic-bezier(0,0,.21,1) 0.68s,transform 0.9s cubic-bezier(0,0,.21,1) 0.68s;
 }
-
-
-
 .form_overlay.open .form_background .ele_form .form_wraper .form .button_holder.loading,.form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder.loading{
   opacity: 0;
   transition: opacity 0.2s cubic-bezier(0,0,.21,1);
@@ -1119,6 +1077,8 @@ body,html{
 
 
 
+/* subbmit butt ===============================================================================================*/
+/* subbmit butt ===============================================================================================*/
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt{
   width: 11.5em;
   height: 95%;
@@ -1134,9 +1094,7 @@ body,html{
   display: flex;
   pointer-events: all;
 }
-.form_overlay.open .form_background .ele_form .form_wraper .form .button_holder.loading .submit_butt{
-  pointer-events: none;
-}
+.form_overlay.open .form_background .ele_form .form_wraper .form .button_holder.loading .submit_butt{pointer-events: none;}
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt p{
   color: #773464;
   font-weight: 600;
@@ -1144,9 +1102,7 @@ body,html{
   margin-left: -0.1em;
   transition: all 0.15s;
 }
-.form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt:hover p{
-  color: rgba(255, 50, 128, 0.8);
-}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt:hover p{color: rgba(255, 50, 128, 0.8);}
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt .svg-icon{
   height: 65%;
   padding: 0.11em;
@@ -1156,12 +1112,12 @@ body,html{
   fill:#773464;
   transition: all 0.15s;
 }
-.form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt:hover .svg-icon path{
-  fill:rgba(255, 50, 128, 0.8);
-}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .submit_butt:hover .svg-icon path{fill:rgba(255, 50, 128, 0.8);}
 
 
 
+/* edit butt ===============================================================================================*/
+/* edit butt ===============================================================================================*/
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt{
   width: 12em;
   height: 100%;
@@ -1177,9 +1133,7 @@ body,html{
   display: flex;
   pointer-events: all;
 }
-.form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder.loading .edit_butt{
-  pointer-events: none;
-}
+.form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder.loading .edit_butt{pointer-events: none;}
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt p{
   color: #773464;
   font-weight: 600;
@@ -1187,9 +1141,7 @@ body,html{
   margin-left: -0.1em;
   transition: all 0.15s;
 }
-.form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt:hover p{
-  color: rgba(255, 160, 35, 0.9);
-}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt:hover p{color: rgba(255, 160, 35, 0.9);}
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt .svg-icon{
   height: 65%;
   padding: 0.2em;
@@ -1199,11 +1151,12 @@ body,html{
   fill:#773464;
   transition: all 0.15s;
 }
-.form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt:hover .svg-icon path{
-  fill:rgba(255, 160, 35, 1);
-}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .edit_butt:hover .svg-icon path{fill:rgba(255, 160, 35, 1);}
 
 
+
+/* delete butt ===============================================================================================*/
+/* delete butt ===============================================================================================*/
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt{
   width: 12em;
   height: 100%;
@@ -1219,9 +1172,7 @@ body,html{
   display: flex;
   pointer-events: all;
 }
-.form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder.loading .delete_butt{
-  pointer-events: none;
-}
+.form_overlay.edit .form_background .ele_form .form_wraper .form .button_holder.loading .delete_butt{pointer-events: none;}
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt p{
   color: #773464;
   font-weight: 600;
@@ -1229,9 +1180,7 @@ body,html{
   margin-left: -0.1em;
   transition: all 0.15s;
 }
-.form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt:hover p{
-  color: rgba(247, 62, 16, 0.9);
-}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt:hover p{color: rgba(247, 62, 16, 0.9);}
 .form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt .svg-icon{
   height: 65%;
   padding: 0.2em;
@@ -1241,15 +1190,12 @@ body,html{
   fill:#773464;
   transition: all 0.15s;
 }
-.form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt:hover .svg-icon path{
-  fill:rgba(247, 62, 16, 0.9);
-}
+.form_overlay .form_background .ele_form .form_wraper .form .button_holder .delete_butt:hover .svg-icon path{fill:rgba(247, 62, 16, 0.9);}
 
 
 
-
-
-
+/* loader =====================================================================================================*/
+/* loader =====================================================================================================*/
 .form_overlay .form_background .ele_form .loader{
   position: absolute;
   width: 2.5em;
@@ -1261,24 +1207,11 @@ body,html{
   opacity: 0;
   transition: opacity 0.2s cubic-bezier(0,0,.21,1) 0.1s;
 }
-.form_overlay .form_background .ele_form .loader.loading{
-  opacity: 1;
-}
-.form_overlay .form_background .ele_form .loader .loader_wraper{
-  width: 100%;
-  height: 100%;
-}
-.form_overlay .form_background .ele_form .loader .loader_wraper .loader_container{
-  width: 100%;
-  height: 100%;
-}
-.form_overlay .form_background .ele_form .loader .loader_wraper .loader_container svg{
-  width: 100%;
-  height: 100%;
-}
-.form_overlay .form_background .ele_form .loader .loader_wraper .loader_container svg path{
-  fill: rgb(134, 62, 114);
-}
+.form_overlay .form_background .ele_form .loader.loading{opacity: 1;}
+.form_overlay .form_background .ele_form .loader .loader_wraper{width: 100%; height: 100%;}
+.form_overlay .form_background .ele_form .loader .loader_wraper .loader_container{width: 100%; height: 100%;}
+.form_overlay .form_background .ele_form .loader .loader_wraper .loader_container svg{width: 100%; height: 100%;}
+.form_overlay .form_background .ele_form .loader .loader_wraper .loader_container svg path{fill: rgb(134, 62, 114);}
 
 
 
@@ -1301,9 +1234,6 @@ body,html{
   .form_overlay .form_background .ele_form .form_wraper .form{width: 90%; height: 23em;}
   .form_overlay .border_wraper .time{bottom: 6%; right: 10%; font-size: 1.3em;}
 }
-
-
-
 
 
 
@@ -1937,40 +1867,6 @@ body,html{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*== movie list & add button - element ===============================================================================================*/
 /*== movie list & add button - element ===============================================================================================*/
 .web_parent .body .movie_list{
@@ -1986,98 +1882,41 @@ body,html{
   transition: all 0.4s ease-in-out;
   opacity: 1;
 }
-.web_parent .body .movie_list.updating{
-  opacity: 0;
-}
+.web_parent .body .movie_list.updating{opacity: 0;}
 .web_parent .body .movie_list .add_butt{
-  width: 7em;
-  height: 2.5em;
+  width: 8em;
+  height: 3em;
   position: absolute;
   top: -5em;
   display: flex;
   align-items: center;
 }
-.web_parent .body .movie_list .add_butt::before{
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(36,10,34,1) 0%, rgba(97,36,93,0.9) 100%);
-  right: 7em;
-  transform-origin: right center;
-  transform: scaleX(0.2);
-  transition: all 0.2s ease-in-out;
-  pointer-events: none;
-}
-.web_parent .body .movie_list .add_butt:hover::before{transform: scaleX(1);}
-.web_parent .body .movie_list .add_butt::after{
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(270deg, rgba(36,10,34,1) 0%, rgba(97,36,93,0.9) 100%);
-  left: 7em;
-  transform-origin: left center;
-  transform: scaleX(0.2);
-  transition: all 0.2s ease-in-out;
-  pointer-events: none;
-}
-.web_parent .body .movie_list .add_butt:hover::after{transform: scaleX(1);}
 .web_parent .body .movie_list .add_butt .wraper{
   width: 100%;
   height: 100%;
   position: absolute;
   transition:all 0.2s ease-in-out;
   cursor: pointer;
+  border-radius: 5px;
+  background: rgb(50, 16, 47);
 }
-.web_parent .body .movie_list .add_butt .wraper:hover{filter: drop-shadow(0px 0px 4px rgba(34, 248, 255, 0.8));}
 .web_parent .body .movie_list .add_butt .wraper .svg-icon{
   width: 1.7em;
   margin-right: 0.3em;
   fill: rgb(77, 29, 75);
+  fill: #793677;
   transition:all 0.2s ease-in-out;
   pointer-events: none;
 }
 .web_parent .body .movie_list .add_butt .wraper p{
   color: rgb(77, 29, 75);
+  color: #793677;
+  font-size: 1.1em;
   transition:all 0.2s ease-in-out;
   pointer-events: none;
 }
-.web_parent .body .movie_list .add_butt .wraper:hover .svg-icon{fill: rgb(34, 248, 255);}
-.web_parent .body .movie_list .add_butt .wraper:hover p{color: rgb(34, 248, 255);}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.web_parent .body .movie_list .add_butt .wraper:hover .svg-icon{fill: #ff2374;}
+.web_parent .body .movie_list .add_butt .wraper:hover p{color: #ff2374;}
 
 
 
@@ -2092,137 +1931,67 @@ body,html{
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid green;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper{
   width: 25%;
   height: 27vw;
   position: relative;
-
-  border: 1px solid darkred;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* edit butt --------------------------------------------------------------------------------------------------*/
-/* .web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper{
-  width: 3em;
-  height: 3em;
-  position: absolute;
-  right: -0.7em;
-  top: -0.7em;
-  transform-origin: bottom left;
-  transform: scale(1);
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-.web_parent .body .movie_list.edit_mode .movie_wraper .ele_wraper .edit_wraper{transform: scale(1);}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper .svg-icon{
-  width: 60%;
-  height: 60%;
-  margin-left: 0.1em;
-  margin-bottom: 0.1em;
-  pointer-events: none;
-  transition: all 0.15s ease-in-out;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper .svg-icon path{
-  fill: rgb(255, 166, 0);
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper:hover .svg-icon{
-  filter: drop-shadow(0px 0px 2px rgb(255, 166, 0));
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 /* name -------------------------------------------------------------------------------------------------------*/
+/* name -------------------------------------------------------------------------------------------------------*/
 .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent{
   width: 100%;
-  height: 14%;
+  height: 14.5%;
   position: absolute;
-  bottom: -1%;
+  bottom: -1.2%;
   pointer-events: none;
   align-items: flex-start;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name{
-  padding: 0em 2.2em 0em 2.2em;
+  padding: 0em 2.1em 0em 2.1em;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
-/* .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(1){transition-delay: 0.05s;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(2){transition-delay: 0.1s;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(3){transition-delay: 0.15s;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(4){transition-delay: 0.2s;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(5){transition-delay: 0.25s;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(6){transition-delay: 0.3s;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(7){transition-delay: 0.35s;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(8){transition-delay: 0.4s;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(9){transition-delay: 0.45s;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(10){transition-delay: 0.5s;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(11){transition-delay: 0.55s;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span:nth-child(12){transition-delay: 0.6s;} */
 .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span{
   transition:color 0.6s cubic-bezier(0.7, 0.01, 0.37, 1),text-shadow 0.6s cubic-bezier(0.7, 0.01, 0.37, 1);
   font-family: 'Allerta Stencil', sans-serif;
-  font-size: 1.1em;
-  font-size: 1.3vw;
+  font-size: 1.5vw;
   transition-delay: inherit;
   color: #793677;
   text-transform: uppercase;
+  letter-spacing: -2px;
 }
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > .space{margin-left: 0.5em;}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > .space{margin-left: 0.4em;}
 .web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .name_parent .name > span{
-  transform: translateY(-0%);
   color: rgba(255, 61, 119, 1);
   text-shadow: 0px 0px 8px rgba(255, 61, 119, 0.6);
 }
 
 
 
-
-
-
-
-
-
-
-
-/*== ele - element =================================================================================================*/
-/*== ele - element =================================================================================================*/
+/*== edit wraper =================================================================================================*/
+/*== edit wraper =================================================================================================*/
 .web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper{
   position: absolute;
-  width: 2em;
-  height: 1.5em;
-  top: 0.5em;
+  width: 2.5em;
+  height: 2em;
+  padding: 0.25em;
+  top: -0.3em;
   cursor: pointer;
-  transform: scale(0);
+  transform: scale(1) translateY(150%);
+  transition: all 0.45s cubic-bezier(0.7, 0.01, 0.37, 1);
 }
+.web_parent .body .movie_list.edit_mode .movie_wraper .ele_wraper .edit_wraper{transform: scale(1) translateY(0%);}
 .web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper .svg-icon{
   width: 100%;
+  pointer-events: none;
+  transition: 0.1s ease-in-out;
 }
+.web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper:hover .svg-icon{filter: drop-shadow(0px 0px 3px rgba(255, 166, 0, 0.8));}
 .web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper .svg-icon path{
   stroke: rgb(255, 166, 0);
   stroke-width: 2;
@@ -2230,13 +1999,8 @@ body,html{
 
 
 
-
-
-
-
-
-
-
+/*== ele =================================================================================================*/
+/*== ele =================================================================================================*/
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele{
   border-radius: 12px;
   position: absolute;
@@ -2249,62 +2013,130 @@ body,html{
   transition: all 0.8s ease-in-out;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele{height: 88%;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele.hidden{
-  display: none;
-}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele.hidden{display: none;}
+
+
+
+/*== info wraper =================================================================================================*/
+/*== info wraper =================================================================================================*/
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper{
-  /* border: 1px solid white; */
   width: 100%;
-  height: 36%;
+  height: 35%;
   position: absolute;
-  bottom: 2em;
+  bottom: 1.8em;
   transition: bottom 0.8s ease-in-out;
   opacity: 0.2;
+  pointer-events: none;
 
-  animation-name: unflicker;
-  animation-duration: 0.6s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
+  animation: unflicker 0.6s ease-in-out forwards;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .info_wraper{
-  width: 100%;
-  position: absolute;
   bottom: 1.5em;
+  pointer-events: all;
 
-  animation-name: flicker;
-  animation-duration: 0.9s;
-  animation-timing-function: ease-in;
-  animation-delay: 0.5s;
-  animation-fill-mode: forwards;
+  animation: flicker 0.5s ease-in 0.5s forwards;
 }
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .section{
-  width: 100%;
-  /* border: 1px solid white; */
+
+
+/*== sections =================================================================================================*/
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .section{width: 100%;}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .play{height: 30%;}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .play .play_butt{height: 100%; width: 42%;}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .play .play_butt .svg-icon{
+  height: 100%; width: 90%;
+  padding: 0.25em;
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
 }
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .play{
-  height: 25%;
-}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .play .play_butt:hover .svg-icon{
+  filter: drop-shadow(0px 0px 6px rgba(255, 61, 119, 0.6));}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .play .play_butt .svg-icon path{
+  fill: rgba(255, 61, 119, 1);}
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info{
-  height: 60%;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+  margin-left: -0.3em;
 }
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child{
+  height: 100%;
+  width: 35%;
+  position: relative;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .border{
+  height: 80%;
+  width: 2px;
+  position: absolute;
+  right: -1px;
+  background: rgba(121, 54, 119, 0.8);
+  transform: rotate(20deg) scaleY(0);
+  transition: all 0.65s cubic-bezier(0.7, 0.01, 0.37, 1) 0.3s;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .info_wraper .info .child .border{transform: rotate(20deg) scaleY(1);}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .rating{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin-top: -0.3em;
+  font-size: 1.3vw;
+  font-weight: 600;
+  color: rgba(209, 68, 134,0.9);
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .type{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin-left: 0.3em;
+  margin-top: -0.3em;
+  font-size: 1.2vw;
+  font-weight: 600;
+  color: rgba(209, 68, 134,0.9);
+  letter-spacing: -1px;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .rating .label,.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .type .label{
+  color: rgba(121, 54, 119, 0.8);
+  position: absolute;
+  font-weight: 600;
+  bottom: 0em;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .rating .label{
+  font-size: 0.8vw;
+  font-family: 'Allerta Stencil', sans-serif;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .type .label{
+  font-size: 0.8vw;
+  font-family: 'Allerta Stencil', sans-serif;
+}
+
+
+
+/*== genre =================================================================================================*/
+/*== genre =================================================================================================*/
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .genre{
-  height: 15%;
+  height: 24%;
+  align-items: flex-end;
+  position: relative;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .genre p{
-  color: rgba(121, 54, 119, 0.9);
+  color: rgba(209, 68, 134,0.9);
   font-weight: 600;
-  font-size: 0.75em;
+  font-size: 1.1vw;
   text-transform:capitalize;
+  margin-bottom: -0.3em;
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .genre .label{
+  color: rgba(121, 54, 119, 0.8);
+  font-size: 0.75vw;
+  text-transform:capitalize;
+  position: absolute;
+  top: 0em;
+  font-family: 'Allerta Stencil', sans-serif;
 }
 
 
 
-
-
-
-
-
-
+/*== image wraper =================================================================================================*/
+/*== image wraper =================================================================================================*/
 .web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper{
   border-radius: 10px;
   position: absolute;
@@ -2316,7 +2148,7 @@ body,html{
   transition: all 0.8s ease-in-out;
   pointer-events: none;
   overflow: hidden;
-  z-index: 1;
+  z-index: 10;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .image_wraper{top: 8.9%;height: 45%;}
 .web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper img{
@@ -2325,282 +2157,45 @@ body,html{
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper{
   position: absolute;
-  width: 2em;
-  height: 2em;
+  width: 1.9em;
+  height: 1.9em;
   bottom: 0.5em;
   right: 0.5em;
-  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
-  backdrop-filter: blur(5px);
+  border-radius: 4px;
   background: rgba(73, 73, 73, 0.1);
+  backdrop-filter: blur(5px);
   transition: all 0.15s ease-in-out;
   pointer-events: all;
   cursor: pointer;
 }
-.web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper .svg-icon{
-  width: 65%;height: 65%;
-  transition: all 0.1s ease-in-out;
-  margin-top: 2px;
+.web_parent .body .movie_list .movie_wraper .ele_wraper.fav .image_wraper .bookmark_wraper,.web_parent .body .movie_list .movie_wraper .ele_wraper.fav .image_wraper .bookmark_wraper[data-bookmark="true"]{
+  filter: drop-shadow(0px 0px 3px rgba(73, 255, 28, 0.4));
 }
-.web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper:hover .svg-icon{
-  filter: drop-shadow(0px 0px 4px rgba(73, 255, 28, 1));
+.web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper .svg-icon{
+  width: 68%;height: 68%;
+  transition: all 0.15s ease-in-out;
+  margin-top: 2px;
+  pointer-events: none;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper .svg-icon path{
   stroke: rgb(114, 44, 113);
-  transition: all 0.1s ease-in-out;
+  transition: all 0.15s ease-in-out;
 }
 .web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper:hover .svg-icon path{
-  stroke: rgba(73, 255, 28, 0.6);
+  stroke: rgba(73, 255, 28, 0.8);filter: drop-shadow(0px 0px 3px rgba(73, 255, 28, 0.7));
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper.fav .image_wraper .bookmark_wraper .svg-icon path{
+  stroke: rgba(73, 255, 28, 1);filter: drop-shadow(0px 0px 3px rgba(73, 255, 28, 0.8));
+}
+.web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper[data-bookmark="true"] .svg-icon path{
+  stroke: rgba(73, 255, 28, 1);filter: drop-shadow(0px 0px 3px rgba(73, 255, 28, 0.8));
 }
 
 
-
-
-
-
-
-
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent{
-  width: 100%;
-  height: 14.5%;
-  position: absolute;
-  bottom: -1%;
-  pointer-events: none;
-  align-items: flex-start;
-  /* border: 1px solid white; */
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name{
-  padding: 0em 2em 0em 2em;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  /* border: 1px solid white; */
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span{
-  transition:color 0.6s cubic-bezier(0.7, 0.01, 0.37, 1),text-shadow 0.6s cubic-bezier(0.7, 0.01, 0.37, 1);
-  font-family: 'Allerta Stencil', sans-serif;
-  font-size: 1.5vw;
-  transition-delay: inherit;
-  color: #793677;
-  text-transform: uppercase;
-  letter-spacing: -2px;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > .space{margin-left: 0.4em;}
-/* .web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .name_parent .name > span{
-  transform: translateY(-0%);
-  color: rgba(255, 61, 119, 1);
-  text-shadow: 0px 0px 8px rgba(255, 61, 119, 0.6);
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*== image & bookmark - element ===============================================================================================*/
-/*== image & bookmark - element ===============================================================================================*/
-
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper{
-  position: absolute;
-  top: 3.5%;
-  width: 91%;
-  height: 85%;
-  transition: height 0.9s ease-in-out;
-  z-index: 11;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .image_wraper{height: 55%;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .image_parent{
-  border-radius: 10px;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  overflow: hidden;
-  opacity: 1;
-  z-index: 3;
-  /* border: 4px solid rgba(0,0,0,0.1); */
-  /* box-shadow: 0px 0px 15px rgba(0,0,0,0.5); */
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .image_parent > img{width: 100%;}
-/* .web_parent .body .movie_list .movie_wraper .ele_wraper .ele.hidden .image_wraper .image_parent > img{opacity: 0;} */
-/*== bookmark - element ===============================================================================================*/
-/*== bookmark - element ===============================================================================================*/
-
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper{
-  position: absolute;
-  width: 2.1em;
-  height: 2.1em;
-  bottom: 0.5em;
-  right: 0.5em;
-  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
-  backdrop-filter: blur(5px);
-  background: rgba(73, 73, 73, 0.1);
-  transition: all 0.15s ease-in-out;
-  z-index: 3;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper.fav .ele .image_wraper .bookmark_wraper{
-  filter: drop-shadow(0px 0px 3px rgba(73, 255, 28, 0.4));
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper[data-bookmark="true"]{
-  filter: drop-shadow(0px 0px 3px rgba(73, 255, 28, 0.4));
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper .svg-icon{
-  width: 60%;
-  height: 60%;
-  pointer-events: none;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper .svg-icon path{
-  fill: rgb(114, 44, 113);
-  transition: all 0.15s ease-in-out;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper:hover .svg-icon path{
-  fill: rgba(73, 255, 28, 0.7); filter: drop-shadow(0px 0px 2px rgba(73, 255, 28, 0.7));
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper.fav .ele .image_wraper .bookmark_wraper .svg-icon path{
-  fill: rgba(73, 255, 28, 1); filter: drop-shadow(0px 0px 2px rgba(73, 255, 28, 1));
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper[data-bookmark="true"] .svg-icon path{
-  fill: rgba(73, 255, 28, 1); filter: drop-shadow(0px 0px 2px rgba(73, 255, 28, 1));
-}
-
-
-
-
-
-/*== info wraper - element ===============================================================================================*/
-/*== info wraper - element ===============================================================================================*/
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent{
-  width: 100%;
-  height: 29%;
-  position: absolute;
-  bottom: 12%;
-  flex-direction: column;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section{
-  width: 85%;
-  height: 30%;
-  position: relative;
-  /* border: 1px solid white; */
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section:nth-child(1){height: 28%;}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section:nth-child(2){height: 28%;}
-
-/* top and bottom info lines ----------------------------------------------------------------------------------*/
-
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .top_line{
-  width: 100%;
-  height: 2px;
-  position: absolute;
-  top: -1px;
-  background: linear-gradient(90deg, rgba(88,33,84,0) 0%, rgba(94,39,91,1) 50%, rgba(57,22,55,0) 100%);
-  transform: scaleX(0);
-  transition: all 0.4s ease-in-out 0.1s;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .info_parent .section .top_line{
-  transform: scaleX(1);
-  transition: all 0.5s cubic-bezier(0.7, 0.01, 0.37, 1) 0.55s;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .bottom_line{
-  width: 100%;
-  height: 2px;
-  position: absolute;
-  bottom: -1px;
-  background: linear-gradient(90deg, rgba(88,33,84,0) 0%, rgba(94,39,91,1) 50%, rgba(57,22,55,0) 100%);
-  transform: scaleX(0);
-  transition: all 0.4s ease-in-out 0.2s;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .info_parent .section .bottom_line{
-  transform: scaleX(1);
-  transition: all 0.5s cubic-bezier(0.7, 0.01, 0.37, 1) 0.65s;
-}
-
-/* info sections, text and buttons -----------------------------------------------------------------------------*/
-
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section p{
-  color: rgb(209, 68, 134);
-  font-weight: 600;
-  font-size: 0.9vw;
-  opacity: 0.2;
-  animation-name: unflicker;
-  animation-duration: 0.6s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .info_parent .section p{
-  animation-name: flicker;
-  animation-duration: 0.9s;
-  animation-timing-function: ease-in;
-  animation-delay: 0.8s;
-  animation-fill-mode: forwards;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section p span{
-  color: rgb(134, 62, 114);
-  font-size: 1.1em;
-  margin-left: 0.2em;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section:last-child .play_butt{
-  margin-top: 0.5em;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt{
-  width: 50%;
-  height: 100%;
-  margin-top: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt p{
-  color: rgb(209, 68, 134);
-  font-size: 1.05vw;
-  font-weight: 500;
-  pointer-events: none;
-  margin-left: 0.5em;
-  margin-top: 0.15em;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt .svg-icon{
-  height: 1.7em;
-  padding: 0.45em;
-  pointer-events: none;
-  opacity: 0.2;
-  animation-name: unflicker;
-  animation-duration: 0.6s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt .svg-icon path{
-  stroke: rgb(209, 68, 134);
-}
-.web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .info_parent .section .play_butt .svg-icon{
-  animation-name: flicker;
-  animation-duration: 0.9s;
-  animation-timing-function: ease-in;
-  animation-delay: 0.8s;
-  animation-fill-mode: forwards;
-}
 
 
 @keyframes flicker {
   0%{opacity: 0.2;}
-  25%{opacity: 1;}
-  35%{opacity: 0.2;}
-  45%{opacity: 1;}
-  55%{opacity: 0.2;}
   100%{opacity: 1;}
 }
 @keyframes unflicker {0%{opacity: 1;}100%{opacity: 0.2;}}
@@ -2613,15 +2208,25 @@ body,html{
   /*==right nav element ============================================================*/
   .web_parent .body .right_nav {font-size: 85%;}
 
-  .web_parent .body .movie_list .add_butt{font-size: 90%;}
+  .web_parent .body .movie_list .add_butt{font-size: 85%;}
 
   .web_parent .body .movie_list .movie_wraper .ele_wraper{width: 33%; height: 34vw;}
 
-  .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span{font-size: 1.65vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele{border-radius: 10px;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span{font-size: 2.1vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper{border-radius: 8px;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper{font-size: 90%;}
 
-  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section p{font-size: 1.15vw;}
-  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt p{font-size: 1.4vw;}
-  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper{font-size: 95%;}
+
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper{font-size: 90%;top: -0.4em;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper{font-size: 90%;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .info_wraper{bottom: 1.2em;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .rating{font-size: 1.8vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .type{font-size: 1.7vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .rating .label{ font-size: 1.3vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .type .label{ font-size: 1.3vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .genre p{font-size: 1.55vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .genre .label{font-size: 1.25vw;top: -0.4em;}
 }
 
 @media only screen and (max-width: 600px){
@@ -2631,16 +2236,22 @@ body,html{
   .web_parent .body .right_nav .options_wraper{height: 30vh;}
   .web_parent .body .right_nav .options_wraper{width: 3.5em;}
 
-  .web_parent .body .movie_list .add_butt{font-size: 80%;}
+  .web_parent .body .movie_list .add_butt{font-size: 75%;}
 
   .web_parent .body .movie_list .movie_wraper .ele_wraper{width: 50%; height: 51vw;}
 
-  .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span{font-size: 2.5vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele{border-radius: 9px;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .name_parent .name > span{font-size: 3vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper{border-radius: 7px;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .image_wraper .bookmark_wraper{font-size: 88%;}
 
-  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section p{font-size: 1.7vw;}
-  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_parent .section .play_butt p{font-size: 2vw;}
-
-  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .image_wraper .bookmark_wraper{font-size: 88%;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .edit_wraper{font-size: 80%;top: -0.5em;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper{font-size: 90%;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper.toggled .ele .info_wraper{bottom: 1em;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .rating{font-size: 2.4vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .type{font-size: 2.3vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .rating .label{ font-size: 1.8vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .info .child .type .label{ font-size: 1.8vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .genre p{font-size: 2.2vw;}
+  .web_parent .body .movie_list .movie_wraper .ele_wraper .ele .info_wraper .genre .label{font-size: 1.75vw;}
 }
-
-          
