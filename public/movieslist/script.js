@@ -142,8 +142,12 @@ function toggleScrollText(x) {
     scroll.classList.remove("down");
   };
 };
-
+let counter = 20;
 function parallaxAnimation(x) {
+  if(counter > 0.001){
+    x = x - counter;
+    counter = lerp(counter,0,0.1)
+  }
   text.style.cssText = "transform:translateY(" + x / 8.5 + "%);";
   para1.style.cssText = "transform:translateY(" + x / 5.5 + "%);";
   para2.style.cssText = "transform:translateY(" + x / 7 + "%);";
@@ -399,7 +403,8 @@ function prepMovies(array){
       rating:array[i].rating,
       type:array[i].type,
       time:array[i].time,
-      bookmark:array[i].bookmark
+      bookmark:array[i].bookmark,
+      file:array[i].file
     };
     movieObject.push(new Film(movie));
   };
@@ -450,11 +455,12 @@ let USER;
 let movieObject = [];
 
 //get request for the movies when the web loads pushes all the movies in the 2 arrays moviObject and bookmarkObject
-getFetch("/eleinfo")
+getFetch("/eleInfo")
 .then((data)=>{USER = data;})
 .then(()=>{
   prepMovies(USER);
-  console.log(movieObject);
+
+  checkMovieArray();
   for(let i = movieObject.length-1;i >= 0; i--){
     movieObject[i].mapName();
     movieObject[i].buildMovie();
@@ -464,6 +470,8 @@ getFetch("/eleinfo")
   namesTransitionDelay();
 
   searchObj.searchLister();
+
+  imgRatios();
 })
 .catch((err)=>{
   if(err){
@@ -475,18 +483,31 @@ getFetch("/eleinfo")
 
 
 
+function checkMovieArray(){
+  let empty = document.createElement("div");
+  empty.classList.add("ele_wraper");
+  empty.classList.add("flex_middle");
+  empty.innerHTML = 
+  `
+    <div class="ele"></div>
+    <p>No Movies Added</p>
+  `;
+  if(movieObject.length == 0){
+    movieWraper.appendChild(empty);
+  }
+}
 class Film {
   constructor(data){
+    this.name = data.name;
     this.link = data.link;
     this.img = data.img;
     this.rating = data.rating;
-    this.name = data.name;
     this.genre = data.genre;
-    this.bookmark = data.bookmark;
     this.type = data.type;
     this.time = data.time;
+    this.bookmark = data.bookmark;
+    this.file = data.file;
 
-    // this.imgFile = data.file;
     this.Name = [];
     this.eleWraper;
   }
@@ -623,16 +644,7 @@ class Film {
         return;
       }
       if(e.target == this.eleWraper.querySelector(".edit_wraper")){
-        let data = {
-          name:this.name,
-          link:this.link,
-          img:this.img,
-          genre:this.genre,
-          rating:this.rating,
-          type:this.type,
-          time:this.time
-        }
-        form.edit(data,this);
+        form.edit(this);
         return;
       }
 
@@ -681,14 +693,36 @@ class Film {
   hidden(){
     let top = this.eleWraper.getBoundingClientRect();
     this.ele = this.eleWraper.querySelector(".ele");
+    this.editWraper = this.eleWraper.querySelector(".edit_wraper")
     this.nameParent = this.eleWraper.querySelector(".name_parent");
-    this.imageParent = this.eleWraper.querySelector("img");
-
+    // this.imageParent = this.eleWraper.querySelector("img");
 
     if(top.top < window.innerHeight + 100){
       this.ele.classList.remove("hidden");
+      this.nameParent.classList.remove("hidden");
+      this.editWraper.classList.remove("hidden");
     }else{
       this.ele.classList.add("hidden");
+      this.nameParent.classList.add("hidden");
+      this.editWraper.classList.add("hidden");
+    }
+  }
+}
+
+
+function imgRatios() {
+  let imageWraper = movieObject[0].eleWraper.querySelector(".image_wraper");
+  let ratio = imageWraper.clientWidth/imageWraper.clientHeight;
+
+  for(let i = 0 ; i < movieObject.length ; i++){
+    let img = movieObject[i].eleWraper.querySelector("img");
+    img.onload = ()=>{
+      let imgRatio = img.width/img.height;
+      if(imgRatio > ratio){
+        img.classList.add("height");
+      }else{
+        img.classList.add("width");
+      }
     }
   }
 }
@@ -709,12 +743,10 @@ class Film {
 
 
 
-
-
-
-
 class Form {
   constructor(){
+    this.element;
+
     this.formOverlay = document.querySelector(".form_overlay");
     this.form = document.querySelector(".form");
     this.time = document.querySelector(".time");
@@ -738,8 +770,10 @@ class Form {
     this.editButt = this.form.querySelector(".edit_butt");
     this.deleteButt = this.form.querySelector(".delete_butt");
 
-    this.fileButt = document.querySelector(".image_file");
+    this.fileObject;
+    this.fileInput = document.querySelector("#image_file");
     this.fileClicked = false;
+    this.imgContainer = document.querySelector(".img_container");
   }
 
   handleTime(){
@@ -755,11 +789,44 @@ class Form {
 
 
   eventListener(){
-    this.fileButt.addEventListener("click",()=>{
-      console.log("file clicked");
-      this.fileClicked = true;
-      console.log(`this.fileClicked is ${this.fileClicked}`);
+    this.form.addEventListener("click",()=>{
+      this.form.classList.remove("invalid_img");
+      this.form.classList.remove("invalid_name");
     })
+
+    this.img.addEventListener("change",()=>{
+      this.fileClicked = false;
+      if(this.img.value.length == 0){
+        this.imgValue.classList.remove("width");
+        this.imgValue.classList.remove("height");
+      }else{
+        let url = this.img.value
+        this.imgValue.src = url;
+      }
+    })
+
+    this.imgValue.onload = ()=>{
+      // let isLoaded = this.imgValue.complete && this.imgValue.naturalHeight !== 0; //true if loaded
+      this.imgValue.classList.remove("width");
+      this.imgValue.classList.remove("height");
+      let x = this.imgContainer.getBoundingClientRect();
+      let ratio = x.width/x.height;
+      
+      if((this.imgValue.width/this.imgValue.height) > ratio){
+        this.imgValue.classList.add("height");
+      }else{
+        this.imgValue.classList.add("width");
+      }
+    }
+
+    this.fileInput.addEventListener("change",()=>{
+      this.fileClicked = true;
+      this.img.value = this.fileInput.files[0].name;
+      this.fileObject = this.fileInput.files[0];
+      this.imgValue.src = URL.createObjectURL(this.fileInput.files[0]);
+    })
+
+    
 
 
     this.closeButt.addEventListener("click",()=>{
@@ -776,215 +843,451 @@ class Form {
       form.handleTime();
     })
 
-    this.editButt.addEventListener("click",()=>{
 
+
+
+
+
+
+
+
+
+
+    this.editButt.addEventListener("click",()=>{
+      this.buttons.classList.add("loading");
+      this.loader.classList.add("loading");
+  
       if(this.fileClicked){
-        console.log("button had been clicked !!!");
-        if(this.img.value == this.element.img){
-          console.log("button had been clicked but no changes had been made !!!");
-        }
+        let name = {name:this.name.value}
+        postFetch("/Checkname",name)
+        .then((check)=>{
+          if(!check){
+            console.log("invalid_name class added !!!");
+            this.form.classList.add("invalid_name");
+            this.buttons.classList.remove("loading");
+            this.loader.classList.remove("loading");
+          }else{
+            let fd = new FormData();
+            fd.append("file",this.fileObject);
+            fetch('/AddMovieFile', {
+              method: 'POST',
+              body:fd
+            })
+            .then(response=>response.json())
+            .then((url)=>{
+              let regex = /.([A-Z]).*/g;
+              let imgLink = this.element.img.match(regex)[0];
+              let imgURL = imgLink.substring(0, imgLink.length-5);
+              imgURL= imgURL.substring(1);
+
+
+              let body = {
+                data: {
+                  name:this.element.name,
+                  link:this.element.link,
+                  img:this.element.img,
+                  genre:this.element.genre,
+                  rating:this.element.rating,
+                  type:this.element.type,
+                  time:this.element.time,
+                  bookmark:this.element.bookmark,
+                  file:this.element.file
+                },
+                updatedData: {
+                  name:this.name.value,
+                  link:this.link.value,
+                  img:url,
+                  genre:this.genre.value,
+                  rating:this.rating.value,
+                  type:this.type.value,
+                  time:this.time.innerHTML,
+                  bookmark:this.element.bookmark,
+                  file:this.element.file
+                },
+                imgURL: imgURL
+              }
+              postFetch("/editMovieFile",body)
+              .then((permision)=>{
+                if(permision){
+                  this.element.name = body.updatedData.name,
+                  this.element.link = body.updatedData.link,
+                  this.element.img = body.updatedData.img,
+                  this.element.genre = body.updatedData.genre,
+                  this.element.rating = body.updatedData.rating,
+                  this.element.time = body.updatedData.time,
+                  this.element.type = body.updatedData.type,
+                  this.element.bookmark = body.updatedData.bookmark,
+                  this.element.file = body.updatedData.file
+                }
+                this.element.mapName();
+                this.element.updateMovie();
+                namesTransitionDelay();
+                imgRatios();
+              })
+              .then(()=>{
+                setTimeout(() => {
+                  this.formOverlay.classList.remove("open");
+                  this.formOverlay.classList.remove("edit");
+          
+                  this.buttons.classList.remove("loading");
+                  this.loader.classList.remove("loading");
+                  form.clear();
+                }, 500);
+              })
+            })
+          }
+        })
+        .catch(()=>{
+          console.log("invalid_name class added !!!");
+          this.form.classList.add("invalid_name");
+          this.buttons.classList.remove("loading");
+          this.loader.classList.remove("loading");
+        })
+
       }else{
-        console.log("button had not been clicked before !!!");
+        let data = {
+          data:{
+            name:this.element.name,
+            link:this.element.link,
+            img:this.element.img,
+            genre:this.element.genre,
+            rating:this.element.rating,
+            type:this.element.type,
+            time:this.element.time,
+            bookmark:this.element.bookmark,
+            file:this.element.file
+          },
+          updatedData:{
+            name:this.name.value,
+            link:this.link.value,
+            img:this.img.value,
+            genre:this.genre.value,
+            rating:this.rating.value,
+            type:this.type.value,
+            time:this.time.innerHTML,
+            bookmark:this.element.bookmark,
+            file:this.element.file
+          }
+        }
+        postFetch("/editMovie",data)
+        .then((permition)=>{
+          if(permition){
+            this.element.name = data.updatedData.name,
+            this.element.link = data.updatedData.link,
+            this.element.img = data.updatedData.img,
+            this.element.genre = data.updatedData.genre,
+            this.element.rating = data.updatedData.rating,
+            this.element.time = data.updatedData.time,
+            this.element.type = data.updatedData.type,
+            this.element.bookmark = data.updatedData.bookmark,
+            this.element.file = data.updatedData.file
+          }
+          this.element.mapName();
+          this.element.updateMovie();
+          namesTransitionDelay();
+          imgRatios();
+        })
+        .then(()=>{
+          setTimeout(() => {
+            this.formOverlay.classList.remove("open");
+            this.formOverlay.classList.remove("edit");
+    
+            this.buttons.classList.remove("loading");
+            this.loader.classList.remove("loading");
+            form.clear();
+          }, 500);
+        })
+
+
       }
 
-      // this.buttons.classList.add("loading");
-      // this.loader.classList.add("loading");
-
-      form.clear();
-      this.formOverlay.classList.remove("open");
-      this.formOverlay.classList.remove("edit");
-
-      // let data = {
-      //   data:{
-      //     name:this.element.name,
-      //     link:this.element.link,
-      //     img:this.element.img,
-      //     genre:this.element.genre,
-      //     rating:this.element.rating,
-      //     time:this.element.time,
-      //     type:this.element.type,
-      //     bookmark:this.element.bookmark
-      //   },
-      //   updatedData:{
-      //     name:this.name.value,
-      //     link:this.link.value,
-      //     img:this.img.value,
-      //     genre:this.genre.value,
-      //     rating:this.rating.value,
-      //     time:this.time.innerHTML,
-      //     type:this.type.value,
-      //     bookmark:this.element.bookmark
-      //   }
-      // }
-      // postFetch("/mockUserEdit",data)
-      // .then((permition)=>{
-      //   if(permition){
-      //     this.element.name = data.updatedData.name,
-      //     this.element.link = data.updatedData.link,
-      //     this.element.img = data.updatedData.img,
-      //     this.element.genre = data.updatedData.genre,
-      //     this.element.rating = data.updatedData.rating,
-      //     this.element.time = data.updatedData.time,
-      //     this.element.type = data.updatedData.type,
-      //     this.element.bookmark = data.updatedData.bookmark
-      //   }
-      //   this.element.mapName();
-      //   this.element.updateMovie();
-      //   namesTransitionDelay();
-      // })
-      // .then(()=>{
-      //   setTimeout(() => {
-      //     this.formOverlay.classList.remove("open");
-      //     this.formOverlay.classList.remove("edit");
-  
-      //     this.buttons.classList.remove("loading");
-      //     this.loader.classList.remove("loading");
-      //     form.clear();
-      //   }, 500);
-      // })
     })
+
+
+
+
+
+
+
+
 
     this.deleteButt.addEventListener("click",()=>{
-      // this.buttons.classList.add("loading");
-      // this.loader.classList.add("loading");
+      this.buttons.classList.add("loading");
+      this.loader.classList.add("loading");
 
+      if(this.element.file){
+        let regex = /.([A-Z]).*/g;
+        let imgLink = this.element.img.match(regex)[0];
+        let imgURL = imgLink.substring(0, imgLink.length-5);
+        imgURL= imgURL.substring(1);
 
-      if(this.element.imgFile){
-        console.log("Link is an uploaded one !!!");
+        let data = {
+          imgURL: imgURL,
+          name:this.element.name,
+          link:this.element.link,
+          img:this.element.img,
+          genre:this.element.genre,
+          rating:this.element.rating,
+          type:this.type.value,
+          time:this.element.time,
+          bookmark:this.element.bookmark,
+          file:this.element.file
+        }
+        postFetch("/DeleteMovieFile",data)
+        .then((permition)=>{
+          if(permition){
+            movieWraper.removeChild(this.element.eleWraper);
+            let eleIndex = movieObject.findIndex(({name})=>{
+              return name === data.name; 
+            })
+            movieObject.splice(eleIndex,1);
+          }else{
+            console.log("MOVIE HAS NOT BEEN DELETED!!!");
+          }
+        })
+        .then(()=>{
+          setTimeout(() => {
+            this.formOverlay.classList.remove("open");
+            this.formOverlay.classList.remove("edit");
+    
+            this.buttons.classList.remove("loading");
+            this.loader.classList.remove("loading");
+            form.clear();
+          }, 500);
+        })
+        .catch((reason)=>{
+          console.log(reason+" this is the reason NOT DELETED!!!");
+        })
       }else{
-        console.log("Link is form the internet !!!");
+        let data = {
+          name:this.element.name,
+          link:this.element.link,
+          img:this.element.img,
+          genre:this.element.genre,
+          rating:this.element.rating,
+          type:this.type.value,
+          time:this.element.time,
+          bookmark:this.element.bookmark,
+          file:this.element.file
+        }
+        postFetch("/DeleteMovie",data)
+        .then((permition)=>{
+          if(permition){
+            movieWraper.removeChild(this.element.eleWraper);
+            let eleIndex = movieObject.findIndex(({name})=>{
+              return name === data.name; 
+            })
+            movieObject.splice(eleIndex,1);
+          }else{
+            console.log("MOVIE HAS NOT BEEN DELETED!!!");
+          }
+        })
+        .then(()=>{
+          setTimeout(() => {
+            this.formOverlay.classList.remove("open");
+            this.formOverlay.classList.remove("edit");
+    
+            this.buttons.classList.remove("loading");
+            this.loader.classList.remove("loading");
+            form.clear();
+          }, 500);
+        })
+        .catch((reason)=>{
+          console.log(reason+" this is the reason NOT DELETED!!!");
+        })
       }
-
-      form.clear();
-      this.formOverlay.classList.remove("open");
-      this.formOverlay.classList.remove("edit");
-
-      // let data = {
-      //   name:this.element.name,
-      //   link:this.element.link,
-      //   img:this.element.img,
-      //   genre:this.element.genre,
-      //   rating:this.element.rating,
-      //   time:this.element.time,
-      //   bookmark:this.element.bookmark,
-      // }
-      // postFetch("/mockUserDelete",data)
-      // .then((permition)=>{
-      //   if(permition){
-      //     movieWraper.removeChild(this.element.eleWraper);
-      //     let eleIndex = movieObject.findIndex(({name})=>{
-      //       return name === data.name; 
-      //     })
-      //     movieObject.splice(eleIndex,1);
-      //   }else{
-      //     console.log("MOVIE HAS NOT BEEN DELETED!!!");
-      //   }
-      // })
-      // .then(()=>{
-      //   setTimeout(() => {
-      //     this.formOverlay.classList.remove("open");
-      //     this.formOverlay.classList.remove("edit");
-  
-      //     this.buttons.classList.remove("loading");
-      //     this.loader.classList.remove("loading");
-      //     form.clear();
-      //   }, 500);
-      // })
     })
 
+
+
+
+
+
+
+
     this.form.addEventListener("submit",(e)=>{
-      // this.buttons.classList.add("loading");
-      // this.loader.classList.add("loading");
-
-      if(this.fileClicked){
-        console.log("button had been clicked !!!");
-      }else{
-        console.log("button had not been clicked before !!!");
-      }
-
-      form.clear();
-      this.formOverlay.classList.remove("open");
-      this.formOverlay.classList.remove("edit");
-
       e.preventDefault();
-      let data = {
-        name:this.name.value,
-        link:this.link.value,
-        img:this.img.value,
-        genre:this.genre.value,
-        rating:this.rating.value,
-        type:this.type.value,
-        time:this.time.innerHTML,
-        bookmark:false
-      };
-      // this.submit(data);
+      if(this.imgValue.height === 0){
+        this.form.classList.add("invalid_img");
+      }else{
+        this.buttons.classList.add("loading");
+        this.loader.classList.add("loading");
+        
+        if(this.fileClicked){
+          let data = {
+            name:this.name.value,
+            link:this.link.value,
+            img:this.img.value,
+            genre:this.genre.value,
+            rating:this.rating.value,
+            type:this.type.value,
+            time:this.time.innerHTML,
+            bookmark:false,
+            file:true
+          };
+          this.submit(data,data.file);
+        }else{
+          let data = {
+            name:this.name.value,
+            link:this.link.value,
+            img:this.img.value,
+            genre:this.genre.value,
+            rating:this.rating.value,
+            type:this.type.value,
+            time:this.time.innerHTML,
+            bookmark:false,
+            file:false
+          };
+          this.submit(data,data.file);
+        }
+      }
     })
 
     this.name.addEventListener("input",()=>{
       this.nameValue.innerHTML = this.name.value;
     })
 
-    this.img.addEventListener("change",()=>{
-      if(this.img.value.length == 0){
-        this.imgValue.style.opacity = `0`;
-      }else{
-        let url = this.img.value
-        function checkimg(url) {
-          form.imgValue.src = url;
-        }
-        checkimg(url);
-        this.imgValue.style.opacity = `1`;
-      }
-    })
-
   }
 
-  submit(body){
-    postFetch("/mockUserAdd",body)
-    .then((data)=>{
-      if(data){
-        movieObject.push(new Film(body));
-        movieWraper.innerHTML = "";
-        movieObject[movieObject.length-1].mapName();
-        movieObject[movieObject.length-1].buildMovie();
-      }
-    })
-    .then(()=>{
-      for(let i = movieObject.length-1;i >= 0; i--){
-        movieObject[i].display();
-      }
-      movieObject[movieObject.length-1].addeventlistener();
-      namesTransitionDelay();
 
-      setTimeout(() => {
-        this.formOverlay.classList.remove("open");
-        this.formOverlay.classList.remove("edit");
 
+
+
+
+
+
+
+  submit(body,file){
+    if(file){
+      let name = {name:body.name}
+      postFetch("/Checkname",name)
+      .then((check)=>{
+        if(!check){
+          console.log("invalid_name class added !!!");
+          this.form.classList.add("invalid_name");
+          this.buttons.classList.remove("loading");
+          this.loader.classList.remove("loading");
+        }else{
+          let fd = new FormData();
+          fd.append("file",this.fileObject);
+          fetch('/AddMovieFile', {
+            method: 'POST',
+            body:fd
+          })
+          .then(response=>response.json())
+          .then((url)=>{
+            let body = {
+              name:this.name.value,
+              link:this.link.value,
+              img:url,
+              genre:this.genre.value,
+              rating:this.rating.value,
+              type:this.type.value,
+              time:this.time.innerHTML,
+              bookmark:false,
+              file:true
+            }
+            postFetch("/Insertmovie",body)
+            .then(()=>{
+              movieObject.push(new Film(body));
+              movieWraper.innerHTML = "";
+              movieObject[movieObject.length-1].mapName();
+              movieObject[movieObject.length-1].buildMovie();
+            })
+            .then(()=>{
+              for(let i = movieObject.length-1;i >= 0; i--){
+                movieObject[i].display();
+              }
+              movieObject[movieObject.length-1].addeventlistener();
+              namesTransitionDelay();
+              imgRatios();
+      
+              setTimeout(() => {
+                this.formOverlay.classList.remove("open");
+                this.formOverlay.classList.remove("edit");
+      
+                this.buttons.classList.remove("loading");
+                this.loader.classList.remove("loading");
+                form.clear();
+              }, 500);
+            })
+          })
+        }
+      })
+      .catch(()=>{
+        console.log("invalid_name class added !!!");
+        this.form.classList.add("invalid_name");
         this.buttons.classList.remove("loading");
         this.loader.classList.remove("loading");
-        form.clear();
-      }, 500);
-    })
-  }
-  edit(object,film){
-    this.name.value = object.name;
-    this.link.value = object.link;
-    this.img.value = object.img;
-    this.genre.value = object.genre;
-    this.rating.value = object.rating;
-    this.type.value = object.type;
-    this.timeAdded.innerHTML = `Last Update: `+ object.time;
-    this.nameValue.innerHTML = object.name;
-    this.imgValue.src = object.img;
-    this.imgValue.style.opacity = `1`;
+      })
+    }else{
+      postFetch("/AddMovie",body)
+      .then((permision)=>{
+        if(permision){
+          movieObject.push(new Film(body));
+          movieWraper.innerHTML = "";
+          movieObject[movieObject.length-1].mapName();
+          movieObject[movieObject.length-1].buildMovie();
 
+          for(let i = movieObject.length-1;i >= 0; i--){
+            movieObject[i].display();
+          }
+          movieObject[movieObject.length-1].addeventlistener();
+          namesTransitionDelay();
+          imgRatios();
+  
+          setTimeout(() => {
+            this.formOverlay.classList.remove("open");
+            this.formOverlay.classList.remove("edit");
+  
+            this.buttons.classList.remove("loading");
+            this.loader.classList.remove("loading");
+            form.clear();
+          }, 500);
+        }else{
+          console.log("invalid_name class added !!!");
+          this.form.classList.add("invalid_name");
+          this.buttons.classList.remove("loading");
+          this.loader.classList.remove("loading");
+          return;
+        }
+      })
+      .catch(()=>{
+        console.log("invalid_name class added !!!");
+        this.form.classList.add("invalid_name");
+        this.buttons.classList.remove("loading");
+        this.loader.classList.remove("loading");
+      })
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+  edit(film){
     this.element = film;
+
+    this.name.value = film.name;
+    this.link.value = film.link;
+    this.img.value = film.img;
+    this.genre.value = film.genre;
+    this.rating.value = film.rating;
+    this.type.value = film.type;
+    this.timeAdded.innerHTML = `Last Update: `+ film.time;
+    this.nameValue.innerHTML = film.name;
+    this.imgValue.src = film.img;
+
     this.formOverlay.classList.add("edit");
     form.handleTime();
   }
   clear(){
     this.fileClicked = false;
-    console.log(`this.fileClicked is ${this.fileClicked}`);
     setTimeout(() => {
       this.name.value = "";
       this.link.value = "";
@@ -994,14 +1297,14 @@ class Form {
       this.type.value = "";
       this.imgValue.src = " ";
       this.nameValue.innerHTML = "";
-      this.imgValue.style.opacity = `0`;
+      this.form.classList.remove("invalid_name");
+      this.form.classList.remove("invalid_img");
     }, 250);
   }
 }
 let form = new Form();
 form.eventListener();
 form.handleTime();
-
 
 
 
@@ -1017,7 +1320,6 @@ function movieListUpdate() {
     }, 600);
   })
 }
-
 
 
 
@@ -1058,11 +1360,11 @@ class searchBar {
           this.inputResult.classList.remove("focus");
           this.input.blur();
           this.input.value = "";
+          movieList.dataset.mode = "";
         })
       }
     })
     this.input.addEventListener("input",()=>{
-      console.log(this.input.value);
       if (this.input.value !== "") {
         let citiesArr = searchObj.find(this.input.value,movieObject);
         let html = citiesArr
@@ -1098,6 +1400,7 @@ class searchBar {
         })
       })
     })
+    movieList.dataset.mode = "";
   }
 }
 let searchObj = new searchBar()
@@ -1108,169 +1411,49 @@ let searchObj = new searchBar()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// const debug = document.querySelector(".debug");
-let imgPrev = document.querySelector(".img_prev");
-
-let fileInput = document.querySelector("#file");
-fileInput.addEventListener("change",(e)=>{
-  imgPrev.src = URL.createObjectURL(e.target.files[0]);
-})
-
-
-const formImage = document.querySelector(".image_post");
-formImage.addEventListener("submit",(e)=>{
-  e.preventDefault();
-
-  uploadImage(fileInput.files[0]);
-
-  function uploadImage (file){
-    const fd = new FormData();
-    fd.append('file',file);
-
-    fetch('/upload', {
-      method: 'POST',
-      body: fd
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
-  }
-
-
-
-  console.log(e);
-})
-
-let imgDelete = document.querySelector(".img_delete_butt");
-imgDelete.addEventListener("click",()=>{
-  
-  uploadImage(fileInput.files[0]);
-
-  function uploadImage (file){
-    const fd = new FormData();
-    fd.append('file',file);
-
-    fetch('/delete', {
-      method: 'POST',
-      body: fd
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
-  }
-})
-
-// const paragraph = 'http://res.cloudinary.com/dwbsjfr6r/image/upload/v1630253493/Uploaded/dgwzro7ehduofwyshyiw.webp';
-// const paragraph = 'https://res.cloudinary.com/dwbsjfr6r/image/upload/v1630255908/Uploaded/hffup5gfvodgonq8rtph.webp';
-// const regex = /.([A-Z]).*/g;
-// const found = paragraph.match(regex)[0];
-// let id = found.substring(0, found.length-5);
-// console.log(id);
-// "http://res.cloudinary.com/dwbsjfr6r/image/upload/v1630253493/Uploaded/dgwzro7ehduofwyshyiw.webp"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// debug.addEventListener("click",()=>{
-//   let USER = {
-//     username:"devil",
-//     email:"devil@cry.com",
-//     password:"devilmaycry"
-//   }
-//   let options = {
-//     method:"POST",
-//     headers:{
-//       'Content-Type': 'application/json'
-//     },
-//     redirect: 'follow',
-//     body:JSON.stringify(USER)
-//   };
-//   fetch("/mockUserInsert",options).then((res)=>{
-//     return res.json();
-//   }).then((info)=>{
-//     if(info){
-//       console.log("User Added!!!");
-//     }else{
-//       console.log("User Already Exist!!!");
-//     }
-//   })
-// })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 window.onload = () =>{
+  let loadingScreen = document.querySelector(".loading_overlay");
+  setTimeout(() => {
+    loadingScreen.classList.add("close");
+    counter = 50;
+  }, 1300);
+
   handleScrolling();
-  const scrollContent = document.querySelector(".scroll-content");
-
-
-
-  requestAnimationFrame(animate);
-  function animate () {
-    topOffset = scrollContent.getBoundingClientRect().top;
-    //animation that run only on the head
-    if(-(topOffset) < window.innerHeight){
-      parallaxAnimation(-topOffset);
-      canvasAnimation();
-
-      leftNavMapping(-topOffset,root);
-      toggleScrollText(-topOffset);
-      leftNavUpdate(-topOffset);
-    }
-    //animation that run only on the body
-    if(-(topOffset) > window.innerHeight + 40){
-      // for(let i = movieObject.length-1;i >= 0; i--){
-      //   movieObject[i].hidden();
-      // }
-
-      rightNav.style.cssText = `transform:translateY(${-(topOffset)-window.innerHeight - 50}px);`;
-    }else{
-      rightNav.style.cssText = `transform:translateY(0px);`;
-    };
-    ballFunctions(topOffset);
+    const scrollContent = document.querySelector(".scroll-content");
+  
     requestAnimationFrame(animate);
-  }
+    function animate () {
+      topOffset = scrollContent.getBoundingClientRect().top;
+      //animation that run only on the head
+      if(-(topOffset) < window.innerHeight){
+        parallaxAnimation(-topOffset);
+        canvasAnimation();
+  
+        leftNavMapping(-topOffset,root);
+        toggleScrollText(-topOffset);
+        leftNavUpdate(-topOffset);
+      }
+      //animation that run only on the body
+      if(-(topOffset) > window.innerHeight + 40){
+      for(let i = movieObject.length-1;i >= 0; i--){
+        movieObject[i].hidden();
+      }
+        rightNav.style.cssText = `transform:translateY(${-(topOffset)-window.innerHeight - 50}px);`;
+      }else{
+        rightNav.style.cssText = `transform:translateY(0px);`;
+      };
+      ballFunctions(topOffset);
+      requestAnimationFrame(animate);
+    }
 };
 
+
+
+let logoutButtons = document.querySelectorAll(".logout_butt");
+
+logoutButtons.forEach(x=>{x.addEventListener("click",()=>{
+  fetch("/logout")
+  .then(permision=>{
+    window.location.href = permision.url;
+  })
+})})

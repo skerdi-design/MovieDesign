@@ -1,15 +1,14 @@
 const form = document.querySelector(".form");
-const message = document.querySelector(".message");
-const input = document.querySelectorAll("input");
 
 form.addEventListener("submit",(e)=>{
     e.preventDefault();
-    // window.location.href = "http://localhost:3000/movieslist/";
-    const data = {
-        email:document.querySelector("#email").value,
-        password:document.querySelector("#password").value
-    }
-    const options = {
+    form.querySelector(".submit_butt").classList.add("grey");
+
+    let data = {
+        email: form.querySelector("#email").value,
+        password: form.querySelector("#password").value
+    };
+    let options = {
         method:"POST",
         headers:{
             'Content-Type': 'application/json'
@@ -18,19 +17,15 @@ form.addEventListener("submit",(e)=>{
         body:JSON.stringify(data)
     };
     fetch("/login",options)
-    .then(res=>{
-        if(res.redirected === false){
-            message.classList.add("wrong");
-            input.forEach(x=>{
-                x.classList.add("wrong");
-            })
-        }else{
+    .then((res)=>{
+        if(res.redirected){
             window.location.href = res.url;
+        }else{
+            form.classList.add("username_null");
         }
-    });
+    })
 })
 
-input.forEach(x=>{x.addEventListener("click",()=>{
-    x.classList.remove("wrong"),
-    message.classList.remove("wrong");
-})})
+form.addEventListener("click",()=>{
+    form.classList.remove("username_null");
+})

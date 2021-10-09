@@ -1,302 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500&display=swap');
+.flex_middle{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
 *{
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    color: white;
-    font-family: sans-serif;
-    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
     user-select: none;
+    font-family: 'Allerta Stencil', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-size: inherit;
 }
 body,html{
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    background-color: #FEDCC8;
+    overflow:hidden;
+    background-color: rgb(36, 10, 34);
 }
-.overlay-background{
+.head{
     width: 100%;
     height: 100%;
-    position: absolute;
+    background: rgb(254, 220, 200);
 }
-.overlay-background .image{
+.head .parallax_images{
     position: absolute;
+    bottom: 0;
     width: 100%;
-    height: 85%;
+    height: 40%;
+    pointer-events: none;
+    overflow: hidden;
+}
+.head .parallax_images .parallax{
+    width: 100%;
+    height: 89%;
+    margin-left: 25%;
+    position: absolute;
     background-repeat:no-repeat;
+    bottom: -4px;
     background-size:cover;
     background-position: center;
-    position: fixed;
-    bottom: 0;
-}
-.overlay-background .image1{
-    background-image: url("https://github.com/samdbeckham/blog/blob/master/dev/_assets/images/articles/firewatch/layer_0.png?raw=true");
-}
-.overlay-background .image2{
-    background-image:url("https://github.com/samdbeckham/blog/blob/master/dev/_assets/images/articles/firewatch/layer_1.png?raw=true");
-}
-.overlay-background .image3{
-    background-image:url("https://github.com/samdbeckham/blog/blob/master/dev/_assets/images/articles/firewatch/layer_2.png?raw=true");
-}
-.overlay-background .image4{
-    background-image:url("https://github.com/samdbeckham/blog/blob/master/dev/_assets/images/articles/firewatch/layer_3.png?raw=true");
-}
-.overlay-background .image5{
-    background-image:url("https://github.com/samdbeckham/blog/blob/master/dev/_assets/images/articles/firewatch/layer_4.png?raw=true");
-}
-.overlay-background .image6{
-    background-image:url("https://github.com/samdbeckham/blog/blob/master/dev/_assets/images/articles/firewatch/layer_5.png?raw=true");
-}
-.overlay-background .image7{
-    background-image:url("https://github.com/samdbeckham/blog/blob/master/dev/_assets/images/articles/firewatch/layer_6.png?raw=true");
-}
-.container{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 390px;
-    height: 420px;
-    /* background: rgba(255, 255, 255, 0.1); */
-    box-shadow:0px 0px 10px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    backdrop-filter: blur(2px);
-}
-.container .head{
-    margin: 25px;
-    text-align: center;
-}
-.container form{
-    /* border: 1px solid black; */
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-.container form .row{
-    /* border: 1px solid white; */
-    height: 80px;
-    display: flex;
-    align-items: center;
-    font-size: 22px;
-    padding-top: 10px;
-}
-.container .row label{
-    position: absolute;
-    pointer-events: none;
-    transition: all 0.2s;
-    margin-left: 8px;
-    color: white;
-}
-.container .row input{
-    font-size: 20px;
-    outline: none;
-    background: rgba(0, 0, 0, 0.2);
-    border: none;
-    padding: 8px;
-    border-radius: 4px;
-    color: white;
-}
-.container .row input:focus{
-    border:1px solid rgba(255, 127, 80,1);
-}
-.container .row input:valid{
-    border:1px solid rgb(121, 255, 80);
-}
-/* { */
-    /* border-color: #800000; */
-    /* border-width: 3px; */
-    /* font-size: 15px; */
-    /* margin-top: -60px; */
-  /* } */
-/* .container .row input:focus + label,
-.container .row input:not(:valid:invalid) + label{
-    font-size: 15px;
-    margin-top: -60px;
-} */
-/* .container .row input:valid + label,
-.container .row input:focus + label,
-.container .row input:focus:invalid + label{
-    font-size: 15px;
-    margin-top: -60px;
-} */
-/* .container .row input:invalid{
-    border:1px solid red;
-} */
-.container .row input:invalid:not(:placeholder-shown){
-    border: 1px solid red;
-}
-.container .row input.wrong{
-    border: 1px solid red;
+    background-image: url("/image/layer_8.png");
 }
 
-.container .row input:not(:placeholder-shown) + label,
-.container .row input:focus + label{
-    font-size: 15px;
-    margin-top: -60px;
+.head .logo{
+    width: 46%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
-.container button{
-    font-size: 20px;
-    margin-top: 20px;
+.head .logo .svg_wraper{
+    width: 19em;
+    height: 4em;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 24%;
+    cursor: pointer;
+}
+.head .logo .svg_wraper svg{
+    width: 100%;
+    height: 100%;
+}
+.head .logo .svg_wraper .deer{
+    width: 35%;
+    height: 95%;
+    margin-top: -0.7em;
+    margin-right: 1em;
+    transition: all 0.25s ease-in-out;
+}
+.head .logo .svg_wraper:hover .deer{
+    filter: drop-shadow(0px 0px 4px rgba(36,10,34, 0.8));
+}
+.head .logo .svg_wraper svg path{
+    fill: rgb(36,10,34);
+    border: 1px solid black;
+}
+
+
+.head .form_wraper{
+    width: 54%;
+    height: 100%;
+    background: rgb(36,10,34);
+    position: absolute;
+}
+.head .form_wraper .svg_logo{
+    width: 2.8em;
+    height: 2.8em;
+    position: absolute;
+    top: 7%;
+    display: none;
+    cursor: pointer;
+}
+.head .form_wraper .svg_logo svg path{
+    fill: rgb(105, 61, 100);
+}
+.head .form_wraper .form{
+    width: 27em;
+    height: 25em;
+    max-width: 100%;
+    position: absolute;
+    flex-direction: column;
+}
+.head .form_wraper .form .auth_text{
+    width: 12em;
+    height: 2.5em;
+    position: absolute;
+    top: 0.8em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.head .form_wraper .form .auth_text p{
+    position: absolute;
+    font-size: 0.8em;
+    color: rgb(255, 58, 23);
+    opacity: 0;
+}
+.head .form_wraper .form.username_taken .auth_text .username_taken{
+    opacity: 1;
+}
+.head .form_wraper .form.email_taken .auth_text .email_taken{
+    opacity: 1;
+}
+.head .form_wraper .form .section{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.head .form_wraper .form .submit{
+    margin-top: 1.8em;
+}
+.head .form_wraper .form .text{
+    display: flex;
+    align-items: center;
+}
+.head .form_wraper .form .section .register{
+    color: rgb(116, 72, 111);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 1.8em;
+    letter-spacing: 1px;
+}
+
+.head .form_wraper .form .username input{
+    border: none;
+    height: 2.7em;
     outline: none;
-    border: 1px solid rgba(0, 0, 0,0);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-    color: white;
-    background: rgba(0, 0, 0,0.2);
-    border-radius: 5px;
-    width: 100px;
-    transition: all 0.1s;
+    border-radius: 4px;
+    background: rgb(56, 22, 54);
+    color: rgb(134, 62, 114);
+    font-size: 1em;
+    padding: 0em 0em 0em 1.5em;
+    width:100%;
 }
-.container button:hover{
-    background: rgba(0, 0, 0,0.5);
-    border: 1px solid coral;
+
+.head .form_wraper .form .email input{
+    border: none;
+    height: 2.7em;
+    outline: none;
+    border-radius: 4px;
+    background: rgb(56, 22, 54);
+    color: rgb(134, 62, 114);
+    font-size: 1em;
+    padding: 0em 0em 0em 1.5em;
+    width: 100%;
 }
-.container button:active{
-    background: rgba(45, 17, 43,0.7);
+
+.head .form_wraper .form .password input{
+    border: none;
+    height: 2.7em;
+    outline: none;
+    border-radius: 4px;
+    background: rgb(56, 22, 54);
+    color: rgb(134, 62, 114);
+    font-size: 1em;
+    padding: 0em 0em 0em 1.5em;
+    width: 100%;
 }
-/*
-}
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active,
-input:-webkit-autofill::first-line{
-    -webkit-animation: autofill 0s forwards;
-    transition: box-shadow 2s;
-    -webkit-text-fill-color: rgba(0, 0, 0, 1) !important;
-    -webkit-box-shadow: 0 0 0 30px rgb(59, 37, 58) inset !important;
-    -webkit-backface-visibility: hidden;
-    font-size: 20px;
-}
-@-webkit-keyframes autofill {
-    100% {
-        background: rgba(0, 0, 0, 0.9);
-        color: inherit;
-    }
-}
-*/
-.login{
+.head .form_wraper .form .section .svg-icon{
+    height: 40%;
     position: absolute;
-    width: 90px;
-    height: 35px;
-    color: coral;
-    border: 1px solid rgba(0, 0, 0, 0);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    top: 20px;
-    right: 20px;
-    border-radius: 10px;
-    background: rgba(45, 17, 43,0);
-    font-size: 17px;
-    transition: all 0.2s;
-}
-.login:hover{
-    text-decoration: underline;
-}
-.home{
-    position: absolute;
-    width: 80px;
-    height: 35px;
-    color: coral;
-    border: 1px solid rgba(0, 0, 0, 0);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    top: 20px;
-    left: 20px;
-    border-radius: 10px;
-    background: rgba(45, 17, 43,0);
-    transition: all 0.2s;
-}
-.home i{
-    font-size: 24px;
-    margin-top: -2px;
-    color: coral;
-}
-.social{
-    /* border: 1px solid white; */
-    position: absolute;
-    display: flex;
-    bottom: 10px;
-    left: 50%;
-    transform: translate(-50%,0%);
-    width: 220px;
-    height: 60px;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 5px;
-}
-.social .icon{
-    /* border: 1px solid white; */
-    width: 40px;
-    height: 40px;/* goes from white to coral */
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 21px;
-}
-.social .icon i{
-    color: white;
-    transition: all 0.15s;
-}
-.social .icon:hover i{
-    color: coral;
-}
-.logo1{
-    position: absolute;
-    left: 50%;
-    top: 10px;
-    /* border: 1px solid black; */
-    width: 120px;
-    height: 80px;
-    transform: translate(-50%,0%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.logo1 .header2{
-    font-family: 'Brush Script MT', cursive;
-    font-size: 26px;
-    color: rgba(45, 17, 43,1);
-    text-align: center;
-}
-.logo1 .header2 i{
-    color: rgba(45, 17, 43,1);
-    font-size: 24px;
-}
-.invalid{
-    position: absolute;
-    margin-top: 60px;
-    font-size: 10px;
-    color: red;
+    right: 1em;
+    pointer-events: none;
     opacity: 0;
-    transition: all 0.1s;
 }
-.invalid.true{
+.head .form_wraper .form.email_taken .email .svg-icon{
     opacity: 1;
-    font-size: 16px;
 }
-.invalid2{
+.head .form_wraper .form.username_taken .username .svg-icon{
+    opacity: 1;
+}
+.head .form_wraper .form .section .svg-icon path{
+    fill: rgb(255, 46, 9);
+}
+
+
+
+.head .form_wraper .form .submit button{
+    border: none;
+    height: 2.8em;
+    outline: none;
+    border-radius: 4px;
+    background: rgb(56, 22, 54);
+    color: rgba(231, 15, 91, 0.9);
+    font-size: 1.05em;
+    width: 28.4em;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+}
+.head .form_wraper .form .submit :hover{
+    color: rgba(231, 15, 91, 1);
+    text-shadow: 0px 0px 2px rgba(231, 15, 91, 0.5);
+}
+.head .form_wraper .form .submit .submit_butt.grey{
+    pointer-events: none;
+    opacity: 0.65;
+}
+
+.head .form_wraper .form .create a{
+    border: none;
+    height: 2.8em;
+    outline: none;
+    border-radius: 4px;
+    border: 2px solid rgb(56, 22, 54);
+    color: rgba(134, 62, 114, 0.8);
+    font-size: 1.05em;
+    width: 28.4em;
+    text-decoration: none;
+    transition: all 0.25s ease-in-out;
+}
+.head .form_wraper .form .create a:hover{
+    color: rgb(134, 62, 114);
+}
+
+.head .form_wraper .form .section label{
     position: absolute;
-    margin-top: 60px;
-    font-size: 10px;
-    color: rgb(201, 0, 0);
-    opacity: 0;
-    transition: all 0.1s;
+    left: 1.5em;
+    font-size: 1em;
+    pointer-events: none;
+    color: rgba(134, 62, 114, 1);
+    transform-origin: left;
+    transition: all 0.2s cubic-bezier(0.7, 0.01, 0.37, 1);
 }
-.invalid2.true{
-    opacity: 1;
-    font-size: 16px;
+.head .form_wraper .form .section input:focus + label,
+.head .form_wraper .form .section input:not(:placeholder-shown) + label{
+    margin-top: -4em;
+    transform: scale(0.85);
+    color: rgba(134, 62, 114, 0.5);
+}
+
+
+
+@media only screen and (max-width: 900px){
+    .head .logo .svg_wraper{font-size: 80%;}
+    .head .form_wraper .form{font-size: 80%;width: 24em;}
+}
+  
+@media only screen and (max-width: 600px){
+    .head .form_wraper{width: 100%;}
+    .head .logo{display: none;}
+    .head .parallax_images{display: none;}
+    .head .form_wraper .svg_logo{display: flex;}
 }

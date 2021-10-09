@@ -14,7 +14,7 @@ const cloudinary = require("cloudinary").v2;
 const { Readable } = require("stream");
 
 
-const {findUser,authUser,allowUser,updateUser,updateFavorite,debugUser,debugData,debugMovie,deleteMovie,editMovie,editFav} = require("./utils.js");
+const {findUser,authUser,getUserData,createMovie,deleteMovie,editMovie,editFav,checkName,insertMovie,editMovieFile} = require("./utils.js");
 
 
 
@@ -53,36 +53,26 @@ const bufferToStream = (buffer) => {
 
 
 
-app.post("/upload", upload.single("file") ,async (req,res)=>{
-
-    const data = await sharp(req.file.buffer).webp({ quality: 15 }).toBuffer();
-
-    const stream = cloudinary.uploader.upload_stream(
-        { folder: "Uploaded" },
-        (error, result) => {
-            if (error) return console.error(error);
-            // return res.json({ URL: result.secure_url });
-            //console.log(result);//result.url
-            console.log(result);
-            return res.send(true);
-        }
-    );
-
-    bufferToStream(data).pipe(stream);
-
-})
-
-
-
-
-app.post("/delete", upload.single("file") ,async (req,res)=>{
-
-    cloudinary.uploader.destroy('Uploaded/dgwzro7ehduofwyshyiw',(error,result)=>{
-        console.log(result);
-        return res.send(false);
-    });
-
-})
+// app.post("/upload", upload.single("file") ,async (req,res)=>{
+//     const data = await sharp(req.file.buffer).webp({ quality: 15 }).toBuffer();
+//     const stream = cloudinary.uploader.upload_stream(
+//         { folder: "Uploaded" },
+//         (error, result) => {
+//             if (error) return console.error(error);
+//             // return res.json({ URL: result.secure_url });
+//             //console.log(result);//result.url
+//             console.log(result);
+//             return res.send(true);
+//         }
+//     );
+//     bufferToStream(data).pipe(stream);
+// })
+// app.post("/delete", upload.single("file") ,async (req,res)=>{
+//     cloudinary.uploader.destroy('Uploaded/dgwzro7ehduofwyshyiw',(error,result)=>{
+//         console.log(result);
+//         return res.send(false);
+//     });
+// })
 
 
 
@@ -116,8 +106,7 @@ const root = {root:"./public"};
 
 app.use(express.json({limit:'1mb'}));
 
-
-// app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: true}));
 
 
 
@@ -130,7 +119,12 @@ app.use(express.json({limit:'1mb'}));
 
 
 app.get("/",(req,res)=>{
-    res.sendFile("index.html",root);
+    // res.sendFile("index.html",root);
+    // if(!(req.session && req.session.userId)){
+    //     res.sendFile("index.html",root);
+    // }else{
+    //     res.sendFile("./movieslist/index.html",root);
+    // }
 })
 app.get("/css",(req,res)=>{
     res.sendFile("style.css",root);
@@ -158,36 +152,15 @@ app.get("/login/js",(req,res)=>{
     res.sendFile("/login/script.js",root);
 })
 
-let userfound;
+
+
 
 app.get("/movieslist",(req,res)=>{
     // if(!(req.session && req.session.userId)){
     //     res.redirect("/login");
     // }else{
-    //     allowUser(req.session.userId)
-    //     .then(doc=>{
-    //         // console.log(user);
-    //         if(doc === null){
-    //         res.redirect("/login");
-    //         }else{
-    //         //setting the user variable as the one that db found
-    //         userfound=doc;
-    //         res.sendFile("./movieslist/index.html",root);
-    //     }
-    //     })
-    //     .catch(err=>{
-    //         console.log(err);
-    //     });
+    //     res.sendFile("./movieslist/index.html",root);
     // }
-
-
-
-
-    // findUser ("a","a@a","a")
-    // .then(user =>{
-    //     userfound = user;
-    //     console.log(userfound);
-    // })
     res.sendFile("./movieslist/index.html",root);
 })
 app.get("/movieslist/css",(req,res)=>{
@@ -208,7 +181,8 @@ app.get("/image/:name",(req,res)=>{
 
 
 let mockData = {
-    movielist:[{
+    movielist:[
+    {
         a:'https://real-123movies.best/tv-series/dark-season-1-sub-eng/CVSsgCoB/rEsW3Pef',
         b:'https://wallpapercave.com/wp/wp4056407.jpg',
         c:'10',
@@ -249,156 +223,71 @@ let mockData = {
 
 
 
+// app.use("/AddMovieFile", upload.single("file") ,async (req,res,next)=>{
+    // console.log(req.body);
 
-// app.get("/userinfo",(req,res)=>{
-//     user = {
-//         "username":"a",
-//         "email":"a@a",
-//         "movielist":[
-//             {
-//                 title:"Dark, Season 1",
-//                 genre:"Sci-fi, Horror",
-//                 img:"https://www.tjtoday.org/wp-content/uploads/2018/02/c245fb206fecea20e4f18e26dc8fa74aae6f80b5.jpg",
-//                 rating:10,
-//                 type:"Series",
-//                 link:"https://real-123movies.best/tv-series/dark-season-1-sub-eng/CVSsgCoB/rEsW3Pef"
-//             },
-//         ],
-//         "favourites":[
-//             {
-//                 title:"Dark, Season 1",
-//                 genre:"Sci-fi, Horror",
-//                 img:"https://www.tjtoday.org/wp-content/uploads/2018/02/c245fb206fecea20e4f18e26dc8fa74aae6f80b5.jpg",
-//                 rating:10,
-//                 type:"Series",
-//                 link:"https://real-123movies.best/tv-series/dark-season-1-sub-eng/CVSsgCoB/rEsW3Pef"
-//             }
-//         ],
-//     }
-//     // console.log(user);
-//     res.json(userfound);
+    // debugData()
+    // .then((info)=>{
+    //     let foundName = info.movies.find(({name})=>{
+    //         return name === req.body.name;
+    //     })
+    //     if(foundName){
+    //         res.send(false);
+    //     }else{
+            // const sendImageFile = async () =>{
+            //     const data = await sharp(req.file.buffer).webp({ quality: 20 }).toBuffer();
+
+            //     const stream = cloudinary.uploader.upload_stream(
+            //         { folder: "Uploaded" },
+            //         (error, result) => {
+            //             if (error) return console.error(error);
+            //             // return res.json({ URL: result.secure_url });
+            //             //console.log(result);//result.url
+            //             // req.imageLink = result.url;
+            //             // console.log(result);
+            //             return result.url;
+            //         }
+            //     );
+                
+            //     bufferToStream(data).pipe(stream);
+            //     next();
+            // }
+            // sendImageFile();
+            // req.imageLink = sendImageFile;
+    //     }
+    // })
 // })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.post('/register',(req,res)=>{
-    let hash = bcrypt.hashSync(req.body.password,14);
+    let hash = bcrypt.hashSync(req.body.password,12);
     req.body.password = hash;
-    findUser(req.body.username,req.body.email,hash)
+    findUser(req.body.username,req.body.email,req.body.password)
     .then((docs)=>{
-        if(docs === null){
-            res.send("Username taken!!!");
-        }else if (docs === undefined){
+        if(docs){
+            res.redirect("/login");
+        }else if(docs === undefined){
             res.status(204).send("Email taken!!!");
         }else{
-            res.redirect("/login");
+            res.status(200).send("Username taken!!!");
         }
-    });
-})
+    })
+});
 app.post("/login",(req,res)=>{
     authUser(req.body.email,req.body.password)
-    .then(docs=>{
-        if(docs===null){
-            res.send("wrong email");
-        }else{
-            user = docs;
+    .then((user)=>{
+        if(user){
             req.session.userId = user._id;
             req.session.cookie.maxAge = 1000*1000000;
-            console.log(user);
             res.redirect("/movieslist");
-        } 
-    })
-})
-
-
-
-
-app.post("/add",(req,res)=>{
-    updateUser(userfound.username,req.body)
-    .then(docs=>{
-        if(docs == false){
-            res.status(204).send("something wrong happend!")
         }else{
-            res.status(200).send("updated!!!");
+            res.send("wrong email or password");
         }
     })
 })
-app.post("/favorite",(req,res)=>{
-    let document;
-    // console.log(req.body.name,req.body.photo,req.body.link);
-    let element = {
-        name:req.body.name,
-        photo:req.body.photo,
-        link:req.body.link
-    }
-    updateFavorite(userfound.username,element,req.body.checked)
-    .then(docs=>{
-        //console.log(docs,"this is docs")
-        const found = docs.movielist.find(elements=>{
-            //console.log(elements.title,element.name)
-            return elements.title == element.name;
-        })
-        //console.log(found,"this is found");
-        document = found;
-        console.log(document,"thsi is old documnet");
-        // found.added = '<i class="fas fa-star"></i>';
-        console.log(document,"thsi is new documnet");
-        XYZ(userfound.username,found,document);
-    });
-    res.send("ok");
-})
-app.post("/remove-favorite",(req,res)=>{
-    let document;
-    let element = {
-        name:req.body.name,
-        photo:req.body.photo,
-        link:req.body.link
-    }
-    removeFavorite(userfound.username,element,req.body.unchecked)
-    .then(docs=>{
-        const found = docs.movielist.find(elements=>{
-            return elements.title == element.name;
-        })
-        document = found;
-        XYZ(userfound.username,found,document);
-    });
-    res.send("ok");
-})
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.get('/eleinfo',(req,res)=>{
-    debugData(/* here will be the cookie id that will be passed latter */)
+app.get('/eleInfo',(req,res)=>{
+    getUserData(req.session.userId)
     .then((data)=>{
         if(data){
             res.send(data.movies);
@@ -413,7 +302,8 @@ app.get('/eleinfo',(req,res)=>{
     });
 });
 
-app.post("/mockUserAdd",(req,res)=>{
+
+app.post("/AddMovie",(req,res)=>{
     let data = {
         name:req.body.name,
         link:req.body.link,
@@ -422,11 +312,12 @@ app.post("/mockUserAdd",(req,res)=>{
         rating:req.body.rating,
         type:req.body.type,
         time:req.body.time,
-        bookmark:req.body.bookmark
+        bookmark:req.body.bookmark,
+        file:req.body.file
     }
-    debugMovie(data)
-    .then((info)=>{
-        if(info){
+    createMovie(req.session.userId,data)
+    .then((permision)=>{
+        if(permision){
             res.send(true);
         }
     })
@@ -439,8 +330,58 @@ app.post("/mockUserAdd",(req,res)=>{
     })
 })
 
-app.post("/mockUserDelete",(req,res)=>{
-    deleteMovie(req.body)
+
+app.post("/Checkname",(req,res)=>{
+    checkName(req.session.userId,req.body.name)
+    .then((permi)=>{
+        if(permi){
+            res.send(true);
+        }else{
+            res.send(false);
+        }
+    }).catch(()=>{
+        res.send(null);
+    })
+})
+
+
+app.post("/AddMovieFile", upload.single("file") , async(req,res)=>{
+    const sendImageFile = async () =>{
+        const data = await sharp(req.file.buffer).webp({ quality: 20 }).toBuffer();
+        const stream = cloudinary.uploader.upload_stream(
+            { folder: "Uploaded" },
+            (error, result) => {
+                if (error) return console.error(error);
+                res.json(result.url);
+            }
+        );
+        bufferToStream(data).pipe(stream);
+    }
+    sendImageFile();
+})
+
+
+app.post("/Insertmovie",(req,res)=>{
+    let data = {
+        name:req.body.name,
+        link:req.body.link,
+        img:req.body.img,
+        genre:req.body.genre,
+        rating:req.body.rating,
+        type:req.body.type,
+        time:req.body.time,
+        bookmark:req.body.bookmark,
+        file:req.body.file
+    }
+    insertMovie(req.session.userId,data)
+    .then((info)=>{
+        res.send(info);
+    })
+});
+
+
+app.post("/DeleteMovie",(req,res)=>{
+    deleteMovie(req.session.userId,req.body)
     .then((data)=>{
         if(data){
             res.send(true);
@@ -453,8 +394,42 @@ app.post("/mockUserDelete",(req,res)=>{
     });
 });
 
-app.post("/mockUserEdit",(req,res)=>{
-    editMovie(req.body)
+app.post("/DeleteMovieFile",(req,res)=>{
+    cloudinary.uploader.destroy(req.body.imgURL,(error,result)=>{
+        console.log(result);
+        if(result.result === 'not found'){
+            res.send(false)
+        }
+        else{
+            let body = {
+                name:req.body.name,
+                link:req.body.link,
+                img:req.body.img,
+                genre:req.body.genre,
+                rating:req.body.rating,
+                type:req.body.type,
+                time:req.body.time,
+                bookmark:req.body.bookmark,
+                file:req.body.file
+            }
+            deleteMovie(req.session.userId,body)
+            .then((data)=>{
+                if(data){
+                    res.send(true);
+                }
+            })
+            .catch((reason)=>{
+                if(!reason){
+                    res.send(false);
+                }
+            });
+        }
+    });
+});
+
+
+app.post("/editMovie",(req,res)=>{
+    editMovie(req.session.userId,req.body)
     .then((data)=>{
         if(data){
             res.send(true);
@@ -467,9 +442,34 @@ app.post("/mockUserEdit",(req,res)=>{
         res.send(null);
     })
 })
+
+
+app.post("/editMovieFile",(req,res)=>{
+    cloudinary.uploader.destroy(req.body.imgURL,(error,result)=>{
+        console.log(result);
+        if(result.result === 'not found'){
+            res.send(false)
+        }else{
+            editMovieFile(req.session.userId,req.body)
+            .then((data)=>{
+                if(data){
+                    res.send(true);
+                }
+            })
+            .catch((reason)=>{
+                if(reason){
+                    res.send(false);
+                }
+                res.send(null);
+            })
+
+        }
+    });
+})
+
 
 app.post("/mockFavEdit",(req,res)=>{
-    editFav(req.body)
+    editFav(req.session.userId,req.body)
     .then((data)=>{
         if(data){
             res.send(true);
@@ -478,76 +478,16 @@ app.post("/mockFavEdit",(req,res)=>{
     .catch((reason)=>{
         if(reason){
             res.send(false);
-        }
-        res.send(null);
-    })
-})
-
-
-
-
-
-
-// app.get("/mockUserData",(req,res)=>{
-//     debugData()
-//     .then((data)=>{
-//         if(data){
-//             mockUser = data.movies;
-//             res.send(mockUser)
-//         }else{
-//             res.send(false)
-//         }
-//     })
-// })
-
-
-
-
-
-
-
-
-
-
-
-app.post("/mockUserInsert",(req,res)=>{
-    debugUser(req.body.username,req.body.email,req.body.password)
-    .then((data)=>{
-        if(data){
-            res.send(true);
         }else{
-            res.send(false);
+            res.send(null);
         }
     })
+});
+
+app.get("/logout",(req,res)=>{
+    req.session.userId = "";
+    res.redirect("/login");
 })
-
-
-// app.use(function(req, res, next) {
-//     res.status(200);
-//     res.send('https://www.technistone.com/color-range/image-slab/Starlight%20Black_SLAB_web.jpg');
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

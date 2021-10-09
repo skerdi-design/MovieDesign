@@ -1,53 +1,37 @@
-const form = document.querySelector(".register");
-const invalid = document.querySelector(".invalid");
-const invalid2 = document.querySelector(".invalid2")
-const input = document.querySelector("#name");
-const input2 = document.querySelector("#email");
-
+const form = document.querySelector(".form");
 
 form.addEventListener("submit",(e)=>{
-    const data = {
-        username:document.querySelector("#name").value,
-        email:document.querySelector("#email").value,
-        password:document.querySelector("#password").value
-    }
-    console.log(data.username,data.email,data.password);
     e.preventDefault();
-    console.log("submited");
-    const head = {
+    form.querySelector(".submit_butt").classList.add("grey");
+
+    let data = {
+        username: form.querySelector("#username").value,
+        email: form.querySelector("#email").value,
+        password: form.querySelector("#password").value
+    }
+    let options = {
         method:"POST",
         headers:{
             'Content-Type': 'application/json'
         },
         redirect: 'follow',
         body:JSON.stringify(data)
-    };
-    fetch('/register',head)
+    }
+    fetch("register",options)
     .then(res=>{
-        console.log(res);
-        if(res.redirected == false && res.status == 200){
-            invalid.classList.add("true");
-            input.classList.add("wrong");
-        }else if(res.redirected == false && res.status == 204){
-            invalid.classList.add("true");
-            input.classList.add("wrong");
-            input2.classList.add("wrong");
-            invalid2.classList.add("true");
+        if(res.redirected){
+            window.location.href = res.url;
         }else{
-            window.location.href = res.url
+            if(res.status === 204){
+                form.classList.add("email_taken");
+            }else{
+                form.classList.add("username_taken");
+            }
+            form.querySelector(".submit_butt").classList.remove("grey");
         }
-    });
+    })
 })
-
-input.addEventListener("click",(e)=>{
-    input.classList.remove("wrong");
-    invalid.classList.remove("true");
-    input2.classList.remove("wrong");
-    invalid2.classList.remove("true");
-});
-input2.addEventListener("click",(e)=>{
-    input.classList.remove("wrong");
-    invalid.classList.remove("true");
-    input2.classList.remove("wrong");
-    invalid2.classList.remove("true");
-});
+form.addEventListener("click",()=>{
+    form.classList.remove("email_taken");
+    form.classList.remove("username_taken");
+})
