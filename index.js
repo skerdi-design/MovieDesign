@@ -153,7 +153,7 @@ app.get("/movieslist/smooth",(req,res)=>{
     res.sendFile("/dist/smooth-scrollbar.js",root);
 });
 app.get("/image/:name",(req,res)=>{
-    res.sendFile("/image/"+req.params.name,root);
+    res.sendFile("public/image/"+req.params.name,root);
 });
 
 
