@@ -153,7 +153,6 @@ app.get("/movieslist/smooth",(req,res)=>{
 });
 app.get("/image/:name",(req,res)=>{
     res.status(206).sendFile("/Image/"+req.params.name,root);
-    console.log(root);
 });
 
 
