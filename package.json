@@ -4,7 +4,7 @@
   "description": "Reviewing movies i've watched",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index"
+    "start": "node index.js"
   },
   "author": "Skerdi",
   "license": "ISC",
