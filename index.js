@@ -78,7 +78,6 @@ app.use(session({
 }));
 const root = {root:"./public"};
 
-
 // app.use("/movieslist",(req,res,next)=>{
 //     console.log(req.session);
 //     next();
@@ -153,7 +152,7 @@ app.get("/movieslist/smooth",(req,res)=>{
     res.sendFile("/dist/smooth-scrollbar.js",root);
 });
 app.get("/image/:name",(req,res)=>{
-    res.sendFile("public/image/"+req.params.name,root);
+    res.status(206).sendFile("/image/"+req.params.name,root);
 });
 
 
