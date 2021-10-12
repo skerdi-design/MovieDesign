@@ -370,8 +370,6 @@ function canvasAnimation () {
 //== backend elements and requests =======================================================================
 //== backend elements and requests =======================================================================
 //== backend elements and requests =======================================================================
-//== backend elements and requests =======================================================================
-//== backend elements and requests =======================================================================
 function getFetch (path) {
   return new Promise((res,rej)=>{
     fetch(path)
@@ -426,14 +424,6 @@ function namesTransitionDelay(){
 
 
 
-
-
-
-
-
-
-
-
 function bookmarkFilter(){
   let bookmarks = movieObject.filter((film)=>{
     return film.bookmark === false
@@ -454,7 +444,6 @@ let movieWraper = document.querySelector(".movie_wraper");
 let USER;
 let movieObject = [];
 
-//get request for the movies when the web loads pushes all the movies in the 2 arrays moviObject and bookmarkObject
 getFetch("/eleInfo")
 .then((data)=>{USER = data;})
 .then(()=>{
@@ -529,7 +518,6 @@ class Film {
     this.eleWraper = document.createElement("div");
     this.eleWraper.classList.add("ele_wraper");
     this.eleWraper.classList.add("flex_middle");
-    // https://i.pinimg.com/originals/5a/d3/f1/5ad3f1a8c6a04f5eda5d5f2fa1331626.jpg
     this.eleWraper.innerHTML = 
     `
     <div class="edit_wraper flex_middle">
@@ -695,7 +683,6 @@ class Film {
     this.ele = this.eleWraper.querySelector(".ele");
     this.editWraper = this.eleWraper.querySelector(".edit_wraper")
     this.nameParent = this.eleWraper.querySelector(".name_parent");
-    // this.imageParent = this.eleWraper.querySelector("img");
 
     if(top.top < window.innerHeight + 100){
       this.ele.classList.remove("hidden");
@@ -726,15 +713,6 @@ function imgRatios() {
     }
   }
 }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -842,11 +820,6 @@ class Form {
       this.formOverlay.classList.add("open");
       form.handleTime();
     })
-
-
-
-
-
 
 
 
@@ -997,16 +970,14 @@ class Form {
             form.clear();
           }, 500);
         })
-
-
+        .catch(()=>{
+          console.log("invalid_name class added !!!");
+          this.form.classList.add("invalid_name");
+          this.buttons.classList.remove("loading");
+          this.loader.classList.remove("loading");
+        })
       }
-
     })
-
-
-
-
-
 
 
 
@@ -1100,11 +1071,6 @@ class Form {
 
 
 
-
-
-
-
-
     this.form.addEventListener("submit",(e)=>{
       e.preventDefault();
       if(this.imgValue.height === 0){
@@ -1148,11 +1114,6 @@ class Form {
     })
 
   }
-
-
-
-
-
 
 
 
@@ -1260,11 +1221,6 @@ class Form {
       })
     }
   }
-
-
-
-
-
 
 
 
@@ -1395,7 +1351,6 @@ class searchBar {
           for(let i = 0;i<movieObject.length;i++){
             movieObject[i].eleWraper.style.display = "none"
           }
-          console.log(elt);
           elt[0].eleWraper.style.display = "flex";
         })
       })
@@ -1455,5 +1410,8 @@ logoutButtons.forEach(x=>{x.addEventListener("click",()=>{
   fetch("/logout")
   .then(permision=>{
     window.location.href = permision.url;
+  })
+  .catch(reason=>{
+    console.log(`problems in the server for ${reason}`);
   })
 })})

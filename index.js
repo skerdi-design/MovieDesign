@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const session = require("express-session");
@@ -10,17 +11,10 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 const cloudinary = require("cloudinary").v2;
-
 const { Readable } = require("stream");
 
 
 const {findUser,authUser,getUserData,createMovie,deleteMovie,editMovie,editFav,checkName,insertMovie,editMovieFile} = require("./utils.js");
-
-
-
-
-
-
 
 
 /*================ handeling images and compression section =====================================================*/
@@ -28,15 +22,15 @@ const {findUser,authUser,getUserData,createMovie,deleteMovie,editMovie,editFav,c
 /*================ handeling images and compression section =====================================================*/
 
 // to be placed to the .ENV file
-
-const YOUR_CLOUD_NAME = "dwbsjfr6r";
-const YOUR_API_KEY = "375817292512894";
-const YOUR_API_SECRET = "F6P_OT9zqCJ5Kyt49gaH4Xr-TdA";
+// const YOUR_CLOUD_NAME = "dwbsjfr6r";
+// const YOUR_API_KEY = "375817292512894";
+// const YOUR_API_SECRET = "F6P_OT9zqCJ5Kyt49gaH4Xr-TdA";
+// console.log(process.env);
 
 cloudinary.config({
-    cloud_name: YOUR_CLOUD_NAME,
-    api_key: YOUR_API_KEY,
-    api_secret: YOUR_API_SECRET
+    cloud_name: process.env.YOUR_CLOUD_NAME,
+    api_key: process.env.YOUR_API_KEY,
+    api_secret: process.env.YOUR_API_SECRET
 });
 
 
@@ -49,9 +43,6 @@ const bufferToStream = (buffer) => {
     });
     return readable;
 }
-
-
-
 
 // app.post("/upload", upload.single("file") ,async (req,res)=>{
 //     const data = await sharp(req.file.buffer).webp({ quality: 15 }).toBuffer();
@@ -75,22 +66,13 @@ const bufferToStream = (buffer) => {
 // })
 
 
-
-
 /*================ handeling images and compression section =====================================================*/
 /*================ handeling images and compression section =====================================================*/
 /*================ handeling images and compression section =====================================================*/
 
-
-
-
-
-
-
-let user;
 
 app.use(session({
-    secret:"hellocookie",
+    secret:process.env.YOUR_SESSION_SECRET,
     saveUninitialized: false,
     resave: false,
 }));
@@ -103,28 +85,19 @@ const root = {root:"./public"};
 // })
 
 // app.use(express.static('public'));
-
 app.use(express.json({limit:'1mb'}));
-
 app.use(express.urlencoded({extended: true}));
-
-
-
-
-
-
-
 
 
 
 
 app.get("/",(req,res)=>{
     // res.sendFile("index.html",root);
-    // if(!(req.session && req.session.userId)){
-    //     res.sendFile("index.html",root);
-    // }else{
-    //     res.sendFile("./movieslist/index.html",root);
-    // }
+    if(!(req.session && req.session.userId)){
+        res.sendFile("index.html",root);
+    }else{
+        res.redirect("/movieslist");
+    }
 })
 app.get("/css",(req,res)=>{
     res.sendFile("style.css",root);
@@ -132,7 +105,11 @@ app.get("/css",(req,res)=>{
 
 
 app.get("/register",(req,res)=>{
-    res.sendFile("./register/index.html",root);
+    if(!(req.session && req.session.userId)){
+        res.sendFile("./register/index.html",root);
+    }else{
+        res.redirect("/movieslist");
+    }
 })
 app.get("/register/css",(req,res)=>{
     res.sendFile("/register/style.css",root);
@@ -143,7 +120,11 @@ app.get("/register/js",(req,res)=>{
 
 
 app.get("/login",(req,res)=>{
-    res.sendFile("./login/index.html",root);
+    if(!(req.session && req.session.userId)){
+        res.sendFile("./login/index.html",root);
+    }else{
+        res.redirect("/movieslist");
+    }
 })
 app.get("/login/css",(req,res)=>{
     res.sendFile("/login/style.css",root);
@@ -154,14 +135,13 @@ app.get("/login/js",(req,res)=>{
 
 
 
-
 app.get("/movieslist",(req,res)=>{
-    // if(!(req.session && req.session.userId)){
-    //     res.redirect("/login");
-    // }else{
-    //     res.sendFile("./movieslist/index.html",root);
-    // }
-    res.sendFile("./movieslist/index.html",root);
+    if(!(req.session && req.session.userId)){
+        res.redirect("/login");
+    }else{
+        res.sendFile("./movieslist/index.html",root);
+    }
+    // res.sendFile("./movieslist/index.html",root);
 })
 app.get("/movieslist/css",(req,res)=>{
     res.sendFile("/movieslist/style.css",root);
@@ -221,42 +201,8 @@ let mockData = {
 }
 
 
-
-
-// app.use("/AddMovieFile", upload.single("file") ,async (req,res,next)=>{
-    // console.log(req.body);
-
-    // debugData()
-    // .then((info)=>{
-    //     let foundName = info.movies.find(({name})=>{
-    //         return name === req.body.name;
-    //     })
-    //     if(foundName){
-    //         res.send(false);
-    //     }else{
-            // const sendImageFile = async () =>{
-            //     const data = await sharp(req.file.buffer).webp({ quality: 20 }).toBuffer();
-
-            //     const stream = cloudinary.uploader.upload_stream(
-            //         { folder: "Uploaded" },
-            //         (error, result) => {
-            //             if (error) return console.error(error);
-            //             // return res.json({ URL: result.secure_url });
-            //             //console.log(result);//result.url
-            //             // req.imageLink = result.url;
-            //             // console.log(result);
-            //             return result.url;
-            //         }
-            //     );
-                
-            //     bufferToStream(data).pipe(stream);
-            //     next();
-            // }
-            // sendImageFile();
-            // req.imageLink = sendImageFile;
-    //     }
-    // })
-// })
+// post requests section ===========================================================================================================
+// post requests section ===========================================================================================================
 
 app.post('/register',(req,res)=>{
     let hash = bcrypt.hashSync(req.body.password,12);
@@ -271,6 +217,9 @@ app.post('/register',(req,res)=>{
             res.status(200).send("Username taken!!!");
         }
     })
+    .catch(err=>{
+        console.log(err);
+    })
 });
 app.post("/login",(req,res)=>{
     authUser(req.body.email,req.body.password)
@@ -282,6 +231,9 @@ app.post("/login",(req,res)=>{
         }else{
             res.send("wrong email or password");
         }
+    })
+    .catch(err=>{
+        console.log(err);
     })
 })
 
@@ -376,6 +328,9 @@ app.post("/Insertmovie",(req,res)=>{
     insertMovie(req.session.userId,data)
     .then((info)=>{
         res.send(info);
+    })
+    .catch(err=>{
+        console.log(err);
     })
 });
 
@@ -485,11 +440,14 @@ app.post("/mockFavEdit",(req,res)=>{
 });
 
 app.get("/logout",(req,res)=>{
-    req.session.userId = "";
+    req.session.userId = undefined;
     res.redirect("/login");
 })
 
 
+app.use(function (req,res,next){
+	res.status(404).send('<h1>Error 404 Page not found <a href="/">Go Home</a></h1>');
+});
 
 
 
