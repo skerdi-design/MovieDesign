@@ -1377,17 +1377,14 @@ window.onload = () =>{
       }
       //animation that run only on the body
       if(-(topOffset) > window.innerHeight + 40){
-      // for(let i = movieObject.length-1;i >= 0; i--){
-      //   movieObject[i].hidden();
-      // }
+      for(let i = movieObject.length-1;i >= 0; i--){
+        movieObject[i].hidden();
+      }
         rightNav.style.cssText = `transform:translateY(${-(topOffset)-window.innerHeight - 50}px);`;
       }else{
         rightNav.style.cssText = `transform:translateY(0px);`;
       };
       ballFunctions(topOffset);
-      for(let i = movieObject.length-1;i >= 0; i--){
-        movieObject[i].hidden();
-      }
       requestAnimationFrame(animate);
     }
 };
