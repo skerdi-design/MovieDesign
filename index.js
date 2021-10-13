@@ -135,12 +135,12 @@ app.get("/login/js",(req,res)=>{
 
 
 app.get("/movieslist",(req,res)=>{
-    // if(!(req.session && req.session.userId)){
-    //     res.redirect("/login");
-    // }else{
-    //     res.sendFile("./movieslist/index.html",root);
-    // }
-    res.sendFile("./movieslist/index.html",root);
+    if(!(req.session && req.session.userId)){
+        res.redirect("/login");
+    }else{
+        res.sendFile("./movieslist/index.html",root);
+    }
+    // res.sendFile("./movieslist/index.html",root);
 })
 app.get("/movieslist/css",(req,res)=>{
     res.sendFile("/movieslist/style.css",root);
@@ -182,7 +182,9 @@ app.post("/login",(req,res)=>{
     .then((user)=>{
         if(user){
             req.session.userId = user._id;
-            req.session.cookie.maxAge = 1000*1000000;
+            var hour = 3600000 * 72;
+            req.session.cookie.expires = new Date(Date.now() + hour)
+            // req.session.cookie.maxAge = 1000*1000000;
             res.redirect("/movieslist");
         }else{
             res.send("wrong email or password");
