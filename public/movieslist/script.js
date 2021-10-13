@@ -7,7 +7,6 @@ const searchinput = document.querySelector(".search_input");
 const search = document.querySelector(".search");
 // web parent
 let webParent;
-const root = document.documentElement;
 let topOffset;
 //mapping left nav lines
 let mappedH,mappedS,mappedL,scale;
@@ -155,29 +154,17 @@ function parallaxAnimation(x) {
   para4.style.cssText = "transform:translateY(" + x / 12 + "%);";
   para5.style.cssText = "transform:translateY(" + x / 17 + "%);";
 }
-function leftNavMapping(x,ele){
-  mappedL = Math.floor(mapping(x,0,window.innerHeight,9,45,true));
-  scale = Math.floor(mapping(x,0,window.innerHeight + 80 ,60,0,true));
 
-  ele.style.setProperty("--line-color",`hsl(338, 100%, ${mappedL}%)`)
-  ele.style.setProperty("--head-scale",`scaleX(calc(40% + ${scale}%))`);
-  ele.style.setProperty("--body-scale",`scaleX(calc(100% - ${scale}%))`);
+let headLine = document.querySelector(".head_line");
+let bodyLine = document.querySelector(".body_line");
+
+function leftNavMapping(x){
+  mappedL = mapping(x,0,window.innerHeight,9,45,true);
+  scale = mapping(x,0,window.innerHeight + 80 ,60,0,true);
+
+  headLine.style.cssText = `background: hsl(338, 100%, ${mappedL}%); transform: scaleX(calc(40% + ${scale}%));`;
+  bodyLine.style.cssText = `background: hsl(338, 100%, ${mappedL}%); transform: scaleX(calc(100% - ${scale}%));`;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -345,7 +332,7 @@ function windowResize(){
 }
 function redraw() {
   array = [];
-  numParticels = Math.floor(window.innerWidth / 15)
+  numParticels = Math.floor(window.innerWidth / 12)
   for(let i = 0;i < numParticels;i++){
     if(canvas.width <= 900){
       particle = new Particles(randomNumber(0,canvas.width),randomNumber(0,canvas.height),randomNumber(1,3));
@@ -1384,20 +1371,23 @@ window.onload = () =>{
         parallaxAnimation(-topOffset);
         canvasAnimation();
   
-        leftNavMapping(-topOffset,root);
+        leftNavMapping(-topOffset);
         toggleScrollText(-topOffset);
         leftNavUpdate(-topOffset);
       }
       //animation that run only on the body
       if(-(topOffset) > window.innerHeight + 40){
-      for(let i = movieObject.length-1;i >= 0; i--){
-        movieObject[i].hidden();
-      }
+      // for(let i = movieObject.length-1;i >= 0; i--){
+      //   movieObject[i].hidden();
+      // }
         rightNav.style.cssText = `transform:translateY(${-(topOffset)-window.innerHeight - 50}px);`;
       }else{
         rightNav.style.cssText = `transform:translateY(0px);`;
       };
       ballFunctions(topOffset);
+      for(let i = movieObject.length-1;i >= 0; i--){
+        movieObject[i].hidden();
+      }
       requestAnimationFrame(animate);
     }
 };

@@ -135,12 +135,12 @@ app.get("/login/js",(req,res)=>{
 
 
 app.get("/movieslist",(req,res)=>{
-    if(!(req.session && req.session.userId)){
-        res.redirect("/login");
-    }else{
-        res.sendFile("./movieslist/index.html",root);
-    }
-    // res.sendFile("./movieslist/index.html",root);
+    // if(!(req.session && req.session.userId)){
+    //     res.redirect("/login");
+    // }else{
+    //     res.sendFile("./movieslist/index.html",root);
+    // }
+    res.sendFile("./movieslist/index.html",root);
 })
 app.get("/movieslist/css",(req,res)=>{
     res.sendFile("/movieslist/style.css",root);
