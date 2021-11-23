@@ -12,7 +12,7 @@ function DBconnect (){
             res(true);
         })
         .catch((err)=>{
-            rej(fasle);
+            rej(false);
         })
     })
 }
