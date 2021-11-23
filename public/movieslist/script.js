@@ -400,7 +400,7 @@ function namesTransitionDelay(){
   let names = document.querySelectorAll(".name");
   names.forEach(x=>{
     for(let i = 0; i< x.children.length; i++){
-      x.children[i].style.transitionDelay = `${i*0.045}s`
+      x.children[i].style.transitionDelay = `${i*0.095}s`
     }
   })
 };
@@ -484,20 +484,21 @@ class Film {
     this.bookmark = data.bookmark;
     this.file = data.file;
 
-    this.Name = [];
+    // this.Name = [];
     this.eleWraper;
   }
   mapName(){
     this.Name = [];
-    for(let i = 0;i < this.name.length; i++){
+    let word = [];
+    for(let i = 0;i < this.name.length + 1; i++){
       let span;
-      if(this.name[i] !== " "){
-        span = `<span>${this.name[i]}</span>`;
-        this.Name.push(span);
+      if(i === this.name.length || this.name[i] === " "){
+        let wordbreak = `<span class='word'>${word.join(" ")}</span>`;
+        this.Name.push(wordbreak);
+        word = [];
       }else{
-        span = `<span class='space'>${this.name[i+1]}</span>`;
-        this.Name.push(span);
-        i++;
+        span = "<span class='letter'>"+this.name[i]+"</span>";
+        word.push(span);
       }
     }
   }
@@ -545,8 +546,8 @@ class Film {
     <div class="image_wraper flex_middle">
       <img src="${this.img}">
       <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
-        <svg class="svg-icon" width="23" height="42" viewBox="0 0 23 42" fill="none">
-          <path d="M1.5 39.5V1H21.5V39.5L11.5 29.5L1.5 39.5Z" stroke-width="2"/>
+        <svg class="svg-icon" viewBox="0 0 20 20">
+          <path d="M14.467,1.771H5.533c-0.258,0-0.47,0.211-0.47,0.47v15.516c0,0.414,0.504,0.634,0.802,0.331L10,13.955l4.136,4.133c0.241,0.241,0.802,0.169,0.802-0.331V2.241C14.938,1.982,14.726,1.771,14.467,1.771 M13.997,16.621l-3.665-3.662c-0.186-0.186-0.479-0.186-0.664,0l-3.666,3.662V2.711h7.994V16.621z"></path>
         </svg>
       </div>
     </div>
@@ -601,8 +602,8 @@ class Film {
     <div class="image_wraper flex_middle">
       <img src="${this.img}">
       <div class="bookmark_wraper flex_middle" data-bookmark="${this.bookmark}">
-        <svg class="svg-icon" width="23" height="42" viewBox="0 0 23 42" fill="none">
-          <path d="M1.5 39.5V1H21.5V39.5L11.5 29.5L1.5 39.5Z" stroke-width="2"/>
+        <svg class="svg-icon" viewBox="0 0 20 20">
+          <path d="M14.467,1.771H5.533c-0.258,0-0.47,0.211-0.47,0.47v15.516c0,0.414,0.504,0.634,0.802,0.331L10,13.955l4.136,4.133c0.241,0.241,0.802,0.169,0.802-0.331V2.241C14.938,1.982,14.726,1.771,14.467,1.771 M13.997,16.621l-3.665-3.662c-0.186-0.186-0.479-0.186-0.664,0l-3.666,3.662V2.711h7.994V16.621z"></path>
         </svg>
       </div>
     </div>

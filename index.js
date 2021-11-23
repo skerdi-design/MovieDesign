@@ -14,7 +14,8 @@ const cloudinary = require("cloudinary").v2;
 const { Readable } = require("stream");
 
 
-const {findUser,authUser,getUserData,createMovie,deleteMovie,editMovie,editFav,checkName,insertMovie,editMovieFile} = require("./utils.js");
+
+const {DBconnect,findUser,authUser,getUserData,createMovie,deleteMovie,editMovie,editFav,checkName,insertMovie,editMovieFile} = require("./utils.js");
 
 
 /*================ handeling images and compression section =====================================================*/
@@ -182,9 +183,8 @@ app.post("/login",(req,res)=>{
     .then((user)=>{
         if(user){
             req.session.userId = user._id;
-            var hour = 3600000 * 72;
-            req.session.cookie.expires = new Date(Date.now() + hour)
-            // req.session.cookie.maxAge = 1000*1000000;
+            var time = 7 * 24 * 60 * 60 * 1000;
+            req.session.cookie.expires = new Date(Date.now() + time)
             res.redirect("/movieslist");
         }else{
             res.send("wrong email or password");
@@ -402,12 +402,20 @@ app.get("/logout",(req,res)=>{
     res.redirect("/login");
 })
 
-
 app.use(function (req,res,next){
 	res.status(404).send('<h1>Error 404 Page not found <a href="/">Go Home</a></h1>');
 });
 
 
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
+DBconnect()
+.then((res)=>{
+    if(res){
+        console.log("server listening at port 3000 after db connected");
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
+    }
+})
+.catch((err)=>{
+    console.log(err);
+})
