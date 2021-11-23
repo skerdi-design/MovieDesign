@@ -406,10 +406,12 @@ DBconnect()
 .then((res)=>{
     if(res){
         console.log("server listening at port 3000 after db connected");
-        const PORT = process.env.PORT || 3000;
-        app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
+        // const PORT = process.env.PORT || 3000;
+        // app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
     }
 })
 .catch((err)=>{
     console.log(err);
 })
+const PORT = process.env.PORT || 3000;
+app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
