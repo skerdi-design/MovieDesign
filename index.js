@@ -22,12 +22,6 @@ const {DBconnect,findUser,authUser,getUserData,createMovie,deleteMovie,editMovie
 /*================ handeling images and compression section =====================================================*/
 /*================ handeling images and compression section =====================================================*/
 
-// to be placed to the .ENV file
-// const YOUR_CLOUD_NAME = "dwbsjfr6r";
-// const YOUR_API_KEY = "375817292512894";
-// const YOUR_API_SECRET = "F6P_OT9zqCJ5Kyt49gaH4Xr-TdA";
-// console.log(process.env);
-
 cloudinary.config({
     cloud_name: process.env.YOUR_CLOUD_NAME,
     api_key: process.env.YOUR_API_KEY,
