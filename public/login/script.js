@@ -29,6 +29,3 @@ form.addEventListener("submit",(e)=>{
 form.addEventListener("click",()=>{
     form.classList.remove("username_null");
 })
-fetch('/dbserver')
-.then(response => response.json())
-.then(data => console.log(data));

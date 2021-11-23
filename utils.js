@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 
 
-const userDB = 'mongodb+srv://skerdi-user_1:skerdi123456789@cluster0.ld1je.mongodb.net/Watch-tower?retryWrites=true&w=majority';
+const userDB = process.env.YOUR_DB_CONNECT;
 function DBconnect (){
     return new Promise((res,rej)=>{
         mongoose.connect(userDB,{useNewUrlParser:true,useUnifiedTopology:true})

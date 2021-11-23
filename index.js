@@ -396,36 +396,20 @@ app.get("/logout",(req,res)=>{
     req.session.userId = undefined;
     res.redirect("/login");
 })
+app.use(function (req,res,next){
+	res.status(404).send('<h1>Error 404 Page not found <a href="/">Go Home</a></h1>');
+});
 
 
 
-// DBconnect()
-// .then((res)=>{
-//     if(res){
-//         console.log("server listening at port 3000 after db connected");
-//         // const PORT = process.env.PORT || 3000;
-//         // app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
-//     }
-// })
-// .catch((err)=>{
-//     console.log(err);
-// })
-app.get('/dbserver',function (req, res) {
-    DBconnect()
+DBconnect()
     .then((something)=>{
         if(something){
-            // console.log("server listening at port 3000 after db connected");
-            res.json("server listening at port 3000 after db connected");
-            // const PORT = process.env.PORT || 3000;
-            // app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
+            console.log("server listening at port 3000 after db connected");
+            const PORT = process.env.PORT || 3000;
+            app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
         }
     })
     .catch((err)=>{
         console.log(err);
     })
-})
-app.use(function (req,res,next){
-	res.status(404).send('<h1>Error 404 Page not found <a href="/">Go Home</a></h1>');
-});
-const PORT = process.env.PORT || 3000;
-app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
