@@ -1,3 +1,5 @@
+const { response } = require("express");
+
 const form = document.querySelector(".form");
 
 form.addEventListener("submit",(e)=>{
@@ -28,4 +30,9 @@ form.addEventListener("submit",(e)=>{
 
 form.addEventListener("click",()=>{
     form.classList.remove("username_null");
+})
+fetch('/db')
+.then(response=>responde.json())
+.then(data=>{
+    console.log(data)
 })

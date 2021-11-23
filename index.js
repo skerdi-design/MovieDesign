@@ -119,6 +119,7 @@ app.get("/login",(req,res)=>{
     }else{
         res.redirect("/movieslist");
     }
+
 })
 app.get("/login/css",(req,res)=>{
     res.sendFile("/login/style.css",root);
@@ -402,16 +403,33 @@ app.use(function (req,res,next){
 
 
 
-DBconnect()
-.then((res)=>{
-    if(res){
-        console.log("server listening at port 3000 after db connected");
-        // const PORT = process.env.PORT || 3000;
-        // app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
-    }
-})
-.catch((err)=>{
-    console.log(err);
+// DBconnect()
+// .then((res)=>{
+//     if(res){
+//         console.log("server listening at port 3000 after db connected");
+//         // const PORT = process.env.PORT || 3000;
+//         // app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
+//     }
+// })
+// .catch((err)=>{
+//     console.log(err);
+// })
+app.use('/db',function (req, res, next) {
+    console.log('Time:', Date.now())
+    next()
+    DBconnect()
+    .then((something)=>{
+        if(something){
+            
+            console.log("server listening at port 3000 after db connected");
+            res.send("server listening at port 3000 after db connected");
+            // const PORT = process.env.PORT || 3000;
+            // app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
+        }
+    })
+    .catch((err)=>{
+        console.log(err);
+    })  
 })
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>{console.log(`server started at port ${PORT}`)});
