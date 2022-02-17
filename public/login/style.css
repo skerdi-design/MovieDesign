@@ -219,6 +219,24 @@ body,html{
     color: rgb(134, 62, 114);
 }
 
+.head .form_wraper .form .guest{
+    /* border: 1px solid red; */
+    cursor: pointer;
+    height: 10%;
+}
+.head .form_wraper .form .guest a{
+    border: none;
+    height: 2.9em;
+    outline: none;
+    border-radius: 4px;
+    border: 2px solid rgb(56, 22, 54);
+    color: rgba(134, 62, 114, 0.8);
+    font-size: 1.05em;
+    width: 28.4em;
+    text-decoration: none;
+    transition: all 0.25s ease-in-out;
+}
+
 .head .form_wraper .form .section label{
     position: absolute;
     left: 1.5em;

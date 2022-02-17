@@ -243,8 +243,8 @@ function mouseFollowCircle (){
   this.update = function () {
     this.mx = mx;
     this.my = my;
-    this.x = lerp(this.x, this.mx, 0.26);
-    this.y = lerp(this.y, this.my, 0.26);
+    this.x = lerp(this.x, this.mx, 0.15);
+    this.y = lerp(this.y, this.my, 0.15);
     if (this.hover) {
       this.size = lerp(this.size, 1, 0.2);
       return;
